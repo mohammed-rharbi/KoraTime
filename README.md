@@ -1,4 +1,4 @@
-# ⚽️ **KoraTime Platform**  
+# ⚽️ *KoraTime Platform*
 
 Welcome to **KoraTime**, the ultimate web platform for football enthusiasts! 🏟️ From reserving football fields to managing teams and fostering social connections, KoraTime provides an all-in-one solution. Whether you're a player, captain, field manager, or admin, we’ve got something tailored for you.  
 
@@ -56,26 +56,6 @@ Welcome to **KoraTime**, the ultimate web platform for football enthusiasts! �
 - 🔄 Real-Time Communication: [Socket.io](https://socket.io/)
 
 
-## 📂 **Project Structure**
-
-### **Frontend**  
-src/
-├── components/     # Reusable UI components
-├── pages/          # Page-specific components
-├── services/       # API integration
-├── styles/         # Tailwind CSS styling
-├── utils/          # Utility functions
-
-
-### **Backend**  
-src/
-├── modules/        # Feature-specific modules (Users, Teams, Reservations)
-├── services/       # Business logic services
-├── controllers/    # Route handlers
-├── entities/       # Database schemas/models
-├── utils/          # Utility functions
-
-
 
 ### ***🛠️ Setup and Installation***
 
@@ -91,48 +71,103 @@ Docker (optional for containerization)
 - Docker (optional for containerization)
 
 
-
 ### Installation Steps
 1. Clone the repository:
+   
    ```bash
    git clone https://github.com/mohammed-rharbi/KoraTime.git
    cd KoraTime
 
-2. Install Dependencies:
+3. Install Dependencies:
  - Backend
+   
    ```bash
     cd frontend
     npm install
    
-  - Feontend
+ - Frontend
+   
    ```bash
     git clone https://github.com/mohammed-rharbi/KoraTime.git
     cd KoraTime
 
 
-
-
-
-
-
-
-
-
-
-
-🚀 **Setup and Installation**
-
-### **Environment Variables**  
+ 
+### **🔐 Environment Variables**  
 Create `.env` files for both frontend and backend.  
 
-#### **Frontend (`frontend/.env`)**  
-```plaintext
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-SOCKET_URL=http://localhost:5000
+ #### **Frontend (`frontend/.env`)**
+    ```plaintext
+      NEXT_PUBLIC_API_URL=http://localhost:5000/api
+      SOCKET_URL=http://localhost:5000
+
+ #### **Backend (`backend/.env`)**  
+     ```plaintext
+      MONGO_URI=mongodb://localhost:27017/kora-time
+      JWT_SECRET=your_jwt_secret
+
+ **Run the Application**
+- Frontend
+  
+  ```bash
+     npm run dev
+  
+- Backend
+  
+  ```bash
+     npm run start:dev
 
 
+ **Access the Application**
+ 
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000/api
 
+
+### **🛡️ Security** 
+🔐 JWT Authentication: Ensures secure access.
+🛠️ RBAC: Role-based access control tailored for each user type.
+✅ Data Validation: Input validation using class-validator.
+
+
+### **🧪 Testing**
+Types of Tests
+🧩 Unit Testing: Test individual modules (services and controllers).
+🔗 Integration Testing: End-to-end tests for booking and team management.
+📈 Performance Testing: Real-time chat performance with Socket.io.
+
+**Run Tests**
+
+    npm run test
+
+## **🌐 Deployment**
+***Dockerized Application***
+- 🐳 Fully Dockerized frontend and backend for easy deployment.
+- 🚀 CI/CD integration with GitHub Actions.
+  
+**Docker Commands**
+- Build Images
+  
+   ```bash
+     docker-compose build
    
+- Run Container
+  
+   ```bash
+     docker-compose up
+
+
+### **🤝 Contributing**
+***We welcome contributions! Please follow the CONTRIBUTING.md guidelines.***
+
+### **📧 Contact**
+***For queries or support, reach out to***
+
+- Email: support@koratime.com
+- GitHub: KoraTime Repository
+
+
+
 
 
 
