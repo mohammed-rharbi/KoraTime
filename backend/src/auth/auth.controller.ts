@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException 
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { UpdateUserDto } from './dto/update-auth.dto';
+import { LoginUserDto } from './dto/login-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -16,15 +17,10 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(email: string , password: string){
+  async login(@Body() userData: LoginUserDto){
 
-    if(!email || !password){
-
-      throw new BadRequestException('email or password was not found');
-
-    }
-
-    return await this.authService.login(email , password);
+    
+    return await this.authService.login(userData);
 
   }
 
