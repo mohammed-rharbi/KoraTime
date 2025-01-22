@@ -1,21 +1,27 @@
-import { Type } from "class-transformer";
-import { IsNotEmpty , IsString , IsDate, IsOptional } from "class-validator";
+import { IsNotEmpty , IsString , MinLength, MaxLength, IsEmail } from "class-validator";
 
 
 export class CreateUserDto {
 
 @IsString()
-@IsNotEmpty()
-name: string ;
+@IsNotEmpty()       
+firstName: string ;
+
 
 @IsString()
 @IsNotEmpty()
-captain: string;
+lastName: string ;
 
-@IsOptional()
 @IsString()
-logo? : string ;
+@IsNotEmpty()
+@IsEmail()
+email: string;
 
+@IsNotEmpty()
+@IsString()
+@MinLength(6)
+@MaxLength(15)
+password: string;
 
 
 }
