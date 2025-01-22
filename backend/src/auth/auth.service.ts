@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-auth.dto';
 import { AuthRepository } from './auth.repository';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'
+import { LoginUserDto } from './dto/login-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -41,23 +42,33 @@ export class AuthService {
     }
   }
 
-  async login( email: string , password: string ) {
+  async login( userData: LoginUserDto ) {
 
     try{
 
-      const user = await this.AuthRepository.findByEmail(email);
+      const user = await this.AuthRepository.findByEmail(userData.email);
 
-      if(!user || !(await bcrypt.compare(password , user.password))){
-
-        throw new UnauthorizedException('invalid info');
+      
+      if (!user) {
+        throw new UnauthorizedException('Invalid credentials');
       }
+  
+      const isPasswordValid = await bcrypt.compare(userData.password, user.password);
 
+      if (!isPasswordValid) {
+        throw new UnauthorizedException('Invalid credentials');
+      }
+        
       const payload = {id: user._id , role: user.role , email: user.email};
-      const token = this.jwtService.sign(payload);
+
+      const token = this.jwtService.sign(payload, { expiresIn: '2h' });
+      console.log(token);
+
 
       return {message:'user login successfully', token , user}
 
     }catch(err: any){
+
       console.log(err.message);
       throw new BadRequestException('there is error while login ', err)
       
