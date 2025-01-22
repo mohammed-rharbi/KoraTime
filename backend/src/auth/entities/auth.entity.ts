@@ -21,7 +21,7 @@ export class User extends Document {
     password: string ;
 
 
-    @Prop({required:true})
+    @Prop({default: null})
     phoneNumber: string ; 
 
 
