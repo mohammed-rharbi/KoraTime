@@ -41,12 +41,17 @@ export default function RegisterForm() {
     };
 
     try {
+
       const response = await axios.post('http://localhost:3003/auth/register', formdata);
 
       if (response.status === 200 || 201) {
+
+        
+        localStorage.setItem('userId', response.data.user._id )
         router.push('/auth/start');
       }
-    } catch (err) {
+
+    }catch (err) {
       console.log(err);
       setError('Invalid information.');
     }
