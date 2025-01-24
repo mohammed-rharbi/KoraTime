@@ -17,8 +17,9 @@ export class AuthRepository {
     async create(userData: CreateUserDto ): Promise<User>{
 
         const user =  new this.UserModel(userData);
-        return user.save();
+        await user.save();
 
+        return user
     }
     
     async findAll() : Promise<User[]>{
@@ -39,7 +40,7 @@ export class AuthRepository {
 
     }
 
-    async update(id: string , userData: UpdateUserDto): Promise<User>{
+    async update(id: string , userData: any ): Promise<User>{
 
         return await this.UserModel.findByIdAndUpdate(id , userData , {new: true}).exec();
     }
