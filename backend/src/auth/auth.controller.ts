@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { UpdateUserDto } from './dto/update-auth.dto';
 import { LoginUserDto } from './dto/login-auth.dto';
+import { multerConfig } from 'src/config/multer.config';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +25,21 @@ export class AuthController {
     return await this.authService.login(userData);
 
   }
+
+  @Put('start')
+  @UseInterceptors(FileInterceptor('profilPic', multerConfig))
+  async getStarted( @UploadedFile() file : Express.Multer.File ,  @Body() userData: {id: string , phoneNumber: string}){
+
+    if(!file){
+      throw new BadRequestException('Profile picture is required.');
+    }
+    
+    const { phoneNumber, id } = userData;
+    
+    return await this.authService.getstarted(phoneNumber , file.path , id)
+
+  }
+
+
 
 }
