@@ -1,8 +1,14 @@
-import React from 'react'
+import StartForm from "./startForm";
 
-export default function page() {
+export default function StartPage() {
+
+
   return (
 
-    <div className='text-dark text-center '>welcome player</div>
-  )
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-400 to-green-600">
+    
+    <StartForm/>
+
+    </div>
+  );
 }
