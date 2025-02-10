@@ -15,6 +15,8 @@ export class Team extends Document {
     @Prop({default: logo})
     logo: string ;
 
+    @Prop({default: '#FF0000'})
+    teamColor:string;
     
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     captain: Types.ObjectId;
