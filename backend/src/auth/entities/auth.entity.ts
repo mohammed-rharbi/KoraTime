@@ -6,11 +6,7 @@ export class User extends Document {
 
 
     @Prop({required:true})
-    firstName: string ;
-
-    
-    @Prop({required:true})
-    lastName: string ;
+    userName: string ;
 
     
     @Prop({required:true})
@@ -23,6 +19,9 @@ export class User extends Document {
 
     @Prop({default: null})
     phoneNumber: string ; 
+
+    @Prop({default: null})
+    location: string ;
 
 
     @Prop()
