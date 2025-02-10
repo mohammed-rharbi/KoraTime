@@ -15,7 +15,7 @@ export class AuthService {
     try {
 
 
-      const {firstName , lastName , email , password} = UserData
+      const {userName , email , password} = UserData
 
       const existingUser = await this.AuthRepository.findByEmail(email);
       
