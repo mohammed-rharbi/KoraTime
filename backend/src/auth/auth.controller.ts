@@ -37,7 +37,7 @@ export class AuthController {
     const { phoneNumber, id } = userData;
     
     return await this.authService.getstarted(phoneNumber , file.path , id)
-
+    
   }
 
 

@@ -5,30 +5,34 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 
 @Controller('team')
 export class TeamController {
-  constructor(private readonly teamService: TeamService) {}
 
-  @Post()
-  create(@Body() createTeamDto: CreateTeamDto) {
-    return this.teamService.create(createTeamDto);
+  constructor(private readonly TeamService: TeamService) {}
+
+  @Post('/createTeam')
+
+ async create(@Body() createTeamDto: CreateTeamDto) {
+
+    return await this.TeamService.createTeam(createTeamDto);
   }
 
-  @Get()
-  findAll() {
-    return this.teamService.findAll();
+  @Get('/getAll/Teams')
+  async findAll() {
+    return await this.TeamService.findAllTeams();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.teamService.findOne(+id);
+  @Get('/getTeam/:id')
+  async findOne(@Param('id') id: string) {
+    return await this.TeamService.findOneTeam(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
-    return this.teamService.update(+id, updateTeamDto);
+  @Patch('/editeTeam/:id')
+  async update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
+
+    return this.TeamService.updateTeam(id, updateTeamDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.teamService.remove(+id);
+  @Delete('/deletTeam/:id')
+  async remove(@Param('id') id: string) {
+    return await this.TeamService.removeTeam(id);
   }
 }

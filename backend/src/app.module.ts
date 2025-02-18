@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { TeamModule } from './team/team.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { GatewayModule } from './gateway/gateway.module';
 import "dotenv/config"
 
 @Module({
@@ -12,7 +13,8 @@ import "dotenv/config"
     ConfigModule.forRoot({isGlobal:true}),
     MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule, 
-    TeamModule
+    TeamModule,
+    GatewayModule,
   
   ],
   controllers: [AppController],
