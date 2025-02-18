@@ -58,7 +58,7 @@ export default function ChatListScreen() {
 
   const ChatItem = ({ item }: { item: typeof chatData[0] }) => (
     <TouchableOpacity
-      // onPress={() => router.push(`/chat/${item.id}`)}
+      onPress={() => router.push(`/teamChat`)}
       className="flex-row items-center px-4 py-3"
     >
       <View className="relative">

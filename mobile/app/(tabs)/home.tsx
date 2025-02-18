@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <View className="flex-1 bg-[#0F172A]">
 
-      <View className="flex-row justify-between items-center p-6 bg-[#1E293B]">
+      <View className="flex-row justify-between items-center p-6 bg-  ">
         <View>
           <Text className="text-[#94A3B8] text-lg">Welcome back,</Text>
           <Text className="text-white text-2xl font-bold">Ahmed Player!</Text>
@@ -18,7 +18,7 @@ export default function HomePage() {
         <TouchableOpacity onPress={()=> router.push('/profile')}>
           <Image
             source={require('~/assets/avatar.png')}
-            className="w-20 h-20 rounded-full  border-[#2DD4BF]"
+            className="w-12 h-12 rounded-full  border-[#2DD4BF]"
           />
         </TouchableOpacity>
       </View>

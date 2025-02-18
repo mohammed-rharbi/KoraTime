@@ -80,7 +80,7 @@ export default function TabLayout() {
         }}
       />
 
-  {/* <Tabs.Screen name="(team)/createTeam" options={{ href: null }} /> */}
+  <Tabs.Screen name="(team)/createTeam" options={{ href: null }} />
 
     </Tabs>
 
