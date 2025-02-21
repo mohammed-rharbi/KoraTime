@@ -1,0 +1,15 @@
+
+
+
+export type LoginType = {
+
+    email: string ,
+    password: string,
+}
+
+export type RegisterType = {
+
+    username: string,
+    email: string,
+    password: string
+}
