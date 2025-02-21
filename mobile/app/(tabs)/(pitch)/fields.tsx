@@ -116,14 +116,8 @@ export default function FieldsScreen() {
                   <Text className="text-white text-sm ml-1 font-semibold">
                     {item.rating}
                   </Text>
-                  <Text className="text-[#A1A1AA] text-xs ml-1">
-                    ({item.reviews})
-                  </Text>
                 </View>
-                <TouchableOpacity 
-                  className="bg-[#2DD4BF] px-3 py-1 rounded-full"
-
-                  >
+                <TouchableOpacity className="bg-[#2DD4BF] px-3 py-1 rounded-full">
                   <Text className="text-black text-xs font-semibold">Book Now</Text>
                 </TouchableOpacity>
               </View>

@@ -1,34 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '~/context/authContext';
 import { useRouter } from 'expo-router';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { loginUser, registerUser } from '~/redux/slices/authSlice';
 
 const AuthScreen = () => {
 
+
+  const dispatch = useAppDispatch();
   const [isLogin, setIsLogin] = useState(true);
+
+  const {loading , error , token} = useAppSelector((state) => state.auth)
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
-  const { login, register, isLoading } = useAuth();
 
+
+
+  useEffect(()=>{
+
+
+    if(token){
+      router.push('/home')
+    }
+
+  },[token])
+
+  
   const handleRegister = async () => {
-    await register(username, email, password);
-    router.push('/home');
-    console.log('Submitting:', { email, password, username });
+    
+    dispatch(registerUser({username , email , password}));    
   };
 
+
   const handleLogin = async () => {
-    try {
-      await login(email, password);
-      router.push('/home');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
+    
+    dispatch(loginUser({email , password}))
   };
 
   return (
@@ -57,6 +71,9 @@ const AuthScreen = () => {
             <Text className="text-2xl font-bold text-center text-[#2DD4BF] mb-6">
               {isLogin ? 'Welcome Back!' : 'Create Account'}
             </Text>
+            
+            {error && <Text className="text-center py-6" style={{ color: "red" }}>{error}</Text>}
+
 
             <View className="space-y-4">
               {!isLogin && (
@@ -64,6 +81,7 @@ const AuthScreen = () => {
                   <View className="absolute z-10 h-full justify-center pl-4">
                     <Ionicons name="person-outline" size={20} color="#2DD4BF" />
                   </View>
+
                   <TextInput
                     className="bg-gray-800  rounded-xl px-4 h-12 pl-12 text-gray-100 border border-gray-700"
                     placeholder="Username"
@@ -78,6 +96,7 @@ const AuthScreen = () => {
                 <View className="absolute z-10 h-full justify-center pl-4">
                   <Ionicons name="mail-outline" size={20} color="#2DD4BF" />
                 </View>
+
                 <TextInput
                   className="bg-gray-800 rounded-xl px-4 h-12 pl-12 text-gray-100 border border-gray-700"
                   placeholder="Email"
@@ -93,6 +112,7 @@ const AuthScreen = () => {
                 <View className="absolute z-10 h-full justify-center pl-4">
                   <Ionicons name="lock-closed-outline" size={20} color="#2DD4BF" />
                 </View>
+
                 <TextInput
                   className="bg-gray-800 rounded-xl px-4 h-12 pl-12 pr-12 text-gray-100 border border-gray-700"
                   placeholder="Password"
@@ -136,7 +156,7 @@ const AuthScreen = () => {
               </TouchableOpacity>
             )}
 
-            <TouchableOpacity className="mt-6" onPress={() => setIsLogin(!isLogin)}>
+            <TouchableOpacity className="mt-6"  onPress={() => setIsLogin(!isLogin)}>
               <Text className="text-center text-[#2DD4BF] text-sm">
                 {isLogin ? "Don't have an account? Sign Up" : 'Already have an account? Login'}
               </Text>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ActivityIndicator, Text, Animated, Easing } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; // You can use any icon set you prefer
+import { MaterialIcons } from '@expo/vector-icons';
 
-// Custom Football Spinner Component
 const FootballSpinner = () => {
   const spinValue = new Animated.Value(0);
 
@@ -23,7 +22,7 @@ const FootballSpinner = () => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={require('../assets/football-spinner.png')} // Add your football image
+        source={require('../assets/football-spinner.png')}
         style={[
           styles.football,
           {
@@ -36,7 +35,7 @@ const FootballSpinner = () => {
   );
 };
 
-// Main Loading Component
+
 const LoadingOverlay = ({ theme = 'default' }) => {
   return (
     <View style={styles.overlay}>
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#2ecc71', // Football theme green
+    color: '#2ecc71',
   },
 });
 

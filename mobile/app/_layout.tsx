@@ -1,10 +1,12 @@
 import '../global.css';
 import { Stack } from "expo-router";
-import { AuthProvider } from '~/context/authContext';
+import { Provider } from 'react-redux';
+import { store } from '~/redux/store';
+import Guard from '~/lib/guard';
 
 
 export const unstable_settings = {
-	// Ensure that reloading on `/modal` keeps a back button present.
+
 	initialRouteName: "(tabs)",
 };
 
@@ -13,12 +15,14 @@ export default function RootLayout() {
 
   	return (
     	
-		<AuthProvider>
+		<Provider store={store}>
+		{/* <Guard> */}
 		<Stack>
 			<Stack.Screen name="(tabs)" options={{ headerShown: false  }} />
 			<Stack.Screen name="modal" options={{ presentation: "modal" }} />
 		</Stack>
-		</AuthProvider>
+		{/* </Guard> */}
+		</Provider>
 		
   	);
 }
