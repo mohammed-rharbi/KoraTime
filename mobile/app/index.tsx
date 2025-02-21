@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import React from 'react';
 import { MaterialIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import Fotter from '~/components/ui/fotter';
 
 export default function Landing() {
   const router = useRouter();
@@ -20,25 +21,6 @@ export default function Landing() {
             />
             <Text className="text-4xl font-bold text-white mb-2">Kora Time</Text>
             <Text className="text-lg text-[#94A3B8]">Where Football Connections Happen</Text>
-          </View>
-
-
-          <View className="flex-row flex-wrap justify-between mb-12">
-            {[
-              { icon: 'stadium', title: 'Book Pitches', text: 'Reserve top-quality football fields' },
-              { icon: 'users', title: 'Build Teams', text: 'Create or join competitive teams' },
-              { icon: 'chatbubbles', title: 'Team Chat', text: 'Coordinate with your squad' },
-              { icon: 'event-available', title: 'Manage Matches', text: 'Organize your football calendar' },
-            ].map((feature, index) => (
-              <View key={index} className="w-[48%] bg-[#1E293B] p-4 rounded-2xl mb-4 border border-[#334155]">
-                <MaterialIcons 
-                  size={32} 
-                  color={index === 3 ? "#FF6B6B" : "#2DD4BF"} 
-                />
-                <Text className="text-white text-lg font-semibold mt-2">{feature.title}</Text>
-                <Text className="text-[#94A3B8] text-sm">{feature.text}</Text>
-              </View>
-            ))}
           </View>
 
           <View className="bg-[#1E293B] rounded-3xl p-6 mb-8 border border-[#334155]">
@@ -64,7 +46,29 @@ export default function Landing() {
             </TouchableOpacity>
           </View>
 
-          {/* Stats Section */}
+
+
+        
+          <View className="flex-row flex-wrap justify-between mb-12">
+            {[
+              { icon: 'stadium', title: 'Book Pitches', text: 'Reserve top-quality football fields' },
+              { icon: 'users', title: 'Build Teams', text: 'Create or join competitive teams' },
+              { icon: 'chatbubbles', title: 'Team Chat', text: 'Coordinate with your squad' },
+              { icon: 'event-available', title: 'Manage Matches', text: 'Organize your football calendar' },
+            ].map((feature, index) => (
+              <View key={index} className="w-[48%] bg-[#1E293B] p-4 rounded-2xl mb-4 border border-[#334155]">
+                <MaterialIcons 
+                  size={32} 
+                  color={index === 3 ? "#FF6B6B" : "#2DD4BF"} 
+                />
+                <Text className="text-white text-lg font-semibold mt-2">{feature.title}</Text>
+                <Text className="text-[#94A3B8] text-sm">{feature.text}</Text>
+              </View>
+            ))}
+          </View> 
+
+
+
           <View className="flex-row justify-around bg-[#1E293B] p-4 rounded-2xl border border-[#334155]">
             {[
               { value: '5K+', label: 'Players' },
@@ -79,12 +83,8 @@ export default function Landing() {
           </View>
         </View>
 
-        {/* Footer */}
-        <View className="bg-[#1E293B] py-6 border-t border-[#334155]">
-          <Text className="text-center text-[#64748B] text-xs">
-            © 2023 Kora Time. All rights reserved.
-          </Text>
-        </View>
+        <Fotter/>
+      
       </ScrollView>
     </>
   );
