@@ -2,36 +2,56 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StatusBar } from 'reac
 import { MaterialIcons, FontAwesome5, Feather, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { pitches } from '~/lib/mocks/mocks';
+import NeirPitches from '~/components/pitch/nearPitches';
+import { useAppDispatch } from '~/redux/hooks';
+import { logoutUser } from '~/redux/slices/authSlice';
+
 
 export default function HomePage() {
 
+
   const router = useRouter()
+  
+  const dispatch = useAppDispatch()
+
+  
+  
+  const handleLogout = () => {
+    
+    dispatch(logoutUser()).finally( ()=> router.push('/auth')   )
+  };
+
 
   return (
     <View className="flex-1 bg-[#0F172A]">
 
-      <View className="flex-row justify-between items-center p-6 bg-  ">
+      <View className="flex-row justify-between items-center p-6">
+        
+        <TouchableOpacity onPress={() => router.push('/profile')}>
+          <Image source={require('~/assets/avatar.png')} className="w-12 h-12 rounded-full border-[#2DD4BF]"/>
+        </TouchableOpacity>
         <View>
           <Text className="text-[#94A3B8] text-lg">Welcome back,</Text>
           <Text className="text-white text-2xl font-bold">Ahmed Player!</Text>
         </View>
-        <TouchableOpacity onPress={()=> router.push('/profile')}>
-          <Image
-            source={require('~/assets/avatar.png')}
-            className="w-12 h-12 rounded-full  border-[#2DD4BF]"
-          />
-        </TouchableOpacity>
+        <View className="flex-row items-center gap-3">
+         
+
+          <TouchableOpacity onPress={handleLogout}>
+            <MaterialIcons name="logout" size={24} color="white" />
+          </TouchableOpacity> 
+        </View>
       </View>
 
       <ScrollView className="flex-1">
 
         <View className="flex-row justify-between p-6">
-          <TouchableOpacity onPress={()=> router.push('/createTeam')} className="bg-[#2DD4BF] p-4 rounded-2xl w-[48%] items-center shadow-lg shadow-[#2DD4BF]/20">
+          <TouchableOpacity onPress={()=> router.push('/fields')} className="bg-[#2DD4BF] p-4 rounded-2xl w-[48%] items-center shadow-lg shadow-[#2DD4BF]/20">
             <MaterialIcons name="stadium" size={32} color="#0F172A" />
             <Text className="text-[#0F172A] font-bold mt-2">Book Pitch</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity className="bg-[#334155] p-4 rounded-2xl w-[48%] items-center">
+          <TouchableOpacity onPress={()=> router.push('/createTeam')} className="bg-[#334155] p-4 rounded-2xl w-[48%] items-center">
             <FontAwesome5 name="users" size={28} color="#2DD4BF" />
             <Text className="text-white font-bold mt-2">Create Team</Text>
           </TouchableOpacity>
@@ -68,6 +88,7 @@ export default function HomePage() {
               </View>
             </View>
           </View>
+
         </View>
 
 
@@ -81,18 +102,9 @@ export default function HomePage() {
           
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {pitches.map((pitch) => (
-              <TouchableOpacity key={pitch.id} className="bg-[#1E293B] mr-4 rounded-2xl w-64 p-4 border border-[#334155]">
-                <Image
-                  source={{ uri: pitch.image }}
-                  className="w-full h-32 rounded-xl mb-3"
-                />
-                <Text className="text-white font-semibold mb-1">{pitch.name}</Text>
-                <View className="flex-row items-center">
-                  <Feather name="star" size={16} color="#FACC15" />
-                  <Text className="text-[#FACC15] ml-2">{pitch.rate}</Text>
-                  <Text className="text-[#94A3B8] ml-4">{pitch.des}</Text>
-                </View>
-              </TouchableOpacity>
+
+              <NeirPitches pitch={pitch} />
+          
             ))}
           </ScrollView>
         </View>
