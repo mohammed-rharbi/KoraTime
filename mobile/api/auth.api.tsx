@@ -1,13 +1,9 @@
 import apiClient from "~/lib/apiClient";
+import { LoginType , RegisterType } from "~/types/types";
 
 
-// type AuthResponse = {
-//   token: string;
-//   user:{};
-// };
 
-
-export const loginUser = async (email: string, password: string) => {
+export const login = async ({email , password}: LoginType) => {
   try {
     const response = await apiClient.post(`/auth/login`, { email, password });
 
@@ -21,7 +17,8 @@ export const loginUser = async (email: string, password: string) => {
   }
 };
 
-export const registerUser = async (userName: string, email: string, password: string) => {
+export const register = async ({userName, email, password}:RegisterType) => {
+  
   try {
 
     const response = await apiClient.post(`/auth/register`, {userName, email, password });
