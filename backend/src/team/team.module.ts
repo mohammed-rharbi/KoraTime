@@ -3,10 +3,11 @@ import { TeamService } from './team.service';
 import { TeamController } from './team.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Team, TeamSchema } from './entities/team.entity';
+import { TeamRepository } from './team.repository';
 
 @Module({
   imports:[MongooseModule.forFeature([{ name : Team.name , schema: TeamSchema }])],
   controllers: [TeamController],
-  providers: [TeamService],
+  providers: [TeamService , TeamRepository],
 })
 export class TeamModule {}
