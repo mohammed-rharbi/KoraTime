@@ -24,7 +24,7 @@ export class AuthRepository {
     
     async findAll() : Promise<User[]>{
 
-        return await this.UserModel.find({role: 'participant'}).exec();
+        return await this.UserModel.find().exec();
     }
 
 
