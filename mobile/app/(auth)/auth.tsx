@@ -2,7 +2,6 @@ import React, { useState , useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '~/context/authContext';
 import { useRouter } from 'expo-router';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { loginUser, registerUser } from '~/redux/slices/authSlice';
@@ -13,11 +12,11 @@ const AuthScreen = () => {
   const dispatch = useAppDispatch();
   const [isLogin, setIsLogin] = useState(true);
 
-  const {loading , error , token} = useAppSelector((state) => state.auth)
+  const {loading , error , token , user} = useAppSelector((state) => state.auth)
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [userName, setUsername] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -35,9 +34,23 @@ const AuthScreen = () => {
 
   
   const handleRegister = async () => {
+    try {
+      const result = await dispatch(registerUser({ userName, email, password }));
+      
+      if(!error){
+        Toast.show({
+          type: 'success',
+          text1: 'Registration Complete',
+          text2: 'Welcome to the app! 🎉',
+        });
+        router.push('/getStarted');
+      }
     
-    dispatch(registerUser({username , email , password}));    
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
 
 
   const handleLogin = async () => {
@@ -85,7 +98,7 @@ const AuthScreen = () => {
                   <TextInput
                     className="bg-gray-800  rounded-xl px-4 h-12 pl-12 text-gray-100 border border-gray-700"
                     placeholder="Username"
-                    value={username}
+                    value={userName}
                     onChangeText={setUsername}
                     placeholderTextColor="#6B7280"
                   />
