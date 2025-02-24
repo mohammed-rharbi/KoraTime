@@ -12,4 +12,8 @@ phoneNumber: string;
 @IsString()
 profilePic: string;
 
+@IsNotEmpty()
+@IsString()
+location: string;
+
 }

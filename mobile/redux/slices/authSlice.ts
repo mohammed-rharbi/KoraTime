@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { register } from "~/api/auth.api";
-import apiClient from "~/lib/apiClient";
+import { register , login , getStarted } from "~/api/auth.api";
 import { RegisterType } from "~/types/types";
 
 interface AuthState {
@@ -38,8 +37,23 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await apiClient.post(`/auth/login`, credentials);
-      return response.data;
+      const response = await login(credentials)
+
+      return response.token;
+
+    } catch (error:any) {
+      return rejectWithValue(error.response?.data?.message || "Login failed");
+    }
+  }
+);
+
+
+export const getstarted = createAsyncThunk(
+  "auth/start",
+  async (credentials: { id: string; image: string, phoneNumber: string }, { rejectWithValue }) => {
+    try {
+      const response = await getStarted(credentials)
+      return response.user;
     } catch (error:any) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
@@ -80,6 +94,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        AsyncStorage.setItem( 'userid' , action.payload.user._id)
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -98,6 +113,20 @@ const authSlice = createSlice({
         AsyncStorage.setItem('token', action.payload.token)
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+
+      .addCase(getstarted.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getstarted.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(getstarted.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
