@@ -15,15 +15,17 @@ export class AuthService {
     try {
 
 
-      const {userName , email , password} = UserData
+      const {email , password} = UserData
 
       const existingUser = await this.AuthRepository.findByEmail(email);
       
       if (existingUser) {
         throw new UnauthorizedException('User already exists');
       }
+
+      const salt = await bcrypt.genSalt(10); 
   
-      const hashPass = await bcrypt.hash(password, 10);
+      const hashPass = await bcrypt.hash(password, salt);
   
       const newUser = {
         ...UserData,
@@ -74,15 +76,16 @@ export class AuthService {
     }
   
   }
-  async getstarted(phoneNumber: string, profilePic: string, id: string) {
+  async getstarted(phoneNumber: string, location:string , profilePic: string, id: string) {
 
-    if (!phoneNumber || !profilePic || !id) {
+    if (!phoneNumber || !location || !profilePic || !id) {
       throw new BadRequestException('All fields are required.');
     }
   
     const userData = {
       profilePic,
       phoneNumber,
+      location
     };
   
     try {
@@ -94,6 +97,20 @@ export class AuthService {
       console.error(err);
       throw new InternalServerErrorException('Failed to update user profile');
     }
+  }
+
+
+
+  async getAll(){
+
+    const users =  await this.AuthRepository.findAll();
+
+    if(!users || users.length === 0){
+
+      throw new NotFoundException('no users ben Found')
+    }
+
+    return users
   }
 
 }
