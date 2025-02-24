@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import { Provider } from 'react-redux';
 import { store } from '~/redux/store';
 import Guard from '~/lib/guard';
+import Toast from 'react-native-toast-message';
 
 
 export const unstable_settings = {
@@ -22,6 +23,7 @@ export default function RootLayout() {
 			<Stack.Screen name="modal" options={{ presentation: "modal" }} />
 		</Stack>
 		{/* </Guard> */}
+		<Toast/>
 		</Provider>
 		
   	);
