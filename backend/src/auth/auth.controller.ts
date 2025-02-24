@@ -28,18 +28,24 @@ export class AuthController {
 
   @Put('start')
   @UseInterceptors(FileInterceptor('profilPic', multerConfig))
-  async getStarted( @UploadedFile() file : Express.Multer.File ,  @Body() userData: {id: string , phoneNumber: string}){
+  async getStarted( @UploadedFile() file : Express.Multer.File ,  @Body() userData: {id: string , location:string , phoneNumber: string}){
 
     if(!file){
       throw new BadRequestException('Profile picture is required.');
     }
     
-    const { phoneNumber, id } = userData;
+    const { phoneNumber , location, id } = userData;
     
-    return await this.authService.getstarted(phoneNumber , file.path , id)
+    return await this.authService.getstarted(phoneNumber ,location , file.path , id)
     
   }
 
+  @Get('getAll')
+  async getAllUsers(){
 
+     
+    return await this.authService.getAll()
+    
+  }
 
 }
