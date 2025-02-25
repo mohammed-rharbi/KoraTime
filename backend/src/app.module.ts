@@ -6,6 +6,8 @@ import { TeamModule } from './team/team.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GatewayModule } from './gateway/gateway.module';
+import { ReservationModule } from './reservation/reservation.module';
+import { FieldsModule } from './fields/fields.module';
 import "dotenv/config"
 
 @Module({
@@ -15,6 +17,8 @@ import "dotenv/config"
     AuthModule, 
     TeamModule,
     GatewayModule,
+    ReservationModule,
+    FieldsModule,
   
   ],
   controllers: [AppController],
