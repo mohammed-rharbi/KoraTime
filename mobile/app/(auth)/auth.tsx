@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { loginUser, registerUser } from '~/redux/slices/authSlice';
+import Toast from 'react-native-toast-message';
 
 const AuthScreen = () => {
 
@@ -45,6 +46,7 @@ const AuthScreen = () => {
         });
         router.push('/getStarted');
       }
+      return result
     
     } catch (error) {
       console.log(error);
