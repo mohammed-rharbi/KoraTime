@@ -1,25 +1,13 @@
 import Link from 'next/link';
 import Footer from '@/components/ui/footer';
+import Header from '@/components/ui/header';
 
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
 
-      <header className="bg-gray-800/80 backdrop-blur-md sticky top-0 z-50 shadow-lg">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">
-            KoraTime
-          </h1>
-          <div className="flex items-center space-x-6">
-            <Link href="/profile" className="text-gray-300 hover:text-white transition-colors">
-              Profile
-            </Link>
-            <button className="bg-gradient-to-r from-green-400 to-blue-400 text-white px-5 py-2 rounded-full hover:opacity-90 transition-opacity">
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
+
+      <Header/>
 
       <section className="container mx-auto px-6 py-20 text-center">
           <h2 className="text-5xl font-bold mb-4 animate-fade-in">
