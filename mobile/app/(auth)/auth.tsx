@@ -46,6 +46,7 @@ const AuthScreen = () => {
         });
         router.push('/getStarted');
       }
+      return result
     
     } catch (error) {
       console.log(error);
