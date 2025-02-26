@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const apiClient = axios.create({
-    baseURL: process.env.API,
+    baseURL: process.env.NEXT_PUBLIC_API,
 });
 
 apiClient.interceptors.request.use(
