@@ -2,9 +2,9 @@ import apiClient from "../../lib/apiClient";
 
 
 
-export const login = async ({email , password}:any) => {
+export const loginUser = async (email: string , password:string) => {
   try {
-    const response = await apiClient.post(`/auth/login`, { email, password });
+    const response = await apiClient.post(`auth/login`, { email, password });
 
     return {
       token: response.data.token,
