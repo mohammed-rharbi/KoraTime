@@ -15,10 +15,11 @@ export default function LoginForm() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await login(email, password);
+
+    await login(email, password)
     if (role === 'admin') {
 
-      router.push("../space");
+      router.push("../dashboard");
     }else{
       router.push("/auth/login");
 
