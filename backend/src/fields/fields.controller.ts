@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FieldsService } from './fields.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('fields')
 export class FieldsController {
   constructor(private readonly fieldsService: FieldsService) {}
 
+
   @Post('create')
-  async create(@Body() createFieldDto: CreateFieldDto) {
+  async create( @Body() createFieldDto: CreateFieldDto) {
+
     return this.fieldsService.create(createFieldDto);
   }
 
