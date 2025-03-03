@@ -63,8 +63,6 @@ export class AuthService {
       const payload = {id: user._id , role: user.role , email: user.email};
 
       const token = this.jwtService.sign(payload, { expiresIn: '2h' });
-      console.log(token);
-
 
       return {message:'user login successfully', token , user}
 
