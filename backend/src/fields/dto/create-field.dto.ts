@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsEnum, ValidateNested, IsArray, IsMongoId, IsObject } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsString,  IsNotEmpty, IsOptional, IsBoolean, IsNumber, IsEnum, ValidateNested, IsArray, IsMongoId, IsObject } from 'class-validator';
+import { Type , Transform } from 'class-transformer';
 
 
 
@@ -13,9 +13,13 @@ export class CreateFieldDto {
     @IsString()
     location: string;
 
+
+    @IsNotEmpty()
+    @IsString()
+    description: string;
+
+    @IsString()
     @IsOptional()
-    @IsArray()
-    @IsString({ each: true })
     photo?: string;
 
     @IsOptional()
@@ -23,18 +27,20 @@ export class CreateFieldDto {
     fieldManager?: string;
 
     @IsNotEmpty()
-    @IsNumber()
-    price: number;
+    @Transform(({ value }) => parseFloat(value))
+    price: string;
 
     @IsEnum(['5v5', '7v7', '11v11'])
     size: '5v5' | '7v7' | '11v11';
 
     @IsOptional()
     @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     lightsAvailable?: boolean;
 
     @IsOptional()
     @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     isAvailable?: boolean;
 
     @IsOptional()
@@ -43,6 +49,7 @@ export class CreateFieldDto {
     @IsArray()
     ratings?: RatingDto[];
 
+    @IsString()
     @IsEnum(['available', 'closed', 'under maintenance'])
     status: 'available' | 'closed' | 'under maintenance';
 
