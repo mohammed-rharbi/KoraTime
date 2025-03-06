@@ -17,7 +17,7 @@ export default function Header() {
         try {
 
           logout();
-            router.push('/auth/login')
+          router.push('/auth/login')
           
         } catch (error) {
 
@@ -29,9 +29,11 @@ export default function Header() {
   return (
       <header className="bg-gray-800/80 backdrop-blur-md sticky top-0 z-50 shadow-lg">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href={'/dashboard'}>
           <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">
             KoraTime
           </h1>
+          </Link>
           <div className="flex items-center space-x-6">
             <Link href="/dashboard/profile" className="text-gray-300 hover:text-white transition-colors">
               Profile
