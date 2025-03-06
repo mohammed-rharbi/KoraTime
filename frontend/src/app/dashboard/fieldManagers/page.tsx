@@ -9,13 +9,20 @@ import useManagerStore from "../../../../store/managerStore";
 const FieldManagerAdminPage = () => {
 
 
-  const { fieldManagers , getManagers } = useManagerStore()
+  const { fieldManagers , getManagers , banAUser } = useManagerStore()
 
   useEffect(()=>{
 
     getManagers()
 
   },[])
+
+
+  const HandleBan = async (id:string , action:string)=>{
+
+    await banAUser(id , action);
+
+  }
 
   return (
     <MainLayout>
@@ -180,9 +187,13 @@ const FieldManagerAdminPage = () => {
                           <button className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
                             <ArrowPathIcon className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                           </button>
-                          <button className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
-                            <TrashIcon className="h-5 w-5 text-red-600 dark:text-red-400" />
+
+                          <button
+                          onClick={() => HandleBan(manager._id as string, manager.isBan ? "unban" : "ban")}
+                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+                          <TrashIcon className={`h-5 w-5 ${manager.isBan ? "text-green-400" : "text-red-400"}`} />
                           </button>
+
                         </div>
                       </td>
                     </motion.tr>
