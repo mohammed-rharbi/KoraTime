@@ -27,6 +27,10 @@ export class AuthRepository {
         return await this.UserModel.find().exec();
     }
 
+    async getAllManagers() : Promise<User[]>{
+
+        return await this.UserModel.find({role:'fieldManager'}).exec();
+    }
 
     async findByEmail (email: string) : Promise<User>{
 
