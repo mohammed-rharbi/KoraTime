@@ -123,13 +123,6 @@ const Fields = () => {
             ))}
           </AnimatePresence>
         </div>
-{/* 
-
-        <motion.button
-         whileHover={{ scale: 1.1 }}
-         className="fixed bottom-8 right-8 p-4 bg-indigo-600 text-white rounded-full shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all">
-        <PlusCircleIcon className="h-8 w-8" />
-        </motion.button> */}
       </div>
     </MainLayout>
   );
