@@ -61,4 +61,10 @@ export class AuthController {
     return await this.authService.getAllManagers();
   }
 
+  @Patch('ban/:action/:id')
+  async banUser(@Param('id') id: string, @Param('action') action: string) {
+
+    return await this.authService.banUser(id , action);
+  }
+
 }
