@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
 import { PhotoIcon, CurrencyDollarIcon, MapPinIcon, UserGroupIcon, SunIcon, CheckCircleIcon, ShieldCheckIcon} from "@heroicons/react/24/outline";
@@ -8,6 +8,7 @@ import useFieldStore from "../../../../../store/fieldStore";
 import { FieldType } from "../../../../../lib/types";
 import { uploadImageToBackend } from "../../../../../lib/Minio";
 import { useRouter } from "next/navigation";
+import useManagerStore from "../../../../../store/managerStore";
 
 
 
@@ -16,7 +17,7 @@ const CreateFieldPage = () => {
   const [formData, setFormData] = useState<FieldType>({
     name: '',
     description: '',
-    size: '5v5',
+    size: '',
     price: '',
     fieldManger: '',
     location: '',
@@ -26,8 +27,17 @@ const CreateFieldPage = () => {
     photo: '',
   });
 
+  const {getManagers , fieldManagers} = useManagerStore()
+
   const [uploading, setUploading] = useState(false);
-  const { isLoading , field , createField } = useFieldStore()
+  const { isLoading , error  , createField } = useFieldStore()
+
+
+  useEffect(()=>{
+
+    getManagers();
+
+  },[getManagers])
 
 
   const handleImagePick = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,13 +92,14 @@ const router = useRouter()
       location: formData.location,
       status: formData.status,
       lightsAvailable: formData.lightsAvailable,
-      isAvailable: formData.IsAvailable, 
+      IsAvailable: formData.IsAvailable,
+      fieldManger: formData.fieldManger,  
       photo: formData.photo,
     };
 
     try {
       await createField(submissionData);
-      if(field){
+      if(!error){
         
         router.push('/dashboard/fields')
       }
@@ -154,6 +165,33 @@ const router = useRouter()
               </div>
             </div>
 
+    
+            <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-6 text-xl font-semibold">Field Managers</h2>
+       
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-900/50">
+                    <UserGroupIcon className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="mb-1 block text-sm font-medium">Field Manager *</label>
+                    <select
+                      name="fieldManger"
+                      required
+                      value={formData.fieldManger}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700"
+                    >
+                      <option value="">Select Manager</option>
+                      {fieldManagers?.map((manager) => (
+                        <option key={manager._id} value={manager._id}>
+                          {manager.userName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+            </div>
 
             <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h2 className="mb-6 text-xl font-semibold">Specifications</h2>
@@ -215,7 +253,6 @@ const router = useRouter()
                     />
                   </div>
                 </div>
-
 
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/50">
