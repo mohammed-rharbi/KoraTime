@@ -3,12 +3,32 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { StarIcon, PencilSquareIcon, TrashIcon, ChartBarIcon, ArrowsPointingOutIcon, EllipsisVerticalIcon,} from '@heroicons/react/24/outline';
 import { FieldType } from '../../../../lib/types';
+import useFieldStore from '../../../../store/fieldStore';
+import { useRouter } from 'next/navigation';
 
 interface FieldCardProps {
   field: FieldType;
 }
 
 export default function FieldCard({ field }: FieldCardProps) {
+
+
+  const {deleteField , error} = useFieldStore()
+
+  const router = useRouter()
+
+  const handleDelete = async (id: string) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this field?");
+    if (!isConfirmed) return;
+  
+    try {
+      await deleteField(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
   return (
     <motion.div
       key={field._id}
@@ -23,14 +43,7 @@ export default function FieldCard({ field }: FieldCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent" />
 
 
-        <Image
-          className="h-full w-full bg-gray-100 animate-pulse"
-          height={1000}
-          width={1000}
-          src={'/pitch.jpg'}
-          alt={field.name || 'Field image'}
-          priority
-        />
+        <img className="h-full w-full bg-gray-100 animate-pulse" src={field.photo as string} alt={field.name} />
 
 
         <div className="absolute top-4 right-4">
@@ -91,14 +104,17 @@ export default function FieldCard({ field }: FieldCardProps) {
 
 
         <div className="flex gap-2 border-t pt-4 dark:border-gray-700">
+          
           <motion.button
+            onClick={()=> router.push(`/dashboard/fields/${field._id}`)}
             whileHover={{ scale: 1.05 }}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-          >
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600">
             <PencilSquareIcon className="h-4 w-4" />
             Edit
           </motion.button>
+
           <motion.button
+            onClick={()=> handleDelete(field._id as string)}
             whileHover={{ scale: 1.05 }}
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-100 text-red-800 rounded-lg hover:bg-red-200 dark:bg-red-900/30 dark:text-red-500"
           >
