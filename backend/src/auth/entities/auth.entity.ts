@@ -46,6 +46,9 @@ export class User extends Document {
     @Prop({ type: [Types.ObjectId] , ref:'Chat', default: []})
     chats : Types.ObjectId[]
 
+    @Prop({default: false})
+    isActive: boolean ;
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
