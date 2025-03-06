@@ -11,7 +11,10 @@ export class Field extends Document {
     @Prop({default: null})
     location: string ;
 
-    @Prop()
+    @Prop({required:true})
+    description: string ;
+
+    @Prop({required:true})
     photo: string ; 
 
     @Prop({ type: Types.ObjectId , ref:'User', default: null})

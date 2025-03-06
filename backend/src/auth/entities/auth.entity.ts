@@ -42,9 +42,16 @@ export class User extends Document {
     @Prop({ type: [Types.ObjectId] , ref:'Reservation', default: []})
     reservations : Types.ObjectId[]
 
-    
+
     @Prop({ type: [Types.ObjectId] , ref:'Chat', default: []})
     chats : Types.ObjectId[]
+
+    
+    @Prop({default: false})
+    isActive: boolean ;
+
+    @Prop({default: false})
+    isBand: boolean ;
 
 }
 

@@ -18,8 +18,7 @@ import "dotenv/config"
     TeamModule,
     GatewayModule,
     ReservationModule,
-    FieldsModule,
-  
+    FieldsModule,  
   ],
   controllers: [AppController],
   providers: [AppService],

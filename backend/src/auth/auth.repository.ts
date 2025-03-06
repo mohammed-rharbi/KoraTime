@@ -27,6 +27,10 @@ export class AuthRepository {
         return await this.UserModel.find().exec();
     }
 
+    async getAllManagers() : Promise<User[]>{
+
+        return await this.UserModel.find({role:'fieldManager'}).exec();
+    }
 
     async findByEmail (email: string) : Promise<User>{
 
@@ -49,6 +53,16 @@ export class AuthRepository {
     async delete(id: string): Promise<User>{
         
         return await this.UserModel.findByIdAndDelete(id).exec();
+    }
+
+    async ban(id: string){
+        
+        return await this.UserModel.findByIdAndUpdate(id , {isBand:true} ,  {new: true}).exec();
+    }
+
+    async unban(id: string){
+        
+        return await this.UserModel.findByIdAndUpdate(id , {isBand:false} ,  {new: true}).exec();
     }
 
 }

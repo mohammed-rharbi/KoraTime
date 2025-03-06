@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-auth.dto';
 import { LoginUserDto } from './dto/login-auth.dto';
 import { multerConfig } from 'src/config/multer.config';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateManagerDto } from './dto/manager-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,9 +22,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() userData: LoginUserDto){
 
-    
     return await this.authService.login(userData);
-
   }
 
   @Put('start')
@@ -46,6 +45,26 @@ export class AuthController {
      
     return await this.authService.getAll()
     
+  }
+
+  @Post('createManger')
+  async createManger(@Body() createAuthDto: CreateManagerDto) {
+      
+    console.log(createAuthDto);
+    
+    return await this.authService.createFieldManager(createAuthDto);
+  }
+
+  @Get('getAllManagers')
+  async getAllManagers() {
+
+    return await this.authService.getAllManagers();
+  }
+
+  @Patch('ban/:action/:id')
+  async banUser(@Param('id') id: string, @Param('action') action: string) {
+
+    return await this.authService.banUser(id , action);
   }
 
 }

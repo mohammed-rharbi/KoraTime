@@ -35,6 +35,8 @@ const useAuthStore = create<AuthState>((set)=>({
             const res = await loginUser(email , password);  
             set({user: res.user , token: res.token , isLoading:false , role:res.user.role})
             localStorage.setItem('AdminToken' , res.token)
+            localStorage.setItem('AdminRole' , res.user.role)
+
             
             
         }catch(err){
@@ -44,8 +46,10 @@ const useAuthStore = create<AuthState>((set)=>({
 
 
     logout: async ()=>{
-     set({user:null , token: null })
+     set({user:null , token: null , role:null })
      localStorage.removeItem('AdminToken')
+     localStorage.removeItem('AdminRole')
+
     }
 
 }))
