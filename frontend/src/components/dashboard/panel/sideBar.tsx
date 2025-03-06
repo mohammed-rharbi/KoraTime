@@ -16,11 +16,11 @@ export default function SideBar() {
           <span>🏟️</span>
           Fields
         </Link>
-        <Link href="/dashboard/fields/fieldManagers" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+        <Link href="/dashboard/fieldManagers" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
           <span>👔</span>
           Field Managers
         </Link>
-        <Link href="/dashboard/fields/reservations" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+        <Link href="/dashboard/reservations" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
           <span>📅</span>
           Reservations
         </Link>
