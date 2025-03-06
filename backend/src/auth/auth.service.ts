@@ -54,6 +54,10 @@ export class AuthService {
       if (!user) {
         throw new UnauthorizedException('Invalid credentials');
       }
+
+      if(user.isBand === true){
+        throw new UnauthorizedException('Sorry. You ben banned');
+      }
   
       const isPasswordValid = await bcrypt.compare(userData.password, user.password);
 
@@ -163,5 +167,25 @@ export class AuthService {
       });
     }
   }
+
+    async banUser(id:string , action:string){
+
+      if(action === 'ban'){
+
+        const user =  await this.AuthRepository.ban(id)
+
+        return user
+
+      }else if(action === 'unban'){
+        
+        const user =  await this.AuthRepository.unban(id)
+
+        return user
+
+      }
+      
+
+  }
+
   
 }
