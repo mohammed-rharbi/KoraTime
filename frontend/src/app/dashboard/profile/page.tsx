@@ -4,13 +4,23 @@ import React from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
 import { UserCircleIcon, ShieldCheckIcon, KeyIcon, EnvelopeIcon, CalendarIcon, PencilIcon } from "@heroicons/react/24/outline";
+import useAuthStore from "../../../../store/authStore";
 
 const AdminProfile = () => {
+
+
+  const {user} = useAuthStore()
+
   const recentActivity = [
     { date: '2023-08-20 14:32', action: 'Password changed', ip: '192.168.1.1' },
     { date: '2023-08-19 09:15', action: 'User permissions updated', ip: '192.168.1.2' },
     { date: '2023-08-18 16:45', action: 'System settings modified', ip: '192.168.1.3' },
   ];
+
+
+  if(!user){
+    return <p>user was not found</p>
+  }
 
   return (
     <MainLayout>
@@ -69,7 +79,7 @@ const AdminProfile = () => {
                   <EnvelopeIcon className="h-5 w-5 text-slate-500" />
                   <div>
                     <p className="text-slate-400 text-sm">Email</p>
-                    <p className="text-slate-200">admin@example.com</p>
+                    <p className="text-slate-200">{user.email}</p>
                   </div>
                 </div>
 
