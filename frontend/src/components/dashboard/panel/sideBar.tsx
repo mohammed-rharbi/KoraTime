@@ -44,6 +44,11 @@ export default function SideBar() {
             <span>⚙️</span>
             System Settings
           </Link>
+
+          <Link href="/dashboard/profile" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+            <span>👤</span>
+            Profile
+          </Link>
         </div>
       </nav>
     </aside>
