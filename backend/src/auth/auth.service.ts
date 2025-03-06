@@ -5,6 +5,8 @@ import { AuthRepository } from './auth.repository';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'
 import { LoginUserDto } from './dto/login-auth.dto';
+import { CreateManagerDto } from "./dto/manager-auth.dto";
+
 
 @Injectable()
 export class AuthService {
@@ -13,7 +15,6 @@ export class AuthService {
 
   async registerUser(UserData: CreateUserDto) {
     try {
-
 
       const {email , password} = UserData
 
@@ -111,4 +112,56 @@ export class AuthService {
     return users
   }
 
+  
+  async getAllManagers(){
+
+    const Managers =  await this.AuthRepository.getAllManagers();
+
+    if(!Managers || Managers.length < 0){
+
+      throw new NotFoundException('no users ben Found')
+    }
+
+    return Managers
+  }
+
+
+  async createFieldManager(managerData: CreateManagerDto) {
+
+    try {
+
+      const { email, password } = managerData;
+  
+      if (!password) {
+        throw new BadRequestException("Password is required");
+      }
+  
+      const existingUser = await this.AuthRepository.findByEmail(email);
+      if (existingUser) {
+        throw new UnauthorizedException("Manager already exists");
+      }
+  
+      const salt = await bcrypt.genSalt(10);
+      const hashPass = await bcrypt.hash(password, salt);
+      if (!hashPass) {
+        throw new Error("Password hashing failed");
+      }
+  
+      const newManager = {
+        ...managerData,
+        password: hashPass,
+        role: "fieldManager",
+      };
+  
+      return await this.AuthRepository.create(newManager);
+
+    } catch (err: any) {
+      console.error("Registration error:", err.message);
+      throw new BadRequestException({
+        message: "Error while registering a user",
+        error: err.message,
+      });
+    }
+  }
+  
 }
