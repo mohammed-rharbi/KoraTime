@@ -1,11 +1,14 @@
 import apiClient from "~/lib/apiClient";
 import { LoginType , RegisterType , StartType } from "~/types/types";
+import { useRouter } from "expo-router";
 
 
+const router = useRouter()
 
-export const login = async ({email , password}: LoginType) => {
+
+export const login = async (loginData: LoginType) => {
   try {
-    const response = await apiClient.post(`/auth/login`, { email, password });
+    const response = await apiClient.post(`/auth/login`, loginData);
 
     return {
       token: response.data.token,
@@ -17,11 +20,11 @@ export const login = async ({email , password}: LoginType) => {
   }
 };
 
-export const register = async ({userName, email, password}:RegisterType) => {
+export const register = async (registerData:RegisterType) => {
   
   try {
 
-    const response = await apiClient.post(`/auth/register`, {userName, email, password });
+    const response = await apiClient.post(`/auth/register`, registerData);
 
     return {
         user: response.data.user,
@@ -31,15 +34,13 @@ export const register = async ({userName, email, password}:RegisterType) => {
   }
 };
 
-export const getStarted = async ({id, image, phoneNumber}: StartType) => {
+export const getStarted = async (startData: StartType) => {
   
   try {
 
-    const response = await apiClient.put(`/auth/start`, {id, image, phoneNumber });
+    const response = await apiClient.put(`/auth/start`, startData);
 
-    return {
-        user: response.data.updatedUser,
-    };
+    return response.data
   } catch (error) {
     throw new Error('Registration failed');
   }
