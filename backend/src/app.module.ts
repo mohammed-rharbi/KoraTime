@@ -8,12 +8,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { GatewayModule } from './gateway/gateway.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { FieldsModule } from './fields/fields.module';
+import { ScheduleModule } from '@nestjs/schedule';
 import "dotenv/config"
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal:true}),
     MongooseModule.forRoot(process.env.MONGO_URI),
+    ScheduleModule.forRoot(),
     AuthModule, 
     TeamModule,
     GatewayModule,
