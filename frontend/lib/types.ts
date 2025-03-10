@@ -20,6 +20,21 @@ export interface UserType {
     isActive?:boolean,
    }
 
+   
+  export interface PlayerType {
+   _id?:string ,
+   userName:string,
+   email: string ,
+   password: string,
+   phoneNumber:string,
+   location:string,
+   role?:string,
+   profilePic?:string,
+   isActive?:boolean,
+   team:any,
+   status:string
+  }
+
 
 export interface LoginType {
     user: UserType ,
@@ -40,6 +55,7 @@ export interface LoginType {
     status: string,
     photo: string | null,
     ratings?: rating,
+    availability?:any
 
    }
 
