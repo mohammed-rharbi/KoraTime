@@ -15,22 +15,16 @@ export class Reservation extends Document {
     fieldId : Types.ObjectId;
 
     @Prop({ required: true })
-    price: number;
-
-    @Prop({ required: true })
     date: Date;
-
-    @Prop({ required: true })
-    startTime: string;
-
-    @Prop({ required: true })
-    endTime: string;
 
     @Prop({enum:['confirmed' , 'pending' , 'canceled' , 'completed'] , default:'pending'})
     status: string ;
 
     @Prop({required:false})
     cancellationReason : string ;
+
+    @Prop({ default: Date.now })
+    createdAt: Date; 
 
 }
 

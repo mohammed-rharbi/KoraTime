@@ -23,7 +23,7 @@ export class ReservationRepository {
     
     async findAll() : Promise<Reservation[]>{
 
-        return await this.ReservationModel.find().exec();
+        return await this.ReservationModel.find().populate('userId' , 'userName email phoneNumber').populate('fieldId','name price fieldManger location').exec();
     }
 
 
@@ -35,13 +35,13 @@ export class ReservationRepository {
 
     async findById(id : string): Promise<Reservation>{
 
-        return await this.ReservationModel.findOne({_id: id}).exec();
+        return await (await this.ReservationModel.findOne({_id: id})).populate('fieldId')
 
     }
 
     async findByUserId(id : string): Promise<Reservation>{
 
-        return await this.ReservationModel.findOne({userId: id}).exec();
+        return await this.ReservationModel.findOne({userId: id}).populate('userId' , 'userName email phoneNumber').populate('fieldId','name price fieldManger location').exec();
 
     }
 

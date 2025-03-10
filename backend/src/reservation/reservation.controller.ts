@@ -7,28 +7,35 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
-  @Post()
-  create(@Body() createReservationDto: CreateReservationDto) {
-    return this.reservationService.create(createReservationDto);
+  @Post('createReservation')
+  async createReservation(@Body() createReservationDto: CreateReservationDto) {
+    return this.reservationService.createReservation(createReservationDto)
   }
 
-  @Get()
-  findAll() {
-    return this.reservationService.findAll();
+  @Get('findAllReservations')
+  async findAllReservations() {
+    return this.reservationService.getAllReservations()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reservationService.findOne(+id);
+  @Get('getOneReservation/:id')
+  async findOneReservation(@Param('id') id: string) {
+    return this.reservationService.findReservation(id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReservationDto: UpdateReservationDto) {
-    return this.reservationService.update(+id, updateReservationDto);
+
+  @Get('findUsersReservations/:id')
+  async findUsersReservations(@Param('id') id: string) {
+    return this.reservationService.getUserReservations(id)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reservationService.remove(+id);
+
+  @Patch('updateReservation/:id')
+  async updateReservation(@Param('id') id: string, @Body() updateReservationDto: UpdateReservationDto) {
+    return this.reservationService.update(id, updateReservationDto);
+  }
+
+  @Delete('deleteReservation/:id')
+  async deleteReservation(@Param('id') id: string) {
+    return this.reservationService.removeReservation(id);
   }
 }

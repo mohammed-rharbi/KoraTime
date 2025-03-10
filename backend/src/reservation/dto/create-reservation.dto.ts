@@ -1,9 +1,10 @@
 import { IsString, IsNotEmpty, IsOptional, IsEnum, IsMongoId, IsNumber, IsDate } from 'class-validator';
 
 export class CreateReservationDto {
-    @IsOptional()
+
+    @IsNotEmpty()
     @IsMongoId()
-    userId?: string;
+    userId: string;
 
     @IsOptional()
     @IsMongoId()
@@ -14,18 +15,12 @@ export class CreateReservationDto {
     fieldId: string;
 
     @IsNotEmpty()
-    @IsNumber()
-    price: number;
-
-    @IsNotEmpty()
     @IsDate()
     date: Date;
 
-    @IsEnum(['confirmed', 'pending', 'canceled', 'completed'])
-    status: 'confirmed' | 'pending' | 'canceled' | 'completed';
-
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
-    cancellationReason?: string;
+    startTime: string;
+
 }
 
