@@ -3,9 +3,8 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { UpdateUserDto } from './dto/update-auth.dto';
 import { LoginUserDto } from './dto/login-auth.dto';
-import { multerConfig } from 'src/config/multer.config';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateManagerDto } from './dto/manager-auth.dto';
+import { StartingUserDto } from './dto/starting-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -26,16 +25,9 @@ export class AuthController {
   }
 
   @Put('start')
-  @UseInterceptors(FileInterceptor('profilPic', multerConfig))
-  async getStarted( @UploadedFile() file : Express.Multer.File ,  @Body() userData: {id: string , location:string , phoneNumber: string}){
+  async getStarted( @Body() userData: StartingUserDto){
 
-    if(!file){
-      throw new BadRequestException('Profile picture is required.');
-    }
-    
-    const { phoneNumber , location, id } = userData;
-    
-    return await this.authService.getstarted(phoneNumber ,location , file.path , id)
+    return await this.authService.getstarted(userData)
     
   }
 
@@ -60,6 +52,14 @@ export class AuthController {
 
     return await this.authService.getAllManagers();
   }
+
+
+  @Get('getAllPlayers')
+  async getAllPlayers() {
+
+    return await this.authService.getAllPlayers();
+  }
+
 
   @Patch('ban/:action/:id')
   async banUser(@Param('id') id: string, @Param('action') action: string) {

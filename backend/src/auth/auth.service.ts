@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'
 import { LoginUserDto } from './dto/login-auth.dto';
 import { CreateManagerDto } from "./dto/manager-auth.dto";
+import { StartingUserDto } from './dto/starting-auth.dto';
 
 
 @Injectable()
@@ -79,21 +80,11 @@ export class AuthService {
     }
   
   }
-  async getstarted(phoneNumber: string, location:string , profilePic: string, id: string) {
-
-    if (!phoneNumber || !location || !profilePic || !id) {
-      throw new BadRequestException('All fields are required.');
-    }
-  
-    const userData = {
-      profilePic,
-      phoneNumber,
-      location
-    };
+  async getstarted(userData : StartingUserDto) {
   
     try {
 
-      const updatedUser = await this.AuthRepository.update(id, userData);
+      const updatedUser = await this.AuthRepository.update(userData);
   
       return updatedUser;
     } catch (err) {
@@ -127,6 +118,19 @@ export class AuthService {
     }
 
     return Managers
+  }
+
+
+  async getAllPlayers(){
+
+    const Players =  await this.AuthRepository.getAllPlayers();
+
+    if(!Players || Players.length < 0){
+
+      throw new NotFoundException('no users ben Found')
+    }
+
+    return Players
   }
 
 
