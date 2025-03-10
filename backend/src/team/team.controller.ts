@@ -8,30 +8,30 @@ export class TeamController {
 
   constructor(private readonly TeamService: TeamService) {}
 
-  @Post('/createTeam')
+  @Post('createTeam')
 
  async create(@Body() createTeamDto: CreateTeamDto) {
 
     return await this.TeamService.createTeam(createTeamDto);
   }
 
-  @Get('/getAll/Teams')
+  @Get('getAll/Teams')
   async findAll() {
     return await this.TeamService.findAllTeams();
   }
 
-  @Get('/getTeam/:id')
+  @Get('getTeam/:id')
   async findOne(@Param('id') id: string) {
     return await this.TeamService.findOneTeam(id);
   }
 
-  @Patch('/editeTeam/:id')
+  @Patch('editeTeam/:id')
   async update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
 
     return this.TeamService.updateTeam(id, updateTeamDto);
   }
 
-  @Delete('/deletTeam/:id')
+  @Delete('deletTeam/:id')
   async remove(@Param('id') id: string) {
     return await this.TeamService.removeTeam(id);
   }

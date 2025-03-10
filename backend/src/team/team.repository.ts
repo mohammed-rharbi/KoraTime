@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 @Injectable()
 export class TeamRepository {
 
-    constructor(@InjectModel(Team.name) private readonly TeamModel : Model<Team> ){}
+  constructor(@InjectModel(Team.name) private readonly TeamModel : Model<Team> ){}
 
   async createTeam(createTeamDto: CreateTeamDto) {
 
