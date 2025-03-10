@@ -54,6 +54,15 @@ export class CreateFieldDto {
     status: 'available' | 'closed' | 'under maintenance';
 
 
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => AvailabilityDTO)
+    @IsArray()
+    availability?: AvailabilityDTO[];
+
+
+
+
 }
 
 export class RatingDto {
@@ -78,4 +87,26 @@ export class LocationDto {
 }
 
 
+class SlotDTO {
+    @IsString()
+    @IsNotEmpty()
+    startTime: string;  
 
+    @IsString()
+    @IsNotEmpty()
+    endTime: string; 
+  
+    @IsBoolean()
+    isBooked: boolean;
+  }
+
+
+  class AvailabilityDTO {
+    @IsString()
+    date: string;  
+  
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => SlotDTO)
+    slots: SlotDTO[];
+  }

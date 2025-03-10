@@ -38,6 +38,12 @@ export class Field extends Document {
     @Prop({enum:['available' , 'closed' , 'under maintenance'] , default:'available'})
     status: string ;
 
+    @Prop({ type: [{ date: String, slots: [{ startTime: String, endTime: String, isBooked: Boolean, }]}]})
+    availability: { date: string;  slots: { startTime: string; endTime: string; isBooked: boolean }[]}[];
+    
+    @Prop({ default: Date.now })
+    createdAt: Date; 
 }
 
 export const FieldSchema = SchemaFactory.createForClass(Field)
+    
