@@ -1,8 +1,12 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons, FontAwesome5, AntDesign, Ionicons } from '@expo/vector-icons';
+import useAuthStore from '~/store/authStore';
 
 export default function PlayerProfile() {
+
+
+  const {user} = useAuthStore()
 
   const playerStats = {
     matchesPlayed: 45,
@@ -24,7 +28,7 @@ export default function PlayerProfile() {
               source={require('~/assets/avatar.png')}
               className="w-36 h-36 rounded-full "
             />
-          <Text className="text-3xl font-bold text-white mb-1">John Doe</Text>
+          <Text className="text-3xl font-bold text-white mb-1">{user?.userName}</Text>
           <Text className="text-[#94A3B8] text-lg">Striker | Team KoraTime</Text>
           <View className="flex-row items-center mt-2">
             <Ionicons name="location" size={16} color="#64748B" />
@@ -96,7 +100,7 @@ function MatchItem({ result, score, opponent, date }:any) {
   const resultColor = result === 'W' ? '#2DD4BF' : result === 'D' ? '#FBBF24' : '#EF4444';
 
   return (
-    <View className="flex-row justify-between items-center bg-[#1E293B]/80 p-4 rounded-2xl border-2 border-[#334155]">
+    <View className="flex-row justify-between items-center mt-4 bg-[#1E293B]/80 p-4 rounded-2xl border-2 border-[#334155]">
       <View className="flex-row items-center">
         <View
           className="w-10 h-10 rounded-full items-center justify-center mr-4"

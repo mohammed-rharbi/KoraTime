@@ -8,7 +8,6 @@ const CreateTeamScreen = () => {
   const [teamData, setTeamData] = useState({
     name: '',
     location: '',
-    foundedYear: '',
     teamColor: '',
     logo: null,
   });

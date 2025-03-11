@@ -3,22 +3,21 @@ import { MaterialIcons, FontAwesome5, Feather, Ionicons } from '@expo/vector-ico
 import { useRouter } from 'expo-router';
 import { pitches } from '~/lib/mocks/mocks';
 import NeirPitches from '~/components/pitch/nearPitches';
-import { useAppDispatch } from '~/redux/hooks';
-import { logoutUser } from '~/redux/slices/authSlice';
+import useAuthStore from '~/store/authStore';
+import { useEffect } from 'react';
 
 
 export default function HomePage() {
 
 
   const router = useRouter()
-  
-  const dispatch = useAppDispatch()
-
-  
-  
-  const handleLogout = () => {
     
-    dispatch(logoutUser()).finally( ()=> router.push('/auth')   )
+  const {user , logout} = useAuthStore()
+  
+  const handleLogout = async () => {
+
+     logout()
+    router.push('/')        
   };
 
 
@@ -32,7 +31,7 @@ export default function HomePage() {
         </TouchableOpacity>
         <View>
           <Text className="text-[#94A3B8] text-lg">Welcome back,</Text>
-          <Text className="text-white text-2xl font-bold">Ahmed Player!</Text>
+          <Text className="text-white text-2xl font-bold">{user?.userName || 'user'}</Text>
         </View>
         <View className="flex-row items-center gap-3">
          

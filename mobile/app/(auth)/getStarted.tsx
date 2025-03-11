@@ -1,148 +1,205 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator, TextInput } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
-import { getstarted } from '~/redux/slices/authSlice';
-import { useAppSelector , useAppDispatch } from '~/redux/hooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+import useAuthStore from '~/store/authStore';
+import { uploadImageToBackend } from '~/lib/minio';
 
 const GetStartedScreen = () => {
   const [step, setStep] = useState(1);
   const [phone, setPhone] = useState('');
-  const [image, setImage] = useState<string | null>(null);
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [image, setImage] = useState('');
+  const [location, setLocation] = useState('');
   const [address, setAddress] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
   const router = useRouter();
+  const { getStarted, user } = useAuthStore();
 
-
-  const dispatch = useAppDispatch()
-
-    const {loading , error , user} = useAppSelector((state) => state.auth)
-  
-
-
-
-    const startUser = async ()=>{
-
-      const userId = await AsyncStorage.getItem('userid') as string;
-
-
-      try{
-
-        const res = await dispatch(getstarted({userId , image , phone}))
-
-
-         if (getstarted.fulfilled.match(res)) {
-                router.push('/home');
-              } else {
-                console.error("Registration failed:", res.error);
-              }
-
-      }catch(erroe){
-        console.log(error);
-        
-      }
-
+  const startUser = async () => {
+    if (!phone.trim()) {
+      Alert.alert('Error', 'Phone number is required.');
+      return;
     }
-
+    try {
+      await getStarted({ id: user?._id as string, phoneNumber: phone, profilePic: image, location });
+      router.push('/home'); 
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Something went wrong. Please try again.');
+    }
+  };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission required', 'Please allow access to your media library.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
+
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setUploading(true);
+      try {
+        const imageUrl = await uploadImageToBackend(result.assets[0].uri);
+        setImage(imageUrl);
+      } catch (error) {
+        console.error('Image upload failed:', error);
+        setImage('https://i.pinimg.com/736x/70/8c/08/708c08614099f90b849c6f7089f8effb.jpg');
+      } finally {
+        setUploading(false);
+      }
     }
   };
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permission to access location was denied');
+      Alert.alert('Permission denied', 'Please enable location access in settings.');
       return;
     }
 
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
-    let geocode = await Location.reverseGeocodeAsync(location.coords);
-    if (geocode[0]) {
-      setAddress(`${geocode[0].street}, ${geocode[0].city}, ${geocode[0].region}`);
-    }
+    setLoading(true);
+    try {
+      let loc = await Location.getCurrentPositionAsync({});
+      setLocation(`${loc.coords.latitude}, ${loc.coords.longitude}`);
 
-  };
-
-  const handleNext = () => setStep((prev) => prev + 1);
-  const handleBack = () => setStep((prev) => prev - 1);
-  const handleSubmit = () => {
-    if (!phone || !image || !location) {
-      Alert.alert('Please fill all fields');
-      return;
+      let geocode = await Location.reverseGeocodeAsync(loc.coords);
+      if (geocode.length > 0) {
+        setAddress(`${geocode[0].street}, ${geocode[0].city}, ${geocode[0].region}`);
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Unable to fetch location. Try again.');
+    } finally {
+      setLoading(false);
     }
-    router.replace('/home');
   };
 
   return (
-    <View className="flex-1 p-6 bg-white">
-      <Text className="text-2xl font-bold text-center text-gray-800 mb-6">Get Started</Text>
-      <View className="flex-row justify-center mb-6">
+    <LinearGradient colors={['#0A0F1E', '#1A1F2E']} className="flex-1 p-6">
+      {/* Header */}
+      <View className="flex-row items-center mb-8">
+        <TouchableOpacity onPress={() => router.back()} className="p-2 rounded-full bg-[#2DD4BF]/10">
+          <Ionicons name="arrow-back" size={24} color="#2DD4BF" />
+        </TouchableOpacity>
+        <Text className="text-white text-2xl font-bold ml-4">Complete Profile</Text>
+      </View>
+
+      {/* Step Indicator */}
+      <View className="flex-row items-center justify-center mb-8">
         {[1, 2, 3].map((num) => (
-          <View key={num} className={`w-4 h-4 mx-1 rounded-full ${step === num ? 'bg-blue-500' : 'bg-gray-300'}`} />
+          <View key={num} className="flex-row items-center">
+            <View className={`w-8 h-8 rounded-full items-center justify-center 
+              ${step >= num ? 'bg-[#2DD4BF]' : 'bg-[#1F2937] border border-[#2DD4BF]/20'}`}>
+              <Text className={`font-bold ${step >= num ? 'text-black' : 'text-[#2DD4BF]'}`}>{num}</Text>
+            </View>
+            {num < 3 && <View className={`h-1 w-8 ${step > num ? 'bg-[#2DD4BF]' : 'bg-[#1F2937]'}`} />}
+          </View>
         ))}
       </View>
 
-      {step === 1 && (
-        <View>
-          <Text className="text-lg font-medium mb-2">Enter Your Phone Number</Text>
-          <TextInput
-            className="bg-gray-100 p-4 rounded-lg border border-gray-300"
-            placeholder="Phone Number"
-            keyboardType="phone-pad"
-            value={phone}
-            onChangeText={setPhone}
-          />
-        </View>
-      )}
-
-      {step === 2 && (
-        <View className="items-center">
-          <Text className="text-lg font-medium mb-2">Upload Profile Picture</Text>
-          <TouchableOpacity onPress={pickImage} className="bg-gray-100 p-4 rounded-lg border border-gray-300 items-center">
-            {image ? <Image source={{ uri: image }} className="w-24 h-24 rounded-full" /> : <Text className="text-gray-500">Tap to upload</Text>}
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {step === 3 && (
-        <View>
-          <Text className="text-lg font-medium mb-2">Select Your Location</Text>
-          <TouchableOpacity onPress={getLocation} className="bg-gray-100 p-4 rounded-lg border border-gray-300" disabled={loading}>
-            {loading ? <Text className="text-gray-500">Fetching location...</Text> : address ? <Text className="text-gray-900">{address}</Text> : <Text className="text-gray-500">Tap to get location</Text>}
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <View className="mt-6 flex-row justify-between">
-        {step > 1 && (
-          <TouchableOpacity onPress={handleBack} className="bg-gray-300 p-4 rounded-lg w-1/3 items-center">
-            <Text className="text-gray-700 font-medium">Back</Text>
-          </TouchableOpacity>
+      {/* Step Content */}
+      <View className="flex-1">
+        {/* Step 1 - Phone Input */}
+        {step === 1 && (
+          <View className="space-y-4">
+            <Text className="text-[#2DD4BF] text-lg font-semibold">Phone Verification</Text>
+            <View className="bg-[#1F2937] p-4 rounded-xl border border-[#2DD4BF]/20">
+              <TextInput
+                className="text-white text-lg"
+                placeholder="Enter phone number"
+                placeholderTextColor="#6B7280"
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+              />
+              <Ionicons name="call" size={20} color="#2DD4BF" className="absolute right-4 top-5" />
+            </View>
+          </View>
         )}
-        {step < 3 ? (
-          <TouchableOpacity onPress={handleNext} className="bg-blue-500 p-4 rounded-lg w-1/3 items-center">
-            <Text className="text-white font-medium">Next</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={startUser} className="bg-green-500 p-4 rounded-lg w-1/3 items-center">
-            <Text className="text-white font-medium">Finish</Text>
-          </TouchableOpacity>
+
+        {/* Step 2 - Image Upload */}
+        {step === 2 && (
+          <View className="items-center space-y-6">
+            <Text className="text-[#2DD4BF] text-lg font-semibold">Profile Picture</Text>
+            <TouchableOpacity 
+              onPress={pickImage}
+              className="w-40 h-40 rounded-full bg-[#1F2937] border-2 border-dashed border-[#2DD4BF]/30 items-center justify-center"
+            >
+              {uploading ? (
+                <ActivityIndicator size="small" color="#2DD4BF" />
+              ) : image ? (
+                <Image source={{ uri: image }} className="w-full h-full rounded-full" />
+              ) : (
+                <>
+                  <Ionicons name="camera" size={32} color="#2DD4BF" />
+                  <Text className="text-[#2DD4BF] mt-2">Add Photo</Text>
+                </>
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {/* Step 3 - Location */}
+        {step === 3 && (
+          <View className="space-y-4">
+            <Text className="text-[#2DD4BF] text-lg font-semibold">Location Access</Text>
+            <TouchableOpacity
+              onPress={getLocation}
+              className="bg-[#1F2937] p-4 rounded-xl border border-[#2DD4BF]/20"
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator size="small" color="#2DD4BF" />
+              ) : address ? (
+                <View className="space-y-2">
+                  <Text className="text-white text-lg">{address}</Text>
+                  <Ionicons name="checkmark-circle" size={20} color="#2DD4BF" className="absolute right-4 top-5" />
+                </View>
+              ) : (
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-[#6B7280] text-lg">Detect Location</Text>
+                  <Ionicons name="locate" size={20} color="#2DD4BF" />
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
         )}
       </View>
-    </View>
+
+      {/* Navigation Buttons */}
+      <View className="flex-row justify-between mt-8">
+        {step > 1 && (
+          <TouchableOpacity
+            onPress={() => setStep(prev => prev - 1)}
+            className="bg-[#1F2937] px-6 py-3 rounded-xl flex-row items-center"
+          >
+            <Ionicons name="arrow-back" size={20} color="#2DD4BF" />
+            <Text className="text-[#2DD4BF] ml-2 text-lg">Back</Text>
+          </TouchableOpacity>
+        )}
+        
+        <TouchableOpacity
+          onPress={step < 3 ? () => setStep(prev => prev + 1) : startUser}
+          className="bg-[#2DD4BF] px-6 py-3 rounded-xl flex-row items-center ml-auto"
+        >
+          <Text className="text-black text-lg font-semibold">
+            {step < 3 ? 'Continue' : 'Finish Setup'}
+          </Text>
+          <Ionicons name="arrow-forward" size={20} color="black" className="ml-2" />
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 };
 
