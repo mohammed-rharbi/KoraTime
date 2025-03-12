@@ -16,6 +16,10 @@ captain: string;
 @IsString()
 logo? : string ;
 
+@IsString()
+@IsNotEmpty()
+location: string ;
+
 @IsOptional()
 @IsString()
 teamColor? : string ;
