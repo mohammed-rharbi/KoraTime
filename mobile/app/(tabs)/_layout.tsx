@@ -92,6 +92,9 @@ export default function TabLayout() {
 
       <Tabs.Screen name="(players)/playerPage" options={{ href: null }} />
 
+      <Tabs.Screen name="(team)/teamPage" options={{ href: null }} />
+
+
 
 
 
