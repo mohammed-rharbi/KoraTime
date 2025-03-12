@@ -9,5 +9,6 @@ import { FieldRepository } from './fields.repository';
   imports:[ MongooseModule.forFeature([{name:Field.name , schema:FieldSchema}])],
   controllers: [FieldsController],
   providers: [FieldsService , FieldRepository],
+  exports: [FieldsService , FieldRepository]
 })
 export class FieldsModule {}

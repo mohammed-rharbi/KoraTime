@@ -41,3 +41,16 @@ export const getAllManagers = async () => {
   }
 };
 
+export const getAllPlayers = async () => {
+
+  try {
+    const response = await apiClient.get(`auth/getAllPlayers`);
+    
+    return response.data
+
+  } catch (error) {
+    throw new Error('failed to fetch Players.');
+  }
+};
+
+

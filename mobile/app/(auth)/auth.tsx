@@ -3,17 +3,16 @@ import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { loginUser, registerUser } from '~/redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
+import useAuthStore from '~/store/authStore';
+import { LoginType, RegisterType } from '~/types/types';
 
 const AuthScreen = () => {
 
 
-  const dispatch = useAppDispatch();
   const [isLogin, setIsLogin] = useState(true);
 
-  const {loading , error , token , user} = useAppSelector((state) => state.auth)
+  const {user , isLoading , error , token , loginUser , registerUser } = useAuthStore()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,18 +34,25 @@ const AuthScreen = () => {
 
   
   const handleRegister = async () => {
+
+    const registerData : RegisterType =  {
+      userName: userName ,
+      email: email,
+      password: password
+    }
+
     try {
-      const result = await dispatch(registerUser({ userName, email, password }));
+
+      await registerUser(registerData)
       
-      if(!error){
+      if(user){
         Toast.show({
           type: 'success',
           text1: 'Registration Complete',
           text2: 'Welcome to the app! 🎉',
         });
-        router.push('/getStarted');
+        router.replace('/getStarted');
       }
-      return result
     
     } catch (error) {
       console.log(error);
@@ -54,10 +60,20 @@ const AuthScreen = () => {
   };
   
 
-
   const handleLogin = async () => {
-    
-    dispatch(loginUser({email , password}))
+
+    const LoginUser : LoginType = {
+      email:email,
+      password: password
+    }
+
+    try {
+
+      await loginUser(LoginUser)
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

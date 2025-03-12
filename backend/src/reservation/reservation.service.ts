@@ -1,26 +1,70 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
+import { ReservationRepository } from './reservation.repository';
+import { FieldRepository } from 'src/fields/fields.repository';
 
 @Injectable()
 export class ReservationService {
-  create(createReservationDto: CreateReservationDto) {
-    return 'This action adds a new reservation';
+
+  constructor(private readonly ReservationRepo: ReservationRepository , private readonly FieldRepo: FieldRepository ){}
+
+
+  async createReservation(createReservationDto: CreateReservationDto) {
+
+
+    const setBooking = await this.FieldRepo.updateSlote(createReservationDto.fieldId , createReservationDto.date , createReservationDto.startTime)
+
+    if (!setBooking) {
+      throw new BadRequestException("Failed to update the slot. Reservation cannot be created");
   }
 
-  findAll() {
-    return `This action returns all reservation`;
+    return await this.ReservationRepo.create(createReservationDto)
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reservation`;
+  async getAllReservations() {
+
+    const reservations = await this.ReservationRepo.findAll();
+
+    if(!reservations || reservations.length < 0){
+      throw new NotFoundException('No Reservation Ben Found')
+    }
+
+    return reservations
   }
 
-  update(id: number, updateReservationDto: UpdateReservationDto) {
-    return `This action updates a #${id} reservation`;
+  async getUserReservations(id:string) {
+
+    const reservation = await this.ReservationRepo.findByUserId(id);
+
+    if(!reservation){
+      throw new NotFoundException('No Reservation Ben Found')
+    }
+
+    return reservation
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reservation`;
+  async findReservation(id: string) {
+
+    const reservation = await this.ReservationRepo.findById(id)
+
+    if(!reservation){
+      throw new NotFoundException('No Reservation Ben Found')
+    }
+
+    return reservation
   }
+
+  async update(id: string, updateReservationDto: UpdateReservationDto) {
+
+    return await this.ReservationRepo.update(id , updateReservationDto)
+  
+  }
+
+  async removeReservation(id: string) {
+
+    return await this.ReservationRepo.delete(id)
+  }
+  
 }

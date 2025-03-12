@@ -1,36 +1,27 @@
 'use client'
 
-import React from "react";
+import React, { useEffect } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
-import { UserIcon, TrophyIcon, CalendarIcon, ChartBarIcon, PlusIcon, PencilIcon, TrashIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import { UserIcon, UserGroupIcon , TrophyIcon, CalendarIcon,  ChartBarIcon, PlusIcon, PencilIcon, TrashIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import usePlayersStore from "../../../../store/playersStore";
 
 const PlayerManagement = () => {
-  const players = [
-    {
-      id: 1,
-      name: "Lionel Messi",
-      email: "messi@example.com",
-      phone: "+1 234 567 890",
-      matchesPlayed: 42,
-      rating: 4.9,
-      status: "active"
-    },
-    {
-      id: 2,
-      name: "Cristiano Ronaldo",
-      email: "ronaldo@example.com",
-      phone: "+1 987 654 321",
-      matchesPlayed: 38,
-      rating: 4.8,
-      status: "inactive"
-    }
-  ];
+
+
+  const {Players , getPlayers} = usePlayersStore()
+
+  useEffect(()=>{
+
+    getPlayers()
+
+  },[getPlayers])
+
 
   return (
     <MainLayout>
       <div className="p-8 bg-slate-900 min-h-screen">
-        {/* Header */}
+
         <div className="max-w-7xl mx-auto mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -46,9 +37,9 @@ const PlayerManagement = () => {
           </motion.div>
         </div>
 
-        {/* Content */}
+
         <div className="max-w-7xl mx-auto">
-          {/* Action Bar */}
+
           <motion.div
             className="mb-8 flex gap-4 items-center"
             initial={{ opacity: 0 }}
@@ -86,10 +77,10 @@ const PlayerManagement = () => {
             </motion.button>
           </motion.div>
 
-          {/* Stats */}
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {[
-              { icon: UserIcon, title: "Active Players", value: "1,234", color: "from-green-500 to-emerald-500" },
+              { icon: UserIcon, title: "Active Players", value: Players?.length , color: "from-green-500 to-emerald-500" },
               { icon: TrophyIcon, title: "Total Matches", value: "8,542", color: "from-blue-500 to-cyan-500" },
               { icon: ChartBarIcon, title: "Avg. Rating", value: "4.7", color: "from-purple-500 to-fuchsia-500" }
             ].map((stat, idx) => (
@@ -111,12 +102,12 @@ const PlayerManagement = () => {
             ))}
           </div>
 
-          {/* Players List */}
+
           <div className="bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
             <table className="w-full">
               <thead className="bg-slate-700">
                 <tr>
-                  {["Player", "Contact", "Matches", "Rating", "Status", "Actions"].map((header, idx) => (
+                  {["Player", "Contact", "Location", "Role", "Team" , "Status", "Actions"].map((header, idx) => (
                     <th
                       key={idx}
                       className="px-6 py-4 text-left text-sm font-semibold text-slate-300 uppercase tracking-wider"
@@ -127,9 +118,9 @@ const PlayerManagement = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
-                {players.map((player) => (
+                {Players?.map((player) => (
                   <motion.tr
-                    key={player.id}
+                    key={player._id}
                     whileHover={{ scale: 1.005 }}
                     className="hover:bg-slate-750 transition-colors"
                   >
@@ -139,8 +130,8 @@ const PlayerManagement = () => {
                           <UserIcon className="h-6 w-6 text-slate-400" />
                         </div>
                         <div>
-                          <p className="font-semibold text-slate-100">{player.name}</p>
-                          <p className="text-sm text-slate-400">ID: {player.id}</p>
+                          <p className="font-semibold text-slate-100">{player.userName}</p>
+                          <p className="text-sm text-slate-400">ID: {player._id}</p>
                         </div>
                       </div>
                     </td>
@@ -152,17 +143,25 @@ const PlayerManagement = () => {
                         </div>
                         <div className="flex items-center gap-2">
                           <PhoneIcon className="h-4 w-4 text-slate-400" />
-                          <span className="text-sm text-slate-300">{player.phone}</span>
+                          <span className="text-sm text-slate-300">{player.phoneNumber}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-slate-300">{player.matchesPlayed}</td>
+                    <td className="px-6 py-4 text-slate-300">{player.location }</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-1">
-                        <TrophyIcon className="h-5 w-5 text-amber-300" />
-                        <span className="font-semibold text-slate-100">{player.rating}</span>
+                        <UserIcon className="h-5 w-5 text-amber-300" />
+                        <span className="font-semibold text-slate-100">{player.role}</span>
                       </div>
                     </td>
+
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-1">
+                        <UserGroupIcon className="h-5 w-5 text-amber-300" />
+                        <span className="text-slate-100">{player.team ? player.team : 'no team'}</span>
+                      </div>
+                    </td>
+
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                         player.status === 'active'

@@ -80,7 +80,23 @@ export default function TabLayout() {
         }}
       />
 
-  <Tabs.Screen name="(team)/createTeam" options={{ href: null }} />
+      <Tabs.Screen name="(team)/createTeam" options={{ href: null }} />
+
+      <Tabs.Screen name="(pitch)/fieldPage" options={{ href: null }} />
+
+      <Tabs.Screen name="(team)/homeTeam" options={{ href: null }} />
+
+      <Tabs.Screen name="(pitch)/booking" options={{ href: null }} />
+
+      <Tabs.Screen name="(pitch)/confirm" options={{ href: null }} />
+
+      <Tabs.Screen name="(players)/playerPage" options={{ href: null }} />
+
+      <Tabs.Screen name="(team)/teamPage" options={{ href: null }} />
+
+
+
+
 
     </Tabs>
 

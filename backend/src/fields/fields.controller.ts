@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { FieldsService } from './fields.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('fields')
 export class FieldsController {

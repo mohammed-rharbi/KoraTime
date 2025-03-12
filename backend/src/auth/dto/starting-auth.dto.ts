@@ -6,6 +6,10 @@ export class StartingUserDto {
 
 @IsString()
 @IsNotEmpty()
+id?: string;
+
+@IsString()
+@IsNotEmpty()
 phoneNumber: string;
 
 @IsNotEmpty()

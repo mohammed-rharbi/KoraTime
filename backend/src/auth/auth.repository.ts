@@ -4,6 +4,7 @@ import { Model, Types } from "mongoose";
 import { User  } from "./entities/auth.entity";
 import { CreateUserDto } from "./dto/create-auth.dto";
 import { UpdateUserDto } from "./dto/update-auth.dto";
+import { StartingUserDto } from "./dto/starting-auth.dto";
 
 
 
@@ -32,6 +33,11 @@ export class AuthRepository {
         return await this.UserModel.find({role:'fieldManager'}).exec();
     }
 
+    async getAllPlayers() : Promise<User[]>{
+
+        return await this.UserModel.find({role:'user'}).exec();
+    }
+
     async findByEmail (email: string) : Promise<User>{
 
         return await this.UserModel.findOne({email}).exec();
@@ -44,9 +50,9 @@ export class AuthRepository {
 
     }
 
-    async update(id: string , userData: any ): Promise<User>{
+    async update(userData: StartingUserDto ): Promise<User>{
 
-        return await this.UserModel.findByIdAndUpdate(id , userData , {new: true}).exec();
+        return await this.UserModel.findByIdAndUpdate(userData.id , userData , {new: true}).exec();
     }
 
 

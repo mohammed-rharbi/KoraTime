@@ -53,6 +53,10 @@ export class User extends Document {
     @Prop({default: false})
     isBand: boolean ;
 
+    @Prop({default: false})
+    hasTeam: boolean ;
+
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
