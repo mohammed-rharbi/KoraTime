@@ -88,6 +88,7 @@ export interface UserType {
 
 
       export interface ReservationType {
+        _id?:string;
         userId: string;
         fieldId: string;
         date: Date;
@@ -100,7 +101,12 @@ export interface UserType {
         logo:string,
         teamColor: string,
         captain:any,
-        members?:[],
+        members?: {
+          _id: string;
+          name: string;
+          avatar: string;
+          role: string;
+        }[];
         location:string,
         formation?:string,
        }
