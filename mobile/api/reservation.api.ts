@@ -25,6 +25,17 @@ export const getAllUserReservations = async (id:string) => {
   }
 };
 
+export const getTeamReservations = async (id:string) => {
+  try {
+    const response = await apiClient.post(`/reservation/findUsersReservations/${id}`);
+
+    return response.data
+
+  } catch (error) {
+    throw new Error('failed to fetch User Reservations Please Try Again.');
+  }
+};
+
 
 
   
