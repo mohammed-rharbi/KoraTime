@@ -14,7 +14,7 @@ export const uploadImageToBackend = async (imageUri: string): Promise<string> =>
     formData.append('file', file);  
   
 
-    const { data } = await axios.post(`http://localhost:4000/upload`,
+    const { data } = await axios.post(`http://192.168.8.175:4000/upload`,
       formData
     );
 
