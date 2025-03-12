@@ -108,6 +108,19 @@ export class AuthService {
   }
 
   
+  async getUserPlayer(id:string){
+
+    const user =  await this.AuthRepository.findById(id);
+
+    if(!user){
+
+      throw new NotFoundException('no player ben Found')
+    }
+
+    return user
+  }
+
+  
   async getAllManagers(){
 
     const Managers =  await this.AuthRepository.getAllManagers();
