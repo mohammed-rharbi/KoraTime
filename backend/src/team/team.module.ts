@@ -4,9 +4,10 @@ import { TeamController } from './team.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Team, TeamSchema } from './entities/team.entity';
 import { TeamRepository } from './team.repository';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports:[MongooseModule.forFeature([{ name : Team.name , schema: TeamSchema }])],
+  imports:[ AuthModule , MongooseModule.forFeature([{ name : Team.name , schema: TeamSchema }])],
   controllers: [TeamController],
   providers: [TeamService , TeamRepository],
 })
