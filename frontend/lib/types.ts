@@ -64,3 +64,16 @@ export interface LoginType {
     rating: string ,
     comment: string,
    }
+
+
+   export interface TeamType {
+    _id?:string,
+    name: string ,
+    logo:string,
+    teamColor: string,
+    captain:any,
+    members?:[],
+    location:string,
+    formation?:string,
+   }
+   
