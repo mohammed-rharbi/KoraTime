@@ -7,11 +7,14 @@ import useFieldStore from "~/store/fieldStore";
 import { Modal } from "react-native";
 import { useRouter } from "expo-router";
 
+
+
 export default function FieldDetailsScreen() {
   const { id } = useLocalSearchParams();
   const { getOneField, field } = useFieldStore();
   const [showBookingType, setShowBookingType] = useState(false);
 
+  
   const router = useRouter();
   useEffect(() => {
     if (id) getOneField(id as string);

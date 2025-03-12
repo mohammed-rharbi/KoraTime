@@ -1,33 +1,43 @@
 import { View, Text, Image, FlatList, TouchableOpacity, TextInput, Animated } from "react-native";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import useTeamStore from "~/store/teamStore";
 
-const teamsData = [
-  {
-    id: "1",
-    name: "Thunder 5",
-    location: "New York",
-    players: 4,
-    needsPlayers: true,
-    logo: "https://i.pinimg.com/474x/54/dd/fd/54ddfd815789197ee9912d4ab4e2292a.jpg",
-  },
-  {
-    id: "2",
-    name: "Street Kings",
-    location: "Los Angeles",
-    players: 5,
-    needsPlayers: false,
-    logo: "https://i.pinimg.com/474x/54/dd/fd/54ddfd815789197ee9912d4ab4e2292a.jpg",
-  },
-];
+// const teamsData = [
+//   {
+//     id: "1",
+//     name: "Thunder 5",
+//     location: "New York",
+//     players: 4,
+//     needsPlayers: true,
+//     logo: "https://i.pinimg.com/474x/54/dd/fd/54ddfd815789197ee9912d4ab4e2292a.jpg",
+//   },
+//   {
+//     id: "2",
+//     name: "Street Kings",
+//     location: "Los Angeles",
+//     players: 5,
+//     needsPlayers: false,
+//     logo: "https://i.pinimg.com/474x/54/dd/fd/54ddfd815789197ee9912d4ab4e2292a.jpg",
+//   },
+// ];
 
 export default function TeamsScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [showRecruiting, setShowRecruiting] = useState(false);
   const createButtonScale = useRef(new Animated.Value(1)).current;
+
+  const {teams , getAllTeams} = useTeamStore()
+
+
+  useEffect(()=>{
+
+    getAllTeams()
+
+  },[getAllTeams])
 
   const animateCreateButton = () => {
     Animated.sequence([
@@ -44,14 +54,14 @@ export default function TeamsScreen() {
     ]).start();
   };
 
-  const filteredTeams = teamsData.filter(team => {
-    const matchesSearch = team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         team.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = showRecruiting ? team.needsPlayers : true;
-    return matchesSearch && matchesFilter;
-  });
+  // const filteredTeams = teams.filter(team => {
+  //   const matchesSearch = team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //                        team.location.toLowerCase().includes(searchQuery.toLowerCase());
+  //   const matchesFilter = showRecruiting ? team.needsPlayers : true;
+  //   return matchesSearch && matchesFilter;
+  // });
 
-  const TeamCard = ({ item }: { item: typeof teamsData[0] }) => (
+  const TeamCard = ({ item }: { item: typeof teams[0] }) => (
     <TouchableOpacity
       onPress={() => router.push(`/homeTeam`)}
       className="mx-4 mb-4"
@@ -99,7 +109,7 @@ export default function TeamsScreen() {
     <TouchableOpacity
       onPress={() => {
         animateCreateButton();
-        // router.push("/create-team");
+        router.push("/createTeam");
       }}
       className="mx-4 mb-6"
     >
@@ -170,8 +180,8 @@ export default function TeamsScreen() {
       </View>
 
       <FlatList
-        data={filteredTeams}
-        keyExtractor={(item) => item.id}
+        data={teams}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => <TeamCard item={item} />}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<CreateTeamButton />}
