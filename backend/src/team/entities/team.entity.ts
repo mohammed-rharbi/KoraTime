@@ -30,6 +30,11 @@ export class Team extends Document {
     formation: string;
 
 
+    
+    @Prop({required:true})
+    location: string ;
+
+
     @Prop({ default: Date.now })
     createdAt: Date; 
 
