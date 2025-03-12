@@ -34,7 +34,8 @@ export interface UserType {
       profilePic?:string,
       isActive?:boolean,
       team?:any,
-      status?:string
+      status?:string,
+      hasTeam?:boolean
    }
  
    export interface ManagerType {
@@ -92,3 +93,14 @@ export interface UserType {
         date: Date;
         startTime: string;
       }
+
+      export interface TeamType {
+        _id?:string,
+        name: string ,
+        logo:string,
+        teamColor: string,
+        captain:any,
+        members?:[],
+        location:string,
+        formation?:string,
+       }
