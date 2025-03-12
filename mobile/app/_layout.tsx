@@ -1,7 +1,6 @@
 import '../global.css';
 import { Stack } from "expo-router";
 import { Provider } from 'react-redux';
-import { store } from '~/redux/store';
 import Guard from '~/lib/guard';
 import Toast from 'react-native-toast-message';
 
@@ -16,15 +15,11 @@ export default function RootLayout() {
 
   	return (
     	
-		<Provider store={store}>
-		{/* <Guard> */}
 		<Stack>
 			<Stack.Screen name="(tabs)" options={{ headerShown: false  }} />
 			<Stack.Screen name="modal" options={{ presentation: "modal"}} />
+			<Toast/>
 		</Stack>
-		{/* </Guard> */}
-		<Toast/>
-		</Provider>
 		
   	);
 }
