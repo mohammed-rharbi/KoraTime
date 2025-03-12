@@ -63,7 +63,7 @@ export default function TeamsScreen() {
 
   const TeamCard = ({ item }: { item: typeof teams[0] }) => (
     <TouchableOpacity
-      onPress={() => router.push(`/homeTeam`)}
+      onPress={() => router.push(`/teamPage?id=${item._id}`)}
       className="mx-4 mb-4"
     >
       <LinearGradient
