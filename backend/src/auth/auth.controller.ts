@@ -61,6 +61,14 @@ export class AuthController {
   }
 
 
+  
+  @Get('getPlayer/:id')
+  async getPlayer(@Param('id') id: string) {
+
+    return await this.authService.getUserPlayer(id);
+  }
+
+
   @Patch('ban/:action/:id')
   async banUser(@Param('id') id: string, @Param('action') action: string) {
 
