@@ -9,6 +9,7 @@ import { GatewayModule } from './gateway/gateway.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { FieldsModule } from './fields/fields.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { FriendshipModule } from './friendship/friendship.module';
 import "dotenv/config"
 
 @Module({
@@ -20,7 +21,8 @@ import "dotenv/config"
     TeamModule,
     GatewayModule,
     ReservationModule,
-    FieldsModule,  
+    FieldsModule,
+    FriendshipModule,  
   ],
   controllers: [AppController],
   providers: [AppService],
