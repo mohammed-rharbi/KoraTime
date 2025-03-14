@@ -5,24 +5,6 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import useTeamStore from "~/store/teamStore";
 
-// const teamsData = [
-//   {
-//     id: "1",
-//     name: "Thunder 5",
-//     location: "New York",
-//     players: 4,
-//     needsPlayers: true,
-//     logo: "https://i.pinimg.com/474x/54/dd/fd/54ddfd815789197ee9912d4ab4e2292a.jpg",
-//   },
-//   {
-//     id: "2",
-//     name: "Street Kings",
-//     location: "Los Angeles",
-//     players: 5,
-//     needsPlayers: false,
-//     logo: "https://i.pinimg.com/474x/54/dd/fd/54ddfd815789197ee9912d4ab4e2292a.jpg",
-//   },
-// ];
 
 export default function TeamsScreen() {
   const router = useRouter();
@@ -39,28 +21,7 @@ export default function TeamsScreen() {
 
   },[getAllTeams])
 
-  const animateCreateButton = () => {
-    Animated.sequence([
-      Animated.timing(createButtonScale, {
-        toValue: 0.95,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(createButtonScale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-
-  // const filteredTeams = teams.filter(team => {
-  //   const matchesSearch = team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //                        team.location.toLowerCase().includes(searchQuery.toLowerCase());
-  //   const matchesFilter = showRecruiting ? team.needsPlayers : true;
-  //   return matchesSearch && matchesFilter;
-  // });
-
+  
   const TeamCard = ({ item }: { item: typeof teams[0] }) => (
     <TouchableOpacity
       onPress={() => router.push(`/teamPage?id=${item._id}`)}
@@ -108,7 +69,6 @@ export default function TeamsScreen() {
   const CreateTeamButton = () => (
     <TouchableOpacity
       onPress={() => {
-        animateCreateButton();
         router.push("/createTeam");
       }}
       className="mx-4 mb-6"
