@@ -16,7 +16,7 @@ export default function PlayerProfile() {
 
     getUserReservations(user?._id as string)
 
-  },[getUserReservations , user?._id])
+  },[user?._id])
 
   const playerStats = {
     matchesPlayed: 45,

@@ -46,7 +46,10 @@ export class User extends Document {
     @Prop({ type: [Types.ObjectId] , ref:'Chat', default: []})
     chats : Types.ObjectId[]
 
+    @Prop({ type: [Types.ObjectId] , ref: 'User' })
+    friends: Types.ObjectId[];
     
+ 
     @Prop({default: false})
     isActive: boolean ;
 

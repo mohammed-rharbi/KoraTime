@@ -16,7 +16,7 @@ export default function TeamPageScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch team and reservation data
+
   useEffect(() => {
     const fetchData = async () => {
       try {

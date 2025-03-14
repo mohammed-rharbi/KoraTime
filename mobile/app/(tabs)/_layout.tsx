@@ -19,18 +19,6 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ focused }) => (
-            <View className="items-center">
-              <MaterialIcons name="home" size={28} color={focused ? "#2DD4BF" : "#64748B"} />
-              <Text className={`text-xs mt-1 ${focused ? "text-[#2DD4BF]" : "text-[#64748B]"}`}>Home</Text>
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="(pitch)/fields"
         options={{
           title: "Fields",
@@ -54,6 +42,20 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ focused }) => (
+            <View className="items-center">
+              <MaterialIcons name="home" size={28} color={focused ? "#2DD4BF" : "#64748B"} />
+              <Text className={`text-xs mt-1 ${focused ? "text-[#2DD4BF]" : "text-[#64748B]"}`}>Home</Text>
+            </View>
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="(chat)/chat"
         options={{
@@ -74,7 +76,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <View className="items-center">
               <Feather name="user" size={28} color={focused ? "#2DD4BF" : "#64748B"} />
-              <Text className={`text-xs mt-1 ${focused ? "text-[#2DD4BF]" : "text-[#64748B]"}`}>Chat</Text>
+              <Text className={`text-xs mt-1 ${focused ? "text-[#2DD4BF]" : "text-[#64748B]"}`}>Profile</Text>
             </View>
           ),
         }}
@@ -94,8 +96,7 @@ export default function TabLayout() {
 
       <Tabs.Screen name="(team)/teamPage" options={{ href: null }} />
 
-
-
+      <Tabs.Screen name="notifications" options={{ href: null }} />
 
 
     </Tabs>

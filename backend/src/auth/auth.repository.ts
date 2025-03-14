@@ -45,8 +45,8 @@ export class AuthRepository {
 
 
     async findById(id : string): Promise<User>{
-
-        return await this.UserModel.findOne({_id: id}).exec();
+        
+        return await this.UserModel.findOne({_id: id}).populate('friends' , 'userName email profilePic').exec();
 
     }
 
@@ -70,5 +70,16 @@ export class AuthRepository {
         
         return await this.UserModel.findByIdAndUpdate(id , {isBand:false} ,  {new: true}).exec();
     }
+
+    async addFriend(userId: string, friendId: string): Promise<void> {
+        
+        await this.UserModel.findByIdAndUpdate(userId, {
+          $addToSet: { friends: friendId }, 
+        });
+    
+        await this.UserModel.findByIdAndUpdate(friendId, {
+          $addToSet: { friends: userId },
+        });
+      }
 
 }
