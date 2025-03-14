@@ -16,7 +16,7 @@ export const BookField = async (data:ReservationType) => {
 
 export const getAllUserReservations = async (id:string) => {
   try {
-    const response = await apiClient.post(`/reservation/findUsersReservations/${id}`);
+    const response = await apiClient.get(`/reservation/findUsersReservations/${id}`);
 
     return response.data
 
@@ -27,7 +27,7 @@ export const getAllUserReservations = async (id:string) => {
 
 export const getTeamReservations = async (id:string) => {
   try {
-    const response = await apiClient.post(`/reservation/findUsersReservations/${id}`);
+    const response = await apiClient.get(`/reservation/findUsersReservations/${id}`);
 
     return response.data
 
