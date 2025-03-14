@@ -4,19 +4,23 @@ import { useRouter } from 'expo-router';
 import { pitches } from '~/lib/mocks/mocks';
 import NeirPitches from '~/components/pitch/nearPitches';
 import useAuthStore from '~/store/authStore';
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
 import Stack from 'expo-router';
 import usePlayerStore from '~/store/playersStore';
 import useFieldStore from '~/store/fieldStore';
+import useFriendshipStore from '~/store/frienshipStore';
 
 export default function HomePage() {
 
 
   const router = useRouter()
+  const [requestStatus, setRequestStatus] = useState<{ [key: string]: boolean }>({});
     
   const {user , logout} = useAuthStore()
   const { players , getAllPlayers } = usePlayerStore()
   const {fields , getFields} = useFieldStore()
+
+  const {sendFriendRequest} = useFriendshipStore()
   
 
   useEffect(()=>{
@@ -31,26 +35,36 @@ export default function HomePage() {
     router.push('/')        
   };
 
+  const handleSendFriendRequest = async (receiverId:string) => {
+
+    await sendFriendRequest( user?._id as string , receiverId)
+    setRequestStatus((prev) => ({ ...prev, [receiverId]: true }));
+
+  }
+
   return (
     
     <View className="flex-1 bg-[#0F172A]">
 
       
-      <View className="flex-row justify-between items-center p-6">
+      <View className="flex-row justify-between items-center p-4">
         
-        <TouchableOpacity onPress={() => router.push('/profile')}>
+        {/* <TouchableOpacity onPress={() => router.push('/profile')}>
           <Image source={require('~/assets/avatar.png')} className="w-12 h-12 rounded-full border-[#2DD4BF]"/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        <TouchableOpacity onPress={()=> router.push('/notifications')}>
+          <MaterialIcons name="notifications" size={32} color="white" />
+        </TouchableOpacity> 
+
         <View>
           <Text className="text-[#94A3B8] text-lg">Welcome back,</Text>
           <Text className="text-white text-2xl font-bold">{user?.userName || 'user'}</Text>
         </View>
         <View className="flex-row items-center gap-3">
-         
-
-          <TouchableOpacity onPress={handleLogout}>
-            <MaterialIcons name="logout" size={24} color="white" />
-          </TouchableOpacity> 
+        <TouchableOpacity onPress={handleLogout}>
+          <MaterialIcons name="logout" size={32} color="red" />
+        </TouchableOpacity> 
         </View>
       </View>
 
@@ -159,6 +173,20 @@ export default function HomePage() {
                   <MaterialIcons name="location-on" size={14} color="#94A3B8" />
                   <Text className="text-[#94A3B8] text-xs ml-1">3km away</Text>
                 </View>
+
+                <TouchableOpacity
+                  onPress={() => handleSendFriendRequest(item._id as string)}
+                  className={`mt-6 px-6 py-2 rounded-xl flex-1 ml-2 items-center ${
+                    requestStatus[item._id as string ] ? "bg-gray-400" : "bg-[#2DD4BF]"
+                  }`}
+                  disabled={requestStatus[item._id as string]} 
+                >
+                  <Text className="text-[#0F172A] font-bold">
+                    {requestStatus[item._id as string] ? "Pending..." : "Invite"}
+                  </Text>
+                </TouchableOpacity>
+
+
               </TouchableOpacity>
             ))}
           </ScrollView>
