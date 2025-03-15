@@ -33,7 +33,7 @@ export default function ChatListScreen() {
     >
       <View className="relative">
         <Image
-          source={{ uri: item.profilePic || "https://i.pinimg.com/736x/2b/07/77/2b077773b9d8cae6a954311f3c1c7f78.jpg" }}
+          source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item.profilePic}` || "https://i.pinimg.com/736x/2b/07/77/2b077773b9d8cae6a954311f3c1c7f78.jpg" }}
           className="w-12 h-12 rounded-full"
         />
       </View>

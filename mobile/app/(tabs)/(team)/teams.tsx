@@ -1,18 +1,20 @@
 import { View, Text, Image, FlatList, TouchableOpacity, TextInput, Animated } from "react-native";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons, FontAwesome5 , MaterialCommunityIcons } from "@expo/vector-icons";
 import useTeamStore from "~/store/teamStore";
+import useAuthStore from "~/store/authStore";
+import CreateTeamButton from "~/components/team/createButton";
+import TeamCard from "~/components/team/teamCard";
 
 
 export default function TeamsScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [showRecruiting, setShowRecruiting] = useState(false);
-  const createButtonScale = useRef(new Animated.Value(1)).current;
 
   const {teams , getAllTeams} = useTeamStore()
+  const { user } = useAuthStore()
 
 
   useEffect(()=>{
@@ -21,96 +23,28 @@ export default function TeamsScreen() {
 
   },[getAllTeams])
 
-  
-  const TeamCard = ({ item }: { item: typeof teams[0] }) => (
-    <TouchableOpacity
-      onPress={() => router.push(`/teamPage?id=${item._id}`)}
-      className="mx-4 mb-4"
-    >
-      <LinearGradient
-        colors={['#1A1F2E', '#252A3F']}
-        className="rounded-xl p-4"
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <View className="flex-row items-center">
-          <Image
-            source={{ uri: item.logo }}
-            className="w-14 h-14 rounded-lg"
-          />
-          
-          <View className="flex-1 ml-3">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-white text-lg font-bold">{item.name}</Text>
-              {item.needsPlayers && (
-                <View className="bg-green-500/20 px-3 py-1 rounded-full">
-                  <Text className="text-green-400 text-xs font-medium">Recruiting</Text>
-                </View>
-              )}
-            </View>
-            
-            <View className="flex-row items-center justify-between mt-1">
-              <View className="flex-row items-center">
-                <Ionicons name="location" size={14} color="#A1A1AA" />
-                <Text className="text-[#A1A1AA] text-sm ml-1">{item.location}</Text>
-              </View>
-              
-              <View className="flex-row items-center">
-                <MaterialCommunityIcons name="account-group" size={16} color="#A1A1AA" />
-                <Text className="text-[#A1A1AA] text-sm ml-1">{item.players}/5</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </LinearGradient>
-    </TouchableOpacity>
-  );
-
-  const CreateTeamButton = () => (
-    <TouchableOpacity
-      onPress={() => {
-        router.push("/createTeam");
-      }}
-      className="mx-4 mb-6"
-    >
-      <Animated.View style={{ transform: [{ scale: createButtonScale }] }}>
-        <LinearGradient
-          colors={['#2DD4BF', '#3B82F6']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          className="rounded-xl p-4"
-        >
-          <View className="flex-row items-center justify-between">
-            <View>
-              <Text className="text-white text-lg font-bold mb-1">Create Your Team</Text>
-              <Text className="text-white/80 text-sm">Start your 5-a-side journey</Text>
-            </View>
-            <View className="bg-white/20 rounded-full p-2">
-              <MaterialCommunityIcons name="soccer" size={24} color="#fff" />
-            </View>
-          </View>
-          
-          <View className="flex-row mt-4">
-            <View className="flex-row -space-x-3">
-              <View className="w-6 h-6 rounded-full bg-white/30" />
-              <View className="w-6 h-6 rounded-full bg-white/20" />
-              <View className="w-6 h-6 rounded-full bg-white/10" />
-            </View>
-            <View className="bg-white/20 rounded-full px-2 py-1 ml-2">
-              <Text className="text-white text-xs">2 spots left</Text>
-            </View>
-          </View>
-        </LinearGradient>
-      </Animated.View>
-    </TouchableOpacity>
-  );
 
   return (
     <View className="flex-1 bg-[#0A0F1E]">
 
       <View className="px-4 pt-12 pb-4">
-        <Text className="text-white text-3xl font-bold mb-6">Teams</Text>
-
+      <View className="mb-6">
+        <View className="flex-row items-center space-x-3">
+        <View className="mb-6 flex-row items-center">
+        <Text className="text-white text-3xl font-bold mr-3">
+          Team Up & 
+          <Text className="text-[#2DD4BF]"> Dominate </Text>
+        </Text>
+        <FontAwesome5 name="trophy" size={28} color="#FFD700" />
+        </View>
+        </View>
+        <Text className="text-[#A1A1AA] text-base ">
+         Discover squads that match your passion & play style
+       </Text>
+        <Text className="text-[#A1A1AA] text-base ">
+          {teams?.length}+ teams ready to play
+        </Text>
+      </View>
 
         <View className="flex-row items-center space-x-2 mb-4">
           <View className="flex-1 flex-row items-center bg-[#1A1F2E] rounded-xl p-3">
@@ -126,7 +60,7 @@ export default function TeamsScreen() {
           
           <TouchableOpacity 
             onPress={() => setShowRecruiting(!showRecruiting)}
-            className={`p-3 rounded-xl ${
+            className={`py-6 px-4 m-2 rounded-xl ${
               showRecruiting ? 'bg-green-500/20' : 'bg-[#1A1F2E]'
             }`}
           >
@@ -141,17 +75,22 @@ export default function TeamsScreen() {
 
       <FlatList
         data={teams}
-        keyExtractor={(item) => item._id}
         renderItem={({ item }) => <TeamCard item={item} />}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<CreateTeamButton />}
+        ListHeaderComponent={
+            user?.hasTeam ? (
+            <></>
+            ):(
+            <CreateTeamButton/>
+            )
+          }
         ListEmptyComponent={
           <View className="flex-1 items-center justify-center pt-20">
             <MaterialCommunityIcons name="soccer-field" size={48} color="#A1A1AA" />
             <Text className="text-[#A1A1AA] text-lg mt-4">No teams found</Text>
           </View>
         }
-      />
+      />zzz
     </View>
   );
 }

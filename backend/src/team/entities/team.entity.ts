@@ -22,7 +22,7 @@ export class Team extends Document {
     captain: Types.ObjectId;
 
     
-    @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], default: [] })
+    @Prop({ type: [Types.ObjectId], ref: 'User', default: [] })
     members: Types.ObjectId[];
     
 
@@ -30,7 +30,6 @@ export class Team extends Document {
     formation: string;
 
 
-    
     @Prop({required:true})
     location: string ;
 

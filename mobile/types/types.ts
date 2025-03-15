@@ -33,7 +33,7 @@ export interface UserType {
       role?:string,
       profilePic?:string,
       isActive?:boolean,
-      team?:any,
+      team?:TeamType,
       status?:string,
       hasTeam?:boolean
    }
@@ -101,12 +101,7 @@ export interface UserType {
         logo:string,
         teamColor: string,
         captain:any,
-        members?: {
-          _id: string;
-          name: string;
-          avatar: string;
-          role: string;
-        }[];
+        members?:UserType[],
         location:string,
         formation?:string,
        }

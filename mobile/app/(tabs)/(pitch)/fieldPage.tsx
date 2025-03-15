@@ -25,7 +25,7 @@ export default function FieldDetailsScreen() {
       <ScrollView className="flex-1">
 
         <View className="relative h-80">
-          <Image source={{ uri: field?.photo }} className="w-full h-full" resizeMode="cover" />
+          <Image source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${field?.photo}` }} className="w-full h-full" resizeMode="cover" />
           <LinearGradient colors={["transparent", "rgba(0,0,0,0.8)"]} className="absolute bottom-0 left-0 right-0 h-1/2" />
 
           <View className="absolute bottom-4 left-4 right-4">

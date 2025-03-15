@@ -2,6 +2,8 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Friendship } from "./entities/friendship.entity";
+import { Chat } from "./entities/chat.entity";
+import { Message } from "./entities/Message.entity";
 import { CreateFriendshipDto } from "./dto/create-friendship.dto";
 import { UpdateFriendshipDto } from "./dto/update-friendship.dto";
 
@@ -11,7 +13,13 @@ import { UpdateFriendshipDto } from "./dto/update-friendship.dto";
 
 export class FriendshipRepository {
 
-    constructor(@InjectModel(Friendship.name) private readonly FriendshipModel : Model<Friendship> ){}
+    constructor(
+        
+    @InjectModel(Friendship.name) private readonly FriendshipModel : Model<Friendship> ,
+    @InjectModel(Chat.name) private readonly ChatModel : Model<Chat> ,
+    @InjectModel(Message.name) private readonly MessageModel : Model<Message> ,
+
+){}
 
 
     async createFriendRequest(userData: CreateFriendshipDto ){
@@ -38,12 +46,6 @@ export class FriendshipRepository {
         return await this.FriendshipModel.find({status: status}).exec();
     }
     
-    
-    
-    async update(id: string , RequestData: UpdateFriendshipDto ): Promise<Friendship>{
-    
-        return await this.FriendshipModel.findByIdAndUpdate(id , RequestData , {new: true}).exec();
-    }
 
     async decline(requestId: string){
     
@@ -62,13 +64,6 @@ export class FriendshipRepository {
 
     }
       
-
-    async getFriends(userId: string) {
-
-        return this.FriendshipModel.find({ $or: [{ sender: userId }, { receiver: userId }], status: 'accepted', }).populate(['sender', 'receiver']);
-
-      }
-
     async getFriendsRequests(userId: string) {
         return this.FriendshipModel.find({ receiver: userId, status: "pending" }) 
           .populate("sender", "userName email profilePic")

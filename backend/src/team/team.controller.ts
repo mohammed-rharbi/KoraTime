@@ -2,28 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } 
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { AuthRepository } from 'src/auth/auth.repository';
 
 @Controller('team')
 export class TeamController {
 
-  constructor(private readonly TeamService: TeamService , private readonly UserRepo: AuthRepository) {}
+  constructor(private readonly TeamService: TeamService) {}
 
   @Post('createTeam')
+  async create(@Body() createTeamDto: CreateTeamDto) {
 
- async create(@Body() createTeamDto: CreateTeamDto) {
-
-    const user = await this.UserRepo.findById(createTeamDto.captain);
-
-    if(!user){
-      throw new NotFoundException('no user ben found ')
-    }
-
-    user.hasTeam = true
-    user.save()
-
-    const newTeam = await this.TeamService.createTeam(createTeamDto);
-    return newTeam
+    return await this.TeamService.createTeam(createTeamDto);
     
   }
 
@@ -33,7 +21,7 @@ export class TeamController {
   }
 
   @Get('getTeam/:id')
-  async findOne(@Param('id') id: string) {
+  async getTeam(@Param('id') id: string) {
     return await this.TeamService.findOneTeam(id);
   }
 
@@ -47,4 +35,32 @@ export class TeamController {
   async remove(@Param('id') id: string) {
     return await this.TeamService.removeTeam(id);
   }
+
+  @Post('invitePlayer/:team/:player')
+  async invitePlayer(@Param('team') team: string, @Param('player') player: string) {
+    return await this.TeamService.invitePlayer(team, player);
+  }
+
+  @Post('acceptInvition/:reqId')
+  async acceptInvition(@Param('reqId') reqId: string,) {
+    return await this.TeamService.acceptTeamInvitation(reqId);
+  }
+
+  @Get('getTeamRequests/:id')
+  async getTeamRequests(@Param('id') player: string) {
+    return await this.TeamService.getPlayerTeamReq(player);
+  }
+
+  @Get('getTeamByCapitanId/:id')
+  async getTeamByCapitanId(@Param('id') id: string) {
+    return await this.TeamService.getTeamByCaptinId(id);
+  }
+
+  @Get('getTeamByMember/:id')
+  async getTeamMembers(@Param('id') id: string) {
+    return await this.TeamService.getTeamByMember(id);
+  }
+
+
+
 }

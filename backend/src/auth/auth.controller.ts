@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseGuards ,Delete, BadRequestException, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { UpdateUserDto } from './dto/update-auth.dto';
 import { LoginUserDto } from './dto/login-auth.dto';
 import { CreateManagerDto } from './dto/manager-auth.dto';
 import { StartingUserDto } from './dto/starting-auth.dto';
+import { AuthGuard } from '@nestjs/passport';
+
 
 @Controller('auth')
 export class AuthController {
@@ -52,7 +54,6 @@ export class AuthController {
 
     return await this.authService.getAllManagers();
   }
-
 
   @Get('getAllPlayers')
   async getAllPlayers() {
