@@ -63,18 +63,6 @@ export class FriendshipService {
     return requests;
   }
 
-  async getFriends(userId: string) {
-
-    const friends = await this.FriendshipRepository.getFriends(userId);
-
-    if (!friends) {
-      throw new NotFoundException('No friends found.');
-    }
-
-    return friends;
-  }
-
-
   async getFriendsRequests(userId: string) {
 
     const friends = await this.FriendshipRepository.getFriendsRequests(userId);
