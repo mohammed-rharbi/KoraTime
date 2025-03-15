@@ -35,7 +35,7 @@ export default function TeamsScreen() {
       >
         <View className="flex-row items-center">
           <Image
-            source={{ uri: item.logo }}
+            source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item?.logo}` }}
             className="w-14 h-14 rounded-lg"
           />
           
