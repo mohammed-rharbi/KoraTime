@@ -4,11 +4,30 @@ import { LinearGradient } from 'expo-linear-gradient';
 import useFriendshipStore from "~/store/frienshipStore";
 import { useEffect, useState } from "react";
 import useAuthStore from "~/store/authStore";
+import useTeamStore from "~/store/teamStore";
 
 export default function NotificationsScreen() {
+
   const { getFriendRequests, acceptFriendRequest, declineRequest, requests } = useFriendshipStore();
+  const { getUserRequests , teamRequests } = useTeamStore();
   const { user } = useAuthStore();
   const [notifications, setNotifications] = useState<any[]>([]);
+
+
+  const handleReceiveRequest = async (id: string) => {
+    await getFriendRequests(id);
+  };
+
+  const handleReceiveTeamRequest = async (id: string) => {
+    await getUserRequests(id);
+  };
+
+  useEffect(() => {
+    if (user?._id) {
+      handleReceiveTeamRequest(user._id);
+    }
+  }, [user?._id]);
+
 
   useEffect(() => {
     if (user?._id) {
@@ -16,9 +35,6 @@ export default function NotificationsScreen() {
     }
   }, [user?._id]);
 
-  const handleReceiveRequest = async (id: string) => {
-    await getFriendRequests(id);
-  };
 
   useEffect(() => {
     if (requests && Array.isArray(requests)) {
