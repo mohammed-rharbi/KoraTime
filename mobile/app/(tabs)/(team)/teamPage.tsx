@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ReservationStore from "~/store/reservationStore";
 import { ReservationType, TeamType } from "~/types/types";
 import useAuthStore from "~/store/authStore";
+import { useRouter } from "expo-router";
 
 export default function TeamPageScreen() {
   const { id } = useLocalSearchParams();
@@ -16,6 +17,7 @@ export default function TeamPageScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,9 +84,10 @@ export default function TeamPageScreen() {
 
         <View className="p-6">
           <Text className="text-white text-2xl font-bold mb-4">Team Members</Text>
-          {team?.members.length > 0 ? (
+          {team?.members ? (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="space-x-4">
               {team?.members?.map((member) => (
+                <TouchableOpacity onPress={()=> router.push(`/playerPage?id=${member._id}`)}>
                 <View key={member._id} className="items-center">
                   <Image
                     source={{ uri: member.profilePic || "https://i.pinimg.com/474x/97/13/99/9713999fde04bcb909d4de882bdce7df.jpg" }}
@@ -93,6 +96,7 @@ export default function TeamPageScreen() {
                   <Text className="text-white text-lg mt-2">{member.userName}</Text>
                   <Text className="text-[#A1A1AA] text-sm">{member.role}</Text>
                 </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           ) : (
@@ -103,7 +107,7 @@ export default function TeamPageScreen() {
 
         <View className="p-6">
           <Text className="text-white text-2xl font-bold mb-4">Recent Reservations</Text>
-          {userReservations.length > 0 ? (
+          {userReservations?.length > 0 ? (
             userReservations?.map((reservation: ReservationType) => (
               <View key={reservation._id} className="bg-[#1F2937] p-4 rounded-xl mb-4">
                 <Text className="text-white text-lg font-semibold">
@@ -128,20 +132,6 @@ export default function TeamPageScreen() {
           )}
         </View>
 
-
-        <View className="p-6">
-          <Text className="text-white text-2xl font-bold mb-4">Achievements</Text>
-          <View className="space-y-3">
-            <View className="flex-row items-center bg-[#1F2937] p-4 rounded-xl">
-              <Ionicons name="trophy" size={24} color="#FFD700" />
-              <Text className="text-white text-lg ml-2">2023 Summer League Champions</Text>
-            </View>
-            <View className="flex-row items-center bg-[#1F2937] p-4 rounded-xl">
-              <Ionicons name="trophy" size={24} color="#FFD700" />
-              <Text className="text-white text-lg ml-2">2022 Regional Finalists</Text>
-            </View>
-          </View>
-        </View>
       </ScrollView>
 
 
@@ -151,16 +141,6 @@ export default function TeamPageScreen() {
             colors={['transparent', 'rgba(10,15,30,0.9)']}
             className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
           />
-          <TouchableOpacity
-            className="absolute bottom-4 left-4 right-4 bg-[#2DD4BF] p-4 rounded-2xl shadow-xl"
-            style={{ shadowColor: '#2DD4BF', shadowOpacity: 0.4, shadowRadius: 10 }}
-            onPress={() => {
-
-              console.log("Challenging team:", team?.name);
-            }}
-          >
-            <Text className="text-black text-lg font-bold text-center">Challenge Team</Text>
-          </TouchableOpacity>
         </>
       )}
     </View>
