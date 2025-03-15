@@ -110,6 +110,9 @@ export class TeamService {
     
       team.members.push(request.player);
       await team.save(); 
+
+      user.hasTeam = true;
+      await user.save();
     
       request.status = 'accepted';
       await request.save();
