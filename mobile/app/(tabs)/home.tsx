@@ -79,7 +79,7 @@ export default function HomePage() {
           {
             user?.hasTeam ? (
 
-            <TouchableOpacity onPress={()=> router.push('/(tabs)/(team)/homeTeam')} className="bg-[#338155] p-4 rounded-2xl w-[48%] items-center">
+            <TouchableOpacity onPress={()=> router.push('/homeTeam')} className="bg-[#338155] p-4 rounded-2xl w-[48%] items-center">
             <FontAwesome5 name="users" size={28} color="#2DD4BF" />
             <Text className="text-white font-bold mt-2">Manage My Team</Text>
             </TouchableOpacity>
@@ -147,7 +147,7 @@ export default function HomePage() {
             ))}
           </ScrollView>
 
-
+            
         <View className="mt-10">
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-white text-xl font-bold">Find Players</Text>
@@ -164,7 +164,7 @@ export default function HomePage() {
                 onPress={()=> router.push(`/playerPage?id=${item._id}`)}
               >
                 <Image 
-                  source={{ uri: item.profilePic || "https://randomuser.me/api/portraits/men/75.jpg"}}
+                  source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item.profilePic}` || "https://randomuser.me/api/portraits/men/75.jpg"}}
                   className="w-16 h-16 rounded-full mb-3 border-2 border-[#2DD4BF]"/>
        
                 <Text className="text-white font-bold mb-1">{item.userName}</Text>
