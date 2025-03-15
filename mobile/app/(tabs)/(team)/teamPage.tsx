@@ -6,13 +6,13 @@ import useTeamStore from "~/store/teamStore";
 import { useEffect, useState } from "react";
 import ReservationStore from "~/store/reservationStore";
 import { ReservationType, TeamType } from "~/types/types";
-import useAuthStore from "~/store/authStore"; // Fetch user data and hasTeam status
+import useAuthStore from "~/store/authStore";
 
 export default function TeamPageScreen() {
   const { id } = useLocalSearchParams();
   const { team, getTeam } = useTeamStore();
   const { getUserReservations, userReservations } = ReservationStore();
-  const { user } = useAuthStore(); // Fetch user data and hasTeam status
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -64,13 +64,12 @@ export default function TeamPageScreen() {
   return (
     <View className="flex-1 bg-[#0A0F1E]">
       <ScrollView className="flex-1">
-        {/* Header Section */}
         <LinearGradient
           colors={['#2DD4BF', '#0A0F1E']}
           className="p-6 items-center"
         >
           <Image
-            source={{ uri: team?.logo || "https://via.placeholder.com/150" }} // Fallback for missing logo
+            source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${team?.logo}` || "https://via.placeholder.com/150" }}
             className="w-32 h-32 rounded-full border-4 border-white"
           />
           <Text className="text-white text-3xl font-bold mt-4">{team?.name}</Text>
@@ -80,18 +79,18 @@ export default function TeamPageScreen() {
           </View>
         </LinearGradient>
 
-        {/* Team Members Section */}
+
         <View className="p-6">
           <Text className="text-white text-2xl font-bold mb-4">Team Members</Text>
-          {team?.members?.length > 0 ? (
+          {team?.members.length > 0 ? (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="space-x-4">
-              {team.members.map((member) => (
+              {team?.members?.map((member) => (
                 <View key={member._id} className="items-center">
                   <Image
-                    source={{ uri: member.avatar || "https://via.placeholder.com/50" }} // Fallback for missing avatar
+                    source={{ uri: member.profilePic || "https://i.pinimg.com/474x/97/13/99/9713999fde04bcb909d4de882bdce7df.jpg" }}
                     className="w-20 h-20 rounded-full"
                   />
-                  <Text className="text-white text-lg mt-2">{member.name}</Text>
+                  <Text className="text-white text-lg mt-2">{member.userName}</Text>
                   <Text className="text-[#A1A1AA] text-sm">{member.role}</Text>
                 </View>
               ))}
@@ -101,11 +100,11 @@ export default function TeamPageScreen() {
           )}
         </View>
 
-        {/* Team Recent Reservations Section */}
+
         <View className="p-6">
           <Text className="text-white text-2xl font-bold mb-4">Recent Reservations</Text>
-          {userReservations?.length > 0 ? (
-            userReservations.map((reservation: ReservationType) => (
+          {userReservations.length > 0 ? (
+            userReservations?.map((reservation: ReservationType) => (
               <View key={reservation._id} className="bg-[#1F2937] p-4 rounded-xl mb-4">
                 <Text className="text-white text-lg font-semibold">
                   Reservation on {new Date(reservation.date).toLocaleDateString()}
@@ -129,7 +128,7 @@ export default function TeamPageScreen() {
           )}
         </View>
 
-        {/* Team Achievements Section */}
+
         <View className="p-6">
           <Text className="text-white text-2xl font-bold mb-4">Achievements</Text>
           <View className="space-y-3">
@@ -156,7 +155,7 @@ export default function TeamPageScreen() {
             className="absolute bottom-4 left-4 right-4 bg-[#2DD4BF] p-4 rounded-2xl shadow-xl"
             style={{ shadowColor: '#2DD4BF', shadowOpacity: 0.4, shadowRadius: 10 }}
             onPress={() => {
-              // Add logic to handle challenging the team
+
               console.log("Challenging team:", team?.name);
             }}
           >
