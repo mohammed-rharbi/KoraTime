@@ -108,12 +108,6 @@ export default function TeamManagementScreen() {
       {isCaptain && member._id !== UserTeam?.captain && (
         <View className="flex-row items-center space-x-3">
           <TouchableOpacity
-            // onPress={() => promoteToCaptain(UserTeam._id!, member._id!)}
-            className="p-2 bg-[#2DD4BF]/20 rounded-lg"
-          >  
-            <FontAwesome5 name="crown" size={16} color="#2DD4BF" />
-          </TouchableOpacity>
-          <TouchableOpacity
             // onPress={() => removePlayer(UserTeam._id!, member._id!)}
             className="p-2 bg-red-500/20 rounded-lg"
           >
