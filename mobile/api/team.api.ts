@@ -64,4 +64,53 @@ export const getTeam = async (id: string) => {
 };
 
 
+export const getUserTeam = async (id: string) => {
+  try {
 
+    const response = await apiClient.get(`team/getTeamByCapitanId/${id}`);
+
+    return response.data
+
+  } catch (error) {
+    throw new Error('Error . failed to fetch User team . Please try again');
+  }
+};
+
+
+export const sendTeamInvition = async (team: string , player:string) => {
+  try {
+
+    const response = await apiClient.post(`team/invitePlayer/${team}/${player}`);
+
+    return response.data
+
+  } catch (error) {
+    throw new Error('Error . failed to send the invition . Please try again');
+  }
+};
+
+
+export const acceptTeamInvition = async (req: string) => {
+  try {
+
+    const response = await apiClient.post(`team/acceptInvition/${req}`);
+
+    return response.data
+
+  } catch (error) {
+    throw new Error('Error . failed to accept the invition . Please try again');
+  }
+};
+
+
+export const getUserTeamRequests = async (player: string) => {
+  try {
+
+    const response = await apiClient.post(`team/getTeamRequests/${player}`);
+
+    return response.data
+
+  } catch (error) {
+    throw new Error('Error .faild to fetch user team requests ');
+  }
+};
