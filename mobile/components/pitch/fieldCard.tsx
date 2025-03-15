@@ -18,7 +18,8 @@ const FieldCard: FC<FieldCardProps> = ({ item }) => {
       <View className="rounded-3xl overflow-hidden bg-[#1A1F2E] shadow-lg w-44">
 
         <View className="relative">
-        <Image source={{ uri: item.photo }} resizeMode="contain" className="w-full h-48 rounded-t-xl" />
+        <Image source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item.photo}`}} 
+        className="w-full h-48 rounded-t-xl" />
         <LinearGradient colors={["transparent", "rgba(0,0,0,0.8)"]} className="absolute bottom-0 left-0 right-0 h-24" />
           <View className="absolute top-3 right-3 bg-black/30 rounded-full p-2">
             <Ionicons name="heart-outline" size={20} color="#fff" />
