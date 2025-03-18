@@ -112,6 +112,7 @@ export class TeamService {
       await team.save(); 
 
       user.hasTeam = true;
+      user.team = team.id
       await user.save();
     
       request.status = 'accepted';
