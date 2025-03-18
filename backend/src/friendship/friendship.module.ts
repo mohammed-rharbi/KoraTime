@@ -8,21 +8,18 @@ import { Message , MessageSchema } from './entities/message.entity';
 import { FriendshipRepository } from './friendship.repository';
 import { AuthModule } from 'src/auth/auth.module';
 import { FriendGateway } from './friend.gateway';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
     AuthModule,
     MongooseModule.forFeature([
       { name: Friendship.name , schema: FriendshipSchema },
-    ]),
-    MongooseModule.forFeature([
       { name: Chat.name , schema: ChatSchema },
-    ]),
-    MongooseModule.forFeature([
       { name: Message.name , schema: MessageSchema },
     ]),
   ],
   controllers: [FriendshipController],
-  providers: [FriendshipService , FriendshipRepository , FriendGateway],
+  providers: [FriendshipService , FriendshipRepository , FriendGateway , ChatGateway],
 })
 export class FriendshipModule {}
