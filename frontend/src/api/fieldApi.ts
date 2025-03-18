@@ -10,7 +10,7 @@ export const createField = async (fieldData: FieldType) => {
     return response.data.newField
 
   } catch (error) {
-    throw new Error('Error failed create a field. Please check the field credentials.');
+    throw new Error('Error failed create a field. Please check the field credentials.'+ error);
   }
 };
 
@@ -22,7 +22,7 @@ export const getAllFields = async () => {
     return response
 
   } catch (error) {
-    throw new Error('Error failed to get fields . Please try again');
+    throw new Error('Error failed to get fields . Please try again'+ error);
   }
 };
 
@@ -34,7 +34,7 @@ export const updateField = async (id: string , data:FieldType) => {
     return response.data
 
   } catch (error) {
-    throw new Error('Error . failed to update the field . Please try again');
+    throw new Error('Error . failed to update the field . Please try again'+ error);
   }
 };
 
@@ -47,7 +47,7 @@ export const deleteField = async (id: string) => {
     return response.data
 
   } catch (error) {
-    throw new Error('Error . failed to delete the field . Please try again');
+    throw new Error('Error . failed to delete the field . Please try again'+ error);
   }
 };
 
@@ -60,7 +60,7 @@ export const getField = async (id: string) => {
     return response.data
 
   } catch (error) {
-    throw new Error('Error . failed to fetch the field . Please try again');
+    throw new Error('Error . failed to fetch the field . Please try again'+ error);
   }
 };
 
