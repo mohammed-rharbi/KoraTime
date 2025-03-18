@@ -35,14 +35,14 @@ export default function PlayerProfile() {
         <View className="items-center pt-16 pb-8">
          
             <Image
-              source={require('~/assets/avatar.png')}
-              className="w-36 h-36 rounded-full "
+            source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${user?.profilePic}` || "https://via.placeholder.com/150" }}
+            className="w-36 h-36 rounded-full "
             />
           <Text className="text-3xl font-bold text-white mb-1">{user?.userName}</Text>
-          <Text className="text-[#94A3B8] text-lg">Striker | Team KoraTime</Text>
+          <Text className="text-[#94A3B8] text-lg">{user?.email}</Text>
           <View className="flex-row items-center mt-2">
             <Ionicons name="location" size={16} color="#64748B" />
-            <Text className="text-[#64748B] ml-1">New York, USA</Text>
+            <Text className="text-[#64748B] ml-1">{user?.location}</Text>
           </View>
         </View>
 
