@@ -1,5 +1,4 @@
 import React from "react";
-import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
 import {
   PhotoIcon,
@@ -7,7 +6,6 @@ import {
   MapPinIcon,
   ClockIcon,
   UserGroupIcon,
-  DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 
 const CreateFieldPage = () => {
@@ -15,19 +13,19 @@ const CreateFieldPage = () => {
    
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Main Form Section */}
+
           <motion.form
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="space-y-6 lg:col-span-2"
           >
-            {/* Field Preview Card */}
+
             <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h2 className="mb-4 text-xl font-semibold">Field Preview</h2>
               <div className="h-48 rounded-lg bg-gradient-to-r from-emerald-100 to-blue-100 dark:from-gray-700 dark:to-gray-600"></div>
             </div>
 
-            {/* Basic Information Section */}
+
             <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h2 className="mb-6 text-xl font-semibold">Basic Information</h2>
               <div className="space-y-4">
@@ -51,7 +49,7 @@ const CreateFieldPage = () => {
               </div>
             </div>
 
-            {/* Specifications Section */}
+
             <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h2 className="mb-6 text-xl font-semibold">Specifications</h2>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -119,7 +117,7 @@ const CreateFieldPage = () => {
               </div>
             </div>
 
-            {/* Media Upload Section */}
+
             <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h2 className="mb-6 text-xl font-semibold">Field Images</h2>
               <div className="flex flex-wrap gap-4">
@@ -130,7 +128,7 @@ const CreateFieldPage = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
+
             <div className="flex gap-4">
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -149,7 +147,7 @@ const CreateFieldPage = () => {
 
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-6">
-              {/* Status Card */}
+
               <div className="rounded-xl border bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                 <h3 className="mb-4 text-lg font-semibold">Publication Status</h3>
                 <div className="space-y-4">
