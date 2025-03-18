@@ -10,7 +10,7 @@ export const createTeam = async (teamData: TeamType) => {
     return response.data.newField
 
   } catch (error) {
-    throw new Error('Error failed create a team. Please check the team credentials.');
+    throw new Error('Error failed create a team. Please check the team credentials.'+ error);
   }
 };
 
@@ -22,7 +22,7 @@ export const getAllTeams = async () => {
     return response
 
   } catch (error) {
-    throw new Error('Error failed to get teams . Please try again');
+    throw new Error('Error failed to get teams . Please try again'+ error);
   }
 };
 
@@ -34,7 +34,7 @@ export const updateTeam = async (id: string , data:TeamType) => {
     return response.data
 
   } catch (error) {
-    throw new Error('Error . failed to update the team . Please try again');
+    throw new Error('Error . failed to update the team . Please try again'+ error);
   }
 };
 
@@ -47,7 +47,7 @@ export const deleteTeam = async (id: string) => {
     return response.data
 
   } catch (error) {
-    throw new Error('Error . failed to delete the team . Please try again');
+    throw new Error('Error . failed to delete the team . Please try again'+ error);
   }
 };
 
@@ -60,7 +60,7 @@ export const getTeam = async (id: string) => {
     return response.data
 
   } catch (error) {
-    throw new Error('Error . failed to fetch the team . Please try again');
+    throw new Error('Error . failed to fetch the team . Please try again'+ error);
   }
 };
 
