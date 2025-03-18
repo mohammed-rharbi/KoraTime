@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { UpdateFriendshipDto } from './dto/update-friendship.dto';
+import { start } from 'repl';
 
 @Controller('friendship')
 export class FriendshipController {
@@ -38,6 +39,33 @@ export class FriendshipController {
   getUserFriends(@Param('userId') userId: string) {
     return this.friendshipService.getUserFriends(userId);
   }
-  
+
+
+  //chat
+
+  @Post(':startUser/createChat/:endUser')
+  createChat(@Param('startUser') startUser: string, @Param('endUser') endUser: string) {
+    
+    return this.friendshipService.createChat(startUser , endUser);
+  }
+
+  @Post('sendMessage/:chatId')
+  sendMessage(@Param('chatId') chatId: string, @Body('sender') sender: string, @Body('message') message: string) {
+    return this.friendshipService.sendMessage(chatId, sender, message);
+  }
+
+  @Get('getChat/:chatId')
+  getChat(@Param('chatId') chatId: string) {
+    return this.friendshipService.getChatMessages(chatId);
+  }
+
+  @Get('getUserChats/:userId')
+  getUserChats(@Param('userId') userId: string) {
+    return this.friendshipService.getUserChats(userId);
+  }
+
+
+
+
 
 }
