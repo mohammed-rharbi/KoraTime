@@ -1,7 +1,6 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { MaterialIcons, FontAwesome5, Feather, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { pitches } from '~/lib/mocks/mocks';
 import NeirPitches from '~/components/pitch/nearPitches';
 import useAuthStore from '~/store/authStore';
 import { useEffect , useState } from 'react';
@@ -20,8 +19,12 @@ export default function HomePage() {
   const { players , getAllPlayers } = usePlayerStore()
   const {fields , getFields} = useFieldStore()
 
+
   const {sendFriendRequest} = useFriendshipStore()
+
   
+  const filteredPlayers = players?.filter(player => player._id !== user?._id).splice(0 , 5);
+
 
   useEffect(()=>{
 
@@ -44,14 +47,11 @@ export default function HomePage() {
 
   return (
     
-    <View className="flex-1 bg-[#0F172A]">
+    <View className="flex-1 bg-[#0F172A] pt-6">
 
       
       <View className="flex-row justify-between items-center p-4">
         
-        {/* <TouchableOpacity onPress={() => router.push('/profile')}>
-          <Image source={require('~/assets/avatar.png')} className="w-12 h-12 rounded-full border-[#2DD4BF]"/>
-        </TouchableOpacity> */}
 
         <TouchableOpacity onPress={()=> router.push('/notifications')}>
           <MaterialIcons name="notifications" size={32} color="white" />
@@ -134,13 +134,13 @@ export default function HomePage() {
         <View className="px-6 mb-6">
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-white text-xl font-bold">Nearby Pitches</Text>
-            <TouchableOpacity>
-              <Text className="text-[#2DD4BF]">View Map</Text>
+            <TouchableOpacity onPress={()=> router.push('/fields')}>
+              <Text className="text-[#2DD4BF]">See All</Text>
             </TouchableOpacity>
           </View>
           
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {pitches.map((pitch) => (
+            {fields?.map((pitch) => (
 
               <NeirPitches pitch={pitch} />
           
@@ -151,13 +151,13 @@ export default function HomePage() {
         <View className="mt-10">
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-white text-xl font-bold">Find Players</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> router.push('/players')}>
               <Text className="text-[#2DD4BF]">See All</Text>
             </TouchableOpacity>
           </View>
           
           <ScrollView horizontal showsHorizontalScrollIndicator={false} className="gap-4">
-            {players?.map((item) => (
+            {filteredPlayers?.map((item) => (
               <TouchableOpacity 
                 key={item._id}
                 className="bg-[#1E293B] rounded-2xl py-4 w-40 mr-4 border border-[#334155] items-center"
