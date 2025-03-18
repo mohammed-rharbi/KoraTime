@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { PlusCircleIcon, ChartBarIcon} from "@heroicons/react/24/outline";
@@ -12,13 +12,8 @@ import useFieldStore from "../../../../store/fieldStore";
 const Fields = () => {
 
 
-  const {getFields , fields , isLoading , error}= useFieldStore()
+  const {getFields , fields , isLoading }= useFieldStore()
 
-    // const fields = [
-    //     { id: 1, name: "Field 1", status: "available", price: 50, size: "5v5", bookings: 12 },
-    //     { id: 2, name: "Field 2", status: "busy", price: 60, size: "7v7", bookings: 8 },
-    //     { id: 3, name: "Field 3", status: "maintenance", price: 45, size: "5v5", bookings: 15 },
-    //   ];
 
   const stats = [
     { title: "Total Fields", value: fields?.length, trend: "+12%", color: "bg-indigo-500" },
@@ -33,7 +28,9 @@ const Fields = () => {
 
   },[getFields])
 
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <MainLayout>
