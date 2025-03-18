@@ -35,7 +35,8 @@ export interface UserType {
       isActive?:boolean,
       team?:TeamType,
       status?:string,
-      hasTeam?:boolean
+      hasTeam?:boolean,
+      friends: UserType[]
    }
  
    export interface ManagerType {
@@ -105,3 +106,20 @@ export interface UserType {
         location:string,
         formation?:string,
        }
+
+       export interface ChatType {
+
+        _id?:string,
+        participants:UserType[],
+        lastMessage:ManagerType,
+        createdAt:Date,
+        messages: MessageType[]
+       }
+
+        export interface MessageType {
+          _id?:string,
+          chat:string,
+          sender:UserType,
+          content:string,
+          createdAt:string,
+        }
