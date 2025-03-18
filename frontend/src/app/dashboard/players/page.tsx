@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
-import { UserIcon, UserGroupIcon , TrophyIcon, CalendarIcon,  ChartBarIcon, PlusIcon, PencilIcon, TrashIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import { UserIcon, UserGroupIcon , TrophyIcon,  ChartBarIcon, PlusIcon, PencilIcon, TrashIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import usePlayersStore from "../../../../store/playersStore";
 
 const PlayerManagement = () => {
@@ -32,7 +32,7 @@ const PlayerManagement = () => {
               Player Dashboard
             </h1>
             <p className="text-slate-400 font-light">
-              Manage your team's elite athletes with precision
+              Manage your team s elite athletes with precision
             </p>
           </motion.div>
         </div>
