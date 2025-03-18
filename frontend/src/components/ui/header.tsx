@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import useAuthStore from '../../../store/authStore'
 import { useRouter } from "next/navigation";
@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function Header() {
 
 
-    const {logout , user , token , role} = useAuthStore()
+    const {logout} = useAuthStore()
 
   const router = useRouter();
 
