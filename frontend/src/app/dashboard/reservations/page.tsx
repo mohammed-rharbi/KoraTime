@@ -8,7 +8,6 @@ import {
   UserCircleIcon,
   CheckCircleIcon,
   CurrencyDollarIcon,
-  UserGroupIcon,
   TableCellsIcon,
   ArrowPathIcon,
   PencilSquareIcon,
