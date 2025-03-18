@@ -14,7 +14,7 @@ interface FieldState {
     getFields: ()=> Promise<void>;
     updateField: (id: string ,  data:any)=> Promise<void>;
     deleteField: (id: string)=> Promise<void>;
-    getOneField: (id: string)=> Promise<FieldType>;
+    getOneField: (id: string)=> Promise<void>;
   }
   
 const useFieldStore = create<FieldState>((set)=>({
