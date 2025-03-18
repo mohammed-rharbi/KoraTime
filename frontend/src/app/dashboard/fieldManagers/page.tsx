@@ -15,12 +15,12 @@ const FieldManagerAdminPage = () => {
 
     getManagers()
 
-  },[])
+  },[getManagers])
 
 
-  const HandleBan = async (id:string , action:string)=>{
+  const HandleBan = async (id: string, action: "ban" | "unban")=>{
 
-    await banAUser(id , action);
+    await banAUser(id , action );
 
   }
 
