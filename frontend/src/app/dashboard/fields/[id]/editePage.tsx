@@ -9,6 +9,7 @@ import { FieldType } from "../../../../../lib/types";
 import { uploadImageToBackend } from "../../../../../lib/Minio";
 import { useRouter, useParams } from "next/navigation";
 import useManagerStore from "../../../../../store/managerStore";
+import Image from "next/image";
 
 const EditFieldPage = () => {
   const { id: fieldId } = useParams();
@@ -333,7 +334,7 @@ const EditFieldPage = () => {
                           <div className="flex flex-wrap gap-4">
                             <label className="relative flex h-32 w-32 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:border-indigo-500 hover:bg-indigo-50 dark:border-gray-600 dark:bg-gray-700">
                               {formData.photo ? (
-                                <img 
+                                <Image 
                                   src={formData.photo} 
                                   alt="Field preview" 
                                   className="h-full w-full rounded-lg object-cover"
