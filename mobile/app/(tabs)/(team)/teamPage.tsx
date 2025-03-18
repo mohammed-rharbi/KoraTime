@@ -63,6 +63,8 @@ export default function TeamPageScreen() {
     );
   }
 
+  if(!userReservations) return null;
+
   return (
     <View className="flex-1 bg-[#0A0F1E]">
       <ScrollView className="flex-1">
@@ -91,7 +93,7 @@ export default function TeamPageScreen() {
                 <View key={member._id} className="items-center">
                   <Image
                     source={{ uri: member.profilePic || "https://i.pinimg.com/474x/97/13/99/9713999fde04bcb909d4de882bdce7df.jpg" }}
-                    className="w-20 h-20 rounded-full"
+                    className="w-16 h-16 rounded-full"
                   />
                   <Text className="text-white text-lg mt-2">{member.userName}</Text>
                   <Text className="text-[#A1A1AA] text-sm">{member.role}</Text>
