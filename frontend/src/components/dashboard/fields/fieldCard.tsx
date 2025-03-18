@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { StarIcon, PencilSquareIcon, TrashIcon, ChartBarIcon, ArrowsPointingOutIcon, EllipsisVerticalIcon,} from '@heroicons/react/24/outline';
 import { FieldType } from '../../../../lib/types';
 import useFieldStore from '../../../../store/fieldStore';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface FieldCardProps {
   field: FieldType;
@@ -13,7 +13,7 @@ interface FieldCardProps {
 export default function FieldCard({ field }: FieldCardProps) {
 
 
-  const {deleteField , error} = useFieldStore()
+  const {deleteField} = useFieldStore()
 
   const router = useRouter()
 
@@ -43,7 +43,9 @@ export default function FieldCard({ field }: FieldCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent" />
 
 
-        <img className="h-full w-full bg-gray-100 animate-pulse" src={field.photo as string} alt={field.name} />
+        <Image className="h-full w-full bg-gray-100 animate-pulse"
+         src={field.photo as string}
+          alt={field.name} />
 
 
         <div className="absolute top-4 right-4">
