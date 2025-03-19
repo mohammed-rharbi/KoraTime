@@ -52,21 +52,20 @@ export interface UserType {
     }
  
 
-      
-      export interface FieldType {
-        _id?: string;
-        name: string;
-        description: string;
-        location: string;
-        price: string;
-        fieldManager: ManagerType;
-        size: string;
-        lightsAvailable: boolean;
-        IsAvailable: boolean;
-        status: string;
-        photo: string | null;
-        ratings?: rating;
-        availability?: Availability[];
+    export interface FieldType {
+      _id?: string;
+      name: string;
+      description: string;
+      location: string;
+      price: string;
+      fieldManager: ManagerType;
+      size: string;
+      lightsAvailable: boolean;
+      IsAvailable: boolean;
+      status: string;
+      photo: string | null;
+      ratings?: rating;
+      availability?: Availability[];
       }
       
  
