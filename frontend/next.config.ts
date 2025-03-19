@@ -2,16 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   
-  images: {
-    remotePatterns: [
-        {
-            protocol: 'https',
-            hostname: '*',
-            port: '*',
-            pathname: '*',
-        },
-    ],
-},
+    images: {
+        domains: [`${process.env.NEXT_PUBLIC_IP}`],
+      },
 };
 
 export default nextConfig;
