@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import NeirPitches from '~/components/pitch/nearPitches';
 import useAuthStore from '~/store/authStore';
 import { useEffect , useState } from 'react';
-import Stack from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import usePlayerStore from '~/store/playersStore';
 import useFieldStore from '~/store/fieldStore';
 import useFriendshipStore from '~/store/frienshipStore';
@@ -93,43 +93,49 @@ export default function HomePage() {
 
             )
           }
-          
         </View>
 
+          <View className="px-6 mb-6">
+            <View className="bg-[#1E293B] rounded-2xl p-4 border-2 border-[#334155] relative overflow-hidden">
 
-        <View className="px-6 mb-6">
-          <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-white text-xl font-bold">Upcoming</Text>
-            <TouchableOpacity>
-              <Text className="text-[#2DD4BF]">See All</Text>
-            </TouchableOpacity>
-          </View>
-          
-          <View className="bg-[#1E293B] rounded-2xl p-4 border border-[#334155]">
-            <View className="flex-row items-center mb-3">
-              <MaterialIcons name="sports-soccer" size={24} color="#84CC16" />
-              <Text className="text-white ml-2 font-semibold">Next Match</Text>
+              <View className="absolute -top-20 -right-20 w-40 h-40 bg-[#84CC16]/10 rounded-full blur-xl" />
+              <View className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#2DD4BF]/10 rounded-full blur-xl" />
+
+
+              <View className="flex-row flex-wrap justify-between">
+
+                <TouchableOpacity 
+                  onPress={() => router.push('/players')}
+                  className="w-[48%] mb-4 active:opacity-80"
+                >
+                  <LinearGradient
+                    colors={['#0F172A', '#1E293B']}
+                    className="p-4 rounded-xl border-2 border-[#84CC16]/20 items-center relative overflow-hidden"
+                  >
+                    <View className="absolute w-full h-full bg-[#84CC16]/5" />
+                    <MaterialIcons name="people" size={28} color="#84CC16" style={{ textShadowColor: '#84CC16', textShadowRadius: 10 }} />
+                    <Text className="text-white font-bold mt-2 text-lg tracking-tight">Players</Text>
+                    <Text className="text-[#94A3B8] text-xs mt-1">Manage Squad</Text>
+                    <View className="absolute -bottom-4 -right-4 w-16 h-16 bg-[#84CC16]/10 rounded-full" />
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={() => router.push('/userFriends')}
+                  className="w-[48%] mb-4 active:opacity-80"
+                >
+                  <View className="p-4 rounded-xl bg-[#0F172A] border-2 border-[#2DD4BF]/20 items-center relative overflow-hidden">
+                    <MaterialIcons name="person-add" size={28} color="#2DD4BF" style={{ textShadowColor: '#2DD4BF', textShadowRadius: 10 }} />
+                    <Text className="text-white font-bold mt-2 text-lg tracking-tight">Friends</Text>
+                    <Text className="text-[#94A3B8] text-xs mt-1">Connect & Play</Text>
+                    <View className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#2DD4BF] to-transparent" />
+                  </View>
+                </TouchableOpacity>
+
+    
             </View>
-            <View className="flex-row justify-between items-center">
-              <View className="items-center">
-                 <Image source={{ uri: "https://i.pinimg.com/736x/4b/b6/1f/4bb61fc4179e883a82a8b677c718ab68.jpg" }}className="w-16 h-16 mb-2 rounded-full border-4 border-[#2DD4BF]" />
-                <Text className="text-white font-bold">FC Warriors</Text>
-                <Text className="text-[#94A3B8] text-xs">Your Team</Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-[#FF6B6B] font-bold text-xl">VS</Text>
-                <Text className="text-[#94A3B8] text-xs">Tomorrow 8 PM</Text>
-              </View>
-              <View className="items-center">
-              <Image source={{ uri: "https://i.pinimg.com/736x/4b/b6/1f/4bb61fc4179e883a82a8b677c718ab68.jpg" }}className="w-16 h-16 mb-2 rounded-full border-4 border-[#2DD4BF]" />
-              <Text className="text-white font-bold">Red Devils</Text>
-                <Text className="text-[#94A3B8] text-xs">Opponent</Text>
-              </View>
             </View>
           </View>
-
-        </View>
-
 
         <View className="px-6 mb-6">
           <View className="flex-row justify-between items-center mb-4">
