@@ -13,7 +13,7 @@ export const loginUser = async (email: string , password:string) => {
     };
 
   } catch (error) {
-    throw new Error('Login failed. Please check your credentials.');
+    throw new Error('Login failed. Please check your credentials'+ error);
   }
 };
 
@@ -25,7 +25,7 @@ export const createManager = async (ManagerData:ManagerType) => {
     return response.data
 
   } catch (error) {
-    throw new Error('failed to create a manager. Please check the credentials.');
+    throw new Error('failed to create a manager. Please check the credentials.'+ error);
   }
 };
 
@@ -37,7 +37,7 @@ export const getAllManagers = async () => {
     return response.data
 
   } catch (error) {
-    throw new Error('failed to fetch the managers.');
+    throw new Error('failed to fetch the managers.'+ error);
   }
 };
 
@@ -49,7 +49,7 @@ export const getAllPlayers = async () => {
     return response.data
 
   } catch (error) {
-    throw new Error('failed to fetch Players.');
+    throw new Error('failed to fetch Players.'+ error);
   }
 };
 

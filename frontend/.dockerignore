@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.env.local
+.env
+Dockerfile
+docker-compose.yml
+.npmrc
+.git
+.gitignore
+.vscode

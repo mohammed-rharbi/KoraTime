@@ -68,7 +68,40 @@ export class FriendshipRepository {
         return this.FriendshipModel.find({ receiver: userId, status: "pending" }) 
           .populate("sender", "userName email profilePic")
           .exec();
-      }
+    }
+
+
+
+
+    async createChat(startUser: string , endUser: string){
+
+       const existChat = await this.ChatModel.findOne({participants:{ $all: [startUser , endUser] }}).exec();
+
+         if(existChat) return existChat;
+
+         return await this.ChatModel.create({participants:[startUser , endUser]});
+        
+    }
+
+    async sendMessage(chatId: string , sender: string , content: string){
+
+        const message = await this.MessageModel.create({chat: chatId , sender , content});
+
+        await this.ChatModel.findByIdAndUpdate(chatId , {lastMessage: message._id }).exec(); 
+
+        return message;
+    }
+
+    async getChatMessages(chatId: string){
+
+        return this.MessageModel.find({ chat: chatId }).populate('sender', 'userName profilePic').exec();
+    }
+
+    async getUserChats(userId: string){
+        
+        return this.ChatModel.find({participants: userId}).populate('participants', 'userName profilePic') .lean().exec();
+    }
+
       
 
 

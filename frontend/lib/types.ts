@@ -18,6 +18,7 @@ export interface UserType {
     role?:string,
     profilePic?:string,
     isActive?:boolean,
+    isBan?:string,
    }
 
    
@@ -31,7 +32,7 @@ export interface UserType {
    role?:string,
    profilePic?:string,
    isActive?:boolean,
-   team:any,
+   team:string,
    status:string
   }
 
@@ -55,7 +56,7 @@ export interface LoginType {
     status: string,
     photo: string | null,
     ratings?: rating,
-    availability?:any
+    availability?:[]
 
    }
 
@@ -71,9 +72,19 @@ export interface LoginType {
     name: string ,
     logo:string,
     teamColor: string,
-    captain:any,
-    members?:[],
+    captain:PlayerType,
+    members?:PlayerType[],
     location:string,
     formation?:string,
+   }
+
+   export interface ReservationType {
+    _id?:string,
+    userId: PlayerType ,
+    team:string,
+    fieldId: FieldType,
+    createdAt:string,
+    date:string,
+    status?:string,
    }
    

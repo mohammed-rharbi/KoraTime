@@ -4,8 +4,8 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useFriendshipStore from "~/store/frienshipStore";
 import useAuthStore from "~/store/authStore";
-import { UserType } from "~/types/types";
-
+import ChatItem from "~/components/chat/chatItem";
+import useChatStore from "~/store/chatStore";
 
 export default function ChatListScreen() {
   const router = useRouter();
@@ -13,38 +13,24 @@ export default function ChatListScreen() {
   const [activeTab, setActiveTab] = useState<"all" | "team" | "friend">("all");
 
   const { user } = useAuthStore();
-  const { friends, getUserFriends } = useFriendshipStore();
+  const { getUserChats, UserChats } = useChatStore();
 
   useEffect(() => {
-    getUserFriends(user?._id as string);
-  }, [user?._id, getUserFriends]);
+    if (user?._id) {
+      getUserChats(user._id);
+    }
+  }, [user?._id]);
 
-  const filteredFriends = friends?.filter(friend => {
-    const matchesSearch = friend.userName?.toLowerCase().includes(searchQuery.toLowerCase());
+
+  const filteredChats = UserChats?.filter(chat => {
+
+    const otherParticipant = chat.participants.find(p => p._id !== user?._id);
+    const matchesSearch = otherParticipant?.userName?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+
     const matchesTab = activeTab === "all" || activeTab === "friend";
     return matchesSearch && matchesTab;
   });
-
-
-  const ChatItem = ({ item }: { item: UserType }) => (
-    <TouchableOpacity
-      // onPress={() => router.push(`/friend-chat/${item._id}`)}
-      className="flex-row items-center px-4 py-3"
-    >
-      <View className="relative">
-        <Image
-          source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${item.profilePic}` || "https://i.pinimg.com/736x/2b/07/77/2b077773b9d8cae6a954311f3c1c7f78.jpg" }}
-          className="w-12 h-12 rounded-full"
-        />
-      </View>
-
-      <View className="flex-1 ml-3">
-        <View className="flex-row items-center justify-between">
-          <Text className="text-white text-base font-semibold">{item.userName}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
 
   const TabButton = ({ title, value }: { title: string; value: "all" | "team" | "friend" }) => (
     <TouchableOpacity
@@ -65,6 +51,7 @@ export default function ChatListScreen() {
 
   return (
     <View className="flex-1 bg-[#0A0F1E]">
+
       <View className="px-4 pt-12 pb-4">
         <View className="flex-row items-center justify-between mb-6">
           <Text className="text-white text-3xl font-bold">Messages</Text>
@@ -94,15 +81,19 @@ export default function ChatListScreen() {
       </View>
 
       <FlatList
-        data={filteredFriends}
+        data={filteredChats}
         keyExtractor={(item) => item._id!}
-        renderItem={({ item }) => <ChatItem item={item} />}
+        renderItem={({ item }) => {
+
+          const otherParticipant = item.participants.find(p => p._id !== user?._id);
+          return otherParticipant ? <ChatItem item={otherParticipant} chatId={item._id as string} /> : null;
+        }}
         className="border-t border-[#1A1F2E]"
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View className="flex-1 items-center justify-center pt-20">
-            <Ionicons name="people-outline" size={48} color="#A1A1AA" />
-            <Text className="text-[#A1A1AA] text-lg mt-4">No friends found</Text>
+            <Ionicons name="chatbubble-outline" size={48} color="#A1A1AA" />
+            <Text className="text-[#A1A1AA] text-lg mt-4">No conversations found</Text>
           </View>
         }
       />

@@ -1,16 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  FlatList, 
-  TouchableOpacity, 
-  KeyboardAvoidingView, 
-  Platform,
-  Image
-} from 'react-native';
-import { useRouter } from "expo-router";
+import {  View,  Text,  TextInput,  FlatList,  TouchableOpacity,  KeyboardAvoidingView,  Platform, Image } from 'react-native';
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import useAuthStore from '~/store/authStore';
+import usePlayerStore from '~/store/playersStore';
 
 
 const initialMessages = [
@@ -49,14 +42,28 @@ const initialMessages = [
   }
 ];
 
-// Current user (for demo purposes)
+
 const currentUser = {
   id: '123',
   name: 'John',
   avatar: 'https://i.pravatar.cc/150?img=1'
 };
 
+
 export default function TeamChatScreen() {
+
+  const {userId} = useLocalSearchParams();
+
+  const { player , getPlayer } = usePlayerStore()
+
+
+  useEffect(()=>{
+
+    getPlayer(userId as string)
+
+  },[userId , getPlayer])
+
+
   const router = useRouter();
   const [messages, setMessages] = useState(initialMessages);
   const [newMessage, setNewMessage] = useState('');
@@ -82,7 +89,7 @@ export default function TeamChatScreen() {
       setMessages(prev => [...prev, message]);
       setNewMessage('');
       
-      // Scroll to bottom after sending message
+
       setTimeout(() => {
         flatListRef.current?.scrollToEnd({ animated: true });
       }, 100);

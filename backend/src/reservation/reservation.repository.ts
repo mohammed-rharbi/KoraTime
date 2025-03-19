@@ -23,7 +23,7 @@ export class ReservationRepository {
     
     async findAll() : Promise<Reservation[]>{
 
-        return await this.ReservationModel.find().populate('userId' , 'userName email phoneNumber').populate('fieldId','name price fieldManger location').exec();
+        return await this.ReservationModel.find().populate('userId' , 'userName email profilPic').populate('fieldId','name price fieldManger location').exec();
     }
 
 

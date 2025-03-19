@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UnauthorizedException } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-auth.dto';
+
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -26,9 +28,8 @@ describe('AuthService', () => {
 
     const authService = new AuthService(mockAuthRepository as any, mockJwtService as any);
 
-    const userData = {
-      firstName: 'John',
-      lastName: 'Doe', 
+    const userData : CreateUserDto = {
+      userName:'user',
       email: 'john@test.com',
       password: 'password123'
     };
@@ -57,9 +58,8 @@ describe('AuthService', () => {
 
     const authService = new AuthService(mockAuthRepository as any, mockJwtService as any);
 
-    const userData = {
-      firstName: 'John',
-      lastName: 'Doe',
+    const userData:CreateUserDto = {
+      userName: 'user',
       email: 'existing@test.com',
       password: 'password123'
     };

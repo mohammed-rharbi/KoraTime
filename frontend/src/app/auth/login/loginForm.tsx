@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../../../../store/authStore";
 
@@ -9,7 +9,7 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const { login, isLoading, error, token , role } = useAuthStore();
+  const { login, isLoading, error , role } = useAuthStore();
 
 
   const handleLogin = async (e: React.FormEvent) => {

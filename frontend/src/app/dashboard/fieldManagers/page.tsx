@@ -15,12 +15,12 @@ const FieldManagerAdminPage = () => {
 
     getManagers()
 
-  },[])
+  },[getManagers])
 
 
-  const HandleBan = async (id:string , action:string)=>{
+  const HandleBan = async (id: string, action: "ban" | "unban")=>{
 
-    await banAUser(id , action);
+    await banAUser(id , action );
 
   }
 
@@ -53,7 +53,7 @@ const FieldManagerAdminPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Active Managers</p>
-                <p className="text-2xl font-bold dark:text-white">8</p>
+                <p className="text-2xl font-bold dark:text-white">{fieldManagers?.length}</p>
               </div>
               <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center dark:bg-green-900/30">
                 <ShieldCheckIcon className="h-6 w-6 text-green-600 dark:text-green-400" />

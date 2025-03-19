@@ -100,4 +100,38 @@ export class FriendshipService {
     return user.friends;
 
   }
+
+  // chat part
+
+  async createChat(startUser: string , endUser: string){
+
+
+    if(startUser === endUser){
+      throw new BadRequestException('You can not create chat with yourself');
+    }
+
+    return await this.FriendshipRepository.createChat(startUser , endUser);
+  }
+
+  async sendMessage(chatId: string , sender: string , message: string){
+    return await this.FriendshipRepository.sendMessage( chatId , sender , message);
+  }
+
+  async getChatMessages(chatId: string){
+    return await this.FriendshipRepository.getChatMessages(chatId);
+  }
+
+  async getUserChats(userId: string){
+
+    const chats = await this.FriendshipRepository.getUserChats(userId);
+
+    if(!chats){
+      throw new NotFoundException('No chats found');
+    }
+
+    return chats;
+  }
+
+
+
 }

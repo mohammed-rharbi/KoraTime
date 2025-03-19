@@ -10,8 +10,12 @@ export default function Landing() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Kora Time' }} />
-      <ScrollView className="flex-1 bg-[#0F172A]">
+      <Stack.Screen
+        options={{
+          headerShown: false ,        
+        }}
+      />     
+       <ScrollView className="flex-1 bg-[#0F172A]">
         <View className="min-h-screen p-8">
 
           <View className="items-center mb-12 mt-8">
@@ -35,14 +39,6 @@ export default function Landing() {
             >
               <FontAwesome5 name="running" size={20} color="#0F172A" />
               <Text className="text-[#0F172A] text-lg font-bold ml-2">Find a Match Now</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              onPress={()=> router.push('/home')}
-              className="border-2 border-[#2DD4BF] p-5 rounded-2xl flex-row items-center justify-center"
-            >
-              <MaterialIcons name="group-add" size={24} color="#2DD4BF" />
-              <Text className="text-[#2DD4BF] text-lg font-bold ml-2">Create Team</Text>
             </TouchableOpacity>
           </View>
 

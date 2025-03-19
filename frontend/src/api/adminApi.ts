@@ -10,7 +10,7 @@ export const banUser = async (id: string , action:string) => {
      return response.data
   
     } catch (error) {
-      throw new Error('failed to ban the user. Please Try Again.');
+      throw new Error('failed to ban the user. Please Try Again' + error);
     }
   };
   

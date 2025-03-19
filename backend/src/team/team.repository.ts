@@ -23,12 +23,12 @@ export class TeamRepository {
   
   async getAllTeams() {
 
-    return await this.TeamModel.find().exec();
+    return await this.TeamModel.find().populate('members' , 'userName profilePic').populate('captain' , 'userName profilePic').exec();
   }
 
   async findTeamById(id: string) {
 
-    return await this.TeamModel.findById(id).populate('members' , 'userName profilePic email ').exec()     ;
+    return await this.TeamModel.findById(id).populate('members' , 'userName profilePic email').exec()     ;
   }
 
   async findTeamByUserId(id: string) {

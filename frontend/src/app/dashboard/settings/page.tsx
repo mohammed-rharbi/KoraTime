@@ -3,7 +3,7 @@
 import React from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
-import { CogIcon, ShieldCheckIcon, KeyIcon, TrashIcon,PlusIcon ,  BellIcon, UsersIcon, GlobeAltIcon, ArrowPathIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import { CogIcon, ShieldCheckIcon, KeyIcon, TrashIcon,PlusIcon ,  ArrowPathIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import SettingsLayout from "@/components/dashboard/settings/settingsLayout";
 
 const SystemSettings = () => {

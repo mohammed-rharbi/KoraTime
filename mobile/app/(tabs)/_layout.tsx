@@ -7,7 +7,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
-        
+        headerShown: false ,        
         tabBarStyle: {
           backgroundColor: "#1E293B",
           borderTopWidth: 1,
@@ -97,6 +97,12 @@ export default function TabLayout() {
       <Tabs.Screen name="(team)/teamPage" options={{ href: null }} />
 
       <Tabs.Screen name="notifications" options={{ href: null }} />
+
+      <Tabs.Screen name="(players)/players" options={{ href: null }} />
+
+      <Tabs.Screen name="(players)/userFriends" options={{ href: null }} />
+
+
 
 
     </Tabs>

@@ -9,7 +9,7 @@ interface AuthState {
     isLoading: boolean;
     error: string | null;
     fieldManagers: ManagerType[] | null ;
-    AddManager: (ManagerData: ManagerType)=> Promise<ManagerType>;
+    AddManager: (ManagerData: ManagerType)=> Promise<void>;
     getManagers: ()=> Promise<void>
     banAUser: (id:string , action: "ban" | "unban")=> Promise<void>
     

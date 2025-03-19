@@ -11,7 +11,7 @@ const NeirPitches = ({pitch}:any)=>{
 
         <TouchableOpacity key={pitch.id} className="bg-[#1E293B] mr-4 rounded-2xl w-64 p-4 border border-[#334155]">
         <Image
-          source={{ uri: pitch.image }}
+          source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${pitch.photo}` || "https://randomuser.me/api/portraits/men/75.jpg"}}
           className="w-full h-32 rounded-xl mb-3"
         />
         <Text className="text-white font-semibold mb-1">{pitch.name}</Text>

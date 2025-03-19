@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-auth.dto';
-import { UpdateUserDto } from './dto/update-auth.dto';
+// import { UpdateUserDto } from './dto/update-auth.dto';
 import { AuthRepository } from './auth.repository';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'

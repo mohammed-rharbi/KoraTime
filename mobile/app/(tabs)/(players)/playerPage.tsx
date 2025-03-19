@@ -63,8 +63,8 @@ const PlayerProfile = () => {
 
           <View className="items-center mt-8">
             <Image
-              source={{ uri: player?.profilePic || 'https://i.pinimg.com/736x/70/8c/08/708c08614099f90b849c6f7089f8effb.jpg' }}
-              className="w-32 h-32 rounded-full border-4 border-white mb-4"
+             source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${player?.profilePic}`}}
+             className="w-32 h-32 rounded-full border-4 border-white mb-4"
             />
             <View className="flex-row items-center">
               <Text className="text-white text-2xl font-bold mr-2">{player?.userName}</Text>
@@ -124,7 +124,6 @@ const PlayerProfile = () => {
               />
               <View>
                 <Text className="text-white font-bold">{player?.team?.name || 'Team Name'}</Text>
-                <Text className="text-[#94A3B8] text-sm">{player?.team?.sportType || 'Football'}</Text>
               </View>
             </TouchableOpacity>
           </View>

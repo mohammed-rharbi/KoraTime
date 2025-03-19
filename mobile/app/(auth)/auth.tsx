@@ -6,6 +6,8 @@ import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import useAuthStore from '~/store/authStore';
 import { LoginType, RegisterType } from '~/types/types';
+import { Stack } from 'expo-router';
+
 
 const AuthScreen = () => {
 
@@ -77,6 +79,9 @@ const AuthScreen = () => {
   };
 
   return (
+
+  <>
+    <Stack.Screen options={{headerShown: false}}/>  
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-gray-950"
@@ -216,7 +221,9 @@ const AuthScreen = () => {
         </LinearGradient>
       </ScrollView>
     </KeyboardAvoidingView>
+      </>
   );
+
 };
 
 export default AuthScreen;

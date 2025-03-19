@@ -1,0 +1,10 @@
+node_modules
+dist
+coverage
+.env
+Dockerfile
+docker-compose.yml
+.npmrc
+.git
+.gitignore
+.vscode

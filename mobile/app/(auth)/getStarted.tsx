@@ -7,6 +7,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import useAuthStore from '~/store/authStore';
 import { uploadImageToBackend } from '~/lib/minio';
+import { Stack } from 'expo-router';
+
 
 const GetStartedScreen = () => {
   const [step, setStep] = useState(1);
@@ -86,8 +88,10 @@ const GetStartedScreen = () => {
   };
 
   return (
+
     <LinearGradient colors={['#0A0F1E', '#1A1F2E']} className="flex-1 p-6">
-      {/* Header */}
+    <Stack.Screen options={{headerShown: false}}/>  
+      
       <View className="flex-row items-center mb-8">
         <TouchableOpacity onPress={() => router.back()} className="p-2 rounded-full bg-[#2DD4BF]/10">
           <Ionicons name="arrow-back" size={24} color="#2DD4BF" />
@@ -95,7 +99,7 @@ const GetStartedScreen = () => {
         <Text className="text-white text-2xl font-bold ml-4">Complete Profile</Text>
       </View>
 
-      {/* Step Indicator */}
+
       <View className="flex-row items-center justify-center mb-8">
         {[1, 2, 3].map((num) => (
           <View key={num} className="flex-row items-center">
@@ -108,9 +112,9 @@ const GetStartedScreen = () => {
         ))}
       </View>
 
-      {/* Step Content */}
+
       <View className="flex-1">
-        {/* Step 1 - Phone Input */}
+
         {step === 1 && (
           <View className="space-y-4">
             <Text className="text-[#2DD4BF] text-lg font-semibold">Phone Verification</Text>
@@ -128,7 +132,7 @@ const GetStartedScreen = () => {
           </View>
         )}
 
-        {/* Step 2 - Image Upload */}
+
         {step === 2 && (
           <View className="items-center space-y-6">
             <Text className="text-[#2DD4BF] text-lg font-semibold">Profile Picture</Text>
@@ -150,7 +154,7 @@ const GetStartedScreen = () => {
           </View>
         )}
 
-        {/* Step 3 - Location */}
+
         {step === 3 && (
           <View className="space-y-4">
             <Text className="text-[#2DD4BF] text-lg font-semibold">Location Access</Text>
@@ -177,7 +181,7 @@ const GetStartedScreen = () => {
         )}
       </View>
 
-      {/* Navigation Buttons */}
+
       <View className="flex-row justify-between mt-8">
         {step > 1 && (
           <TouchableOpacity
