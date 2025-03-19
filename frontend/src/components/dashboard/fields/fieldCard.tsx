@@ -5,6 +5,7 @@ import { FieldType } from '../../../../lib/types';
 import useFieldStore from '../../../../store/fieldStore';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Photo from '@/components/ui/Image';
 
 interface FieldCardProps {
   field: FieldType;
@@ -42,11 +43,7 @@ export default function FieldCard({ field }: FieldCardProps) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent" />
 
-
-        <Image className="h-full w-full bg-gray-100 animate-pulse"
-         src={field.photo as string}
-          alt={field.name} />
-
+        <Photo style='h-full w-full bg-gray-100 animate-pulse' url={field.photo as string} alt={field.name}/>   
 
         <div className="absolute top-4 right-4">
           <button className="p-2 rounded-lg bg-gray-600 backdrop-blur-sm hover:bg-white/30 transition-colors">
