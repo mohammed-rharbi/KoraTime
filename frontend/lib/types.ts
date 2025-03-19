@@ -72,9 +72,19 @@ export interface LoginType {
     name: string ,
     logo:string,
     teamColor: string,
-    captain:string,
-    members?:[],
+    captain:PlayerType,
+    members?:PlayerType[],
     location:string,
     formation?:string,
+   }
+
+   export interface ReservationType {
+    _id?:string,
+    userId: PlayerType ,
+    team:string,
+    fieldId: FieldType,
+    createdAt:string,
+    date:string,
+    status?:string,
    }
    
