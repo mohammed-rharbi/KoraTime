@@ -9,8 +9,8 @@ import { FieldType } from "../../../../../lib/types";
 import { uploadImageToBackend } from "../../../../../lib/Minio";
 import { useRouter } from "next/navigation";
 import useManagerStore from "../../../../../store/managerStore";
-import Image from "next/image";
-
+import { Cities } from "../../../../../lib/mocked";
+import Photo from "@/components/ui/Image";
 
 
 const CreateFieldPage = () => {
@@ -18,7 +18,7 @@ const CreateFieldPage = () => {
   const [formData, setFormData] = useState<FieldType>({
     name: '',
     description: '',
-    size: '',
+    size: '5v5',
     price: '',
     fieldManger: '',
     location: '',
@@ -241,21 +241,25 @@ const router = useRouter()
                   </div>
                 </div>
 
-
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/50">
                     <MapPinIcon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div className="flex-1">
                     <label className="mb-1 block text-sm font-medium">Location</label>
-                    <input
+                    <select
                       name="location"
-                      type="text"
                       value={formData.location}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700"
-                      placeholder="Enter address"
-                    />
+                    >
+                      <option value="">Select a city</option>
+                      {Cities.map((city, index) => (
+                        <option key={index} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
@@ -320,10 +324,10 @@ const router = useRouter()
               <div className="flex flex-wrap gap-4">
                 <label className="relative flex h-32 w-32 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:border-indigo-500 hover:bg-indigo-50 dark:border-gray-600 dark:bg-gray-700">
                   {formData.photo ? (
-                    <Image 
-                      src={formData.photo} 
+                    <Photo 
+                      url={formData.photo} 
                       alt="Field preview" 
-                      className="h-full w-full rounded-lg object-cover"
+                      style="h-full w-full rounded-lg object-cover"
                     />
                   ) : (
                     <PhotoIcon className="h-8 w-8 text-gray-400" />
