@@ -13,7 +13,6 @@ export default function ChatListScreen() {
   const [activeTab, setActiveTab] = useState<"all" | "team" | "friend">("all");
 
   const { user } = useAuthStore();
-  const { friends, getUserFriends } = useFriendshipStore();
   const { getUserChats, UserChats } = useChatStore();
 
   useEffect(() => {
