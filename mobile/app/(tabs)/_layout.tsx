@@ -100,6 +100,9 @@ export default function TabLayout() {
 
       <Tabs.Screen name="(players)/players" options={{ href: null }} />
 
+      <Tabs.Screen name="(players)/userFriends" options={{ href: null }} />
+
+
 
 
     </Tabs>
