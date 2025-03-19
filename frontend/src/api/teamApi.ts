@@ -19,7 +19,7 @@ export const getAllTeams = async () => {
   try {
     const response = await apiClient.get(`team/getAll/Teams`);
 
-    return response
+    return response.data
 
   } catch (error) {
     throw new Error('Error failed to get teams . Please try again'+ error);
