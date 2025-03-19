@@ -124,7 +124,6 @@ const PlayerProfile = () => {
               />
               <View>
                 <Text className="text-white font-bold">{player?.team?.name || 'Team Name'}</Text>
-                <Text className="text-[#94A3B8] text-sm">{player?.team?.sportType || 'Football'}</Text>
               </View>
             </TouchableOpacity>
           </View>
