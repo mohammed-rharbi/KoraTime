@@ -7,8 +7,11 @@ import usePlayerStore from '~/store/playersStore';
 import useChatStore from '~/store/chatStore';
 import { useChat } from '~/lib/chat';
 import { MessageType } from '~/types/types';
+import { Stack } from 'expo-router';
+
 
 export default function TeamChatScreen() {
+
   const { userId, chatId } = useLocalSearchParams();
   const { user } = useAuthStore();
   const { player, getPlayer } = usePlayerStore();
@@ -23,7 +26,6 @@ export default function TeamChatScreen() {
     if (chatId) getChat(chatId as string);
   }, [userId, chatId]);
 
-
   useEffect(() => {
     if (currentChat && realTimeMessages.length > 0) {
       const newMessages = realTimeMessages.filter(
@@ -32,15 +34,11 @@ export default function TeamChatScreen() {
       
       if (newMessages.length > 0) {
         useChatStore.setState({
-          currentChat: {
-            ...currentChat,
-            messages: [...currentChat, ...newMessages]
-          }
+          currentChat: [...currentChat, ...newMessages]
         });
       }
     }
   }, [realTimeMessages]);
-
 
   useEffect(() => {
     if (currentChat) {
@@ -126,6 +124,11 @@ export default function TeamChatScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       className="flex-1 bg-[#0A0F1E]"
     >
+         <Stack.Screen
+              options={{
+                headerShown: false ,        
+              }}
+            />    
 
       <View className="px-4 pt-12 pb-4 bg-[#0A0F1E] border-b border-[#1A1F2E]">
         <View className="flex-row items-center">
