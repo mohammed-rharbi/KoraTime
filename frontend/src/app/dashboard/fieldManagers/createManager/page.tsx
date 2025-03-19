@@ -37,7 +37,7 @@ const CreateFieldPage = () => {
 
       await AddManager(formData)
       if(!error){
-        router.push('/dashboard/fields/fieldManagers')
+        router.back()
       }
 
     } catch (error) {
