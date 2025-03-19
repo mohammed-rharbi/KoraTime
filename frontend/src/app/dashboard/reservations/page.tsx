@@ -1,53 +1,26 @@
 'use client'
-import React from "react";
+import React, { useEffect } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  CalendarIcon,
-  ClockIcon,
-  UserCircleIcon,
-  CheckCircleIcon,
-  CurrencyDollarIcon,
-  TableCellsIcon,
-  ArrowPathIcon,
-  PencilSquareIcon,
-  TrashIcon,
-  MagnifyingGlassIcon,
-  FunnelIcon,
-} from "@heroicons/react/24/outline";
+import { CalendarIcon, ClockIcon, UserCircleIcon, CheckCircleIcon, CurrencyDollarIcon, TableCellsIcon, ArrowPathIcon, PencilSquareIcon, TrashIcon, MagnifyingGlassIcon, FunnelIcon} from "@heroicons/react/24/outline";
+import useReservationStore from "../../../../store/reservationStore";
+import Photo from "@/components/ui/Image";
 
 const ReservationsPage = () => {
-  const reservations = [
-    { 
-      id: "#RES-2354",
-      customer: "Michael Johnson",
-      date: "2024-03-15",
-      time: "18:30",
-      partySize: 8,
-      status: "confirmed",
-      table: "T-12",
-      duration: "2h",
-      amount: "$320.00",
-      specialRequests: "Birthday celebration"
-    },
-    { 
-      id: "#RES-2355",
-      customer: "Sarah Wilson",
-      date: "2024-03-16",
-      time: "19:00",
-      partySize: 4,
-      status: "pending",
-      table: "T-05",
-      duration: "1.5h",
-      amount: "$180.00",
-      specialRequests: "Vegetarian menu required"
-    },
-  ];
+
+  const { isLoading , reservations , getAllReservations , error } = useReservationStore()
+
+
+  useEffect(()=>{
+
+    getAllReservations()
+
+  },[getAllReservations])
 
   return (
     <MainLayout>
       <div className="p-8 bg-gray-50 min-h-screen dark:bg-gray-900">
-        {/* Header Section */}
+
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reservation Management</h1>
@@ -67,7 +40,7 @@ const ReservationsPage = () => {
           </div>
         </div>
 
-        {/* Quick Stats */}
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
             <div className="flex items-center justify-between">
@@ -118,7 +91,7 @@ const ReservationsPage = () => {
           </div>
         </div>
 
-        {/* Filters and Search */}
+
         <div className="rounded-xl bg-white shadow-sm overflow-hidden dark:bg-gray-800 mb-8">
           <div className="flex flex-col justify-between gap-4 p-6 sm:flex-row sm:items-center">
             <div className="relative flex-1 max-w-xs">
@@ -148,12 +121,12 @@ const ReservationsPage = () => {
           </div>
         </div>
 
-        {/* Reservations Grid */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence>
-            {reservations.map((reservation) => (
+            {reservations?.map((reservation) => (
               <motion.div
-                key={reservation.id}
+                key={reservation._id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -161,10 +134,18 @@ const ReservationsPage = () => {
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold dark:text-white">{reservation.id}</h3>
+                    <h3 className="text-lg font-semibold dark:text-white">{reservation.fieldId.name}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {reservation.date} • {reservation.time}
+                      {new Date(reservation.createdAt).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true,
+                      })}
                     </p>
+
                   </div>
                   <span className={`px-2.5 py-0.5 rounded-full text-sm ${
                     reservation.status === 'confirmed' 
@@ -176,38 +157,27 @@ const ReservationsPage = () => {
                 </div>
 
                 <div className="space-y-4">
-                  {/* Customer Info */}
+
                   <div className="flex items-center gap-3">
                     <UserCircleIcon className="h-10 w-10 text-gray-400" />
+                    {/* <Photo url={reservation.userId.profilePic} style="h-20 w-20" alt={reservation.userId.userName} /> */}
                     <div>
-                      <p className="font-medium dark:text-white">{reservation.customer}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Party of {reservation.partySize} • {reservation.duration}
-                      </p>
+                      <p className="font-medium dark:text-white">{reservation.userId.userName}</p>
                     </div>
                   </div>
 
-                  {/* Reservation Details */}
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Table</p>
-                      <p className="font-medium dark:text-white">{reservation.table}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
+                      <p className="font-medium dark:text-white">{reservation.fieldId.location}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Amount</p>
-                      <p className="font-medium dark:text-white">{reservation.amount}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Price</p>
+                      <p className="font-medium dark:text-white">{reservation.fieldId.price}</p>
                     </div>
                   </div>
 
-                  {/* Special Requests */}
-                  {reservation.specialRequests && (
-                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Special Requests</p>
-                      <p className="text-sm dark:text-gray-300">{reservation.specialRequests}</p>
-                    </div>
-                  )}
-
-                  {/* Actions */}
                   <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-700">
                     <div className="flex gap-2">
                       <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
@@ -228,10 +198,10 @@ const ReservationsPage = () => {
           </AnimatePresence>
         </div>
 
-        {/* Calendar Section */}
+
         <div className="mt-8 rounded-xl bg-white shadow-sm dark:bg-gray-800 p-6">
           <h2 className="text-xl font-semibold mb-4 dark:text-white">Calendar Overview</h2>
-          {/* Add calendar component here */}
+
           <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500 dark:bg-gray-700 dark:text-gray-400">
             Calendar integration placeholder
           </div>
