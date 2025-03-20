@@ -4,11 +4,11 @@ import MainLayout from "@/components/mainLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarIcon, ClockIcon, UserCircleIcon, CheckCircleIcon, CurrencyDollarIcon, TableCellsIcon, ArrowPathIcon, PencilSquareIcon, TrashIcon, MagnifyingGlassIcon, FunnelIcon} from "@heroicons/react/24/outline";
 import useReservationStore from "../../../../store/reservationStore";
-import Photo from "@/components/ui/Image";
-
+import { FootballSpinner } from "@/components/ui/spinner";
+import { useRouter } from "next/navigation";
 const ReservationsPage = () => {
 
-  const { isLoading , reservations , getAllReservations , error } = useReservationStore()
+  const { isLoading , reservations , getAllReservations , error , deleteReservation } = useReservationStore()
 
 
   useEffect(()=>{
@@ -16,6 +16,26 @@ const ReservationsPage = () => {
     getAllReservations()
 
   },[getAllReservations])
+
+  const router = useRouter()
+
+  const handleDelete = async (id: string)=>{
+
+    const isConfirmed = window.confirm("Are you sure you want to delete this field?");
+    if (!isConfirmed) return;
+  
+    try {
+      await deleteReservation(id); 
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  if(isLoading){
+
+      return <FootballSpinner/>
+  }
 
   return (
     <MainLayout>
@@ -124,6 +144,8 @@ const ReservationsPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence>
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
             {reservations?.map((reservation) => (
               <motion.div
                 key={reservation._id}
@@ -160,7 +182,6 @@ const ReservationsPage = () => {
 
                   <div className="flex items-center gap-3">
                     <UserCircleIcon className="h-10 w-10 text-gray-400" />
-                    {/* <Photo url={reservation.userId.profilePic} style="h-20 w-20" alt={reservation.userId.userName} /> */}
                     <div>
                       <p className="font-medium dark:text-white">{reservation.userId.userName}</p>
                     </div>
@@ -183,7 +204,7 @@ const ReservationsPage = () => {
                       <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                         <PencilSquareIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       </button>
-                      <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                      <button onClick={()=> handleDelete(reservation._id as string)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                         <TrashIcon className="h-5 w-5 text-red-600 dark:text-red-400" />
                       </button>
                     </div>
