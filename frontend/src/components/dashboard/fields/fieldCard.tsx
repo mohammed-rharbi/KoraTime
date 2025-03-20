@@ -4,7 +4,6 @@ import { StarIcon, PencilSquareIcon, TrashIcon, ChartBarIcon, ArrowsPointingOutI
 import { FieldType } from '../../../../lib/types';
 import useFieldStore from '../../../../store/fieldStore';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import Photo from '@/components/ui/Image';
 
 interface FieldCardProps {
