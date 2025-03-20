@@ -106,7 +106,7 @@ const TeamCard = ({ item }: { item: TeamType }) => {
                     {item.members.slice(0, 4).map((member, index) => (
                       <Image
                         key={index}
-                        source={{ uri: member.profilePic || "https://i.pinimg.com/474x/97/13/99/9713999fde04bcb909d4de882bdce7df.jpg" }}
+                        source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${member.profilePic}`}}
                         className="w-8 h-8 rounded-full border-2 border-[#1A1F2E]"
                       />
                     ))}
