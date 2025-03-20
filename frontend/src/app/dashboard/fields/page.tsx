@@ -6,6 +6,7 @@ import { PlusCircleIcon, ChartBarIcon} from "@heroicons/react/24/outline";
 import FieldCard from "@/components/dashboard/fields/fieldCard";
 import { redirect } from "next/navigation";
 import useFieldStore from "../../../../store/fieldStore";
+import { FootballSpinner } from "@/components/ui/spinner";
 
 
 const Fields = () => {
@@ -28,7 +29,7 @@ const Fields = () => {
   },[getFields])
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <FootballSpinner/>
   }
 
   return (
