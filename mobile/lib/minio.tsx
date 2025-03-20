@@ -13,9 +13,14 @@ export const uploadImageToBackend = async (imageUri: string): Promise<string> =>
     const formData = new FormData();
     formData.append('file', file);  
   
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
 
-    const { data } = await axios.post(`http://${process.env.EXPO_PUBLIC_IP}:4000/upload`,
-      formData
+    const { data } = await axios.post(`http://192.168.9.204:4000/upload`,
+      formData , config
     );
 
     return data.imageUrl;
