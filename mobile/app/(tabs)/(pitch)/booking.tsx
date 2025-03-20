@@ -9,6 +9,7 @@ import { Availability } from '~/types/types';
 import ReservationStore from '~/store/reservationStore';
 import useAuthStore from '~/store/authStore';
 import Toast from 'react-native-toast-message';
+import { ReservationType } from '~/types/types';
 
 
 export default function IndividualBooking() {
@@ -34,31 +35,24 @@ export default function IndividualBooking() {
 
   const handleBooking = async () => {
     try {
-      await bookIt({
-        userId: user?._id as string,
-        fieldId: id as string,
-        date: selectedDate,
+      const reservationDetails :ReservationType = {
+        userId: user?._id,
+        fieldId: id,
+        date: selectedDate.toISOString(),
         startTime: selectedTime,
-      });
+      };
   
-      setAvailability((prevAvailability) =>
-        prevAvailability.map((entry) =>
-          entry.date === selectedDate.toISOString().split('T')[0]
-            ? {
-                ...entry,
-                slots: entry.slots.map((slot) =>
-                  slot.startTime === selectedTime ? { ...slot, isBooked: true } : slot
-                ),
-              }
-            : entry
-        )
-      );
+      await bookIt(reservationDetails);
   
       Toast.show({
         type: 'success',
         text1: 'Field Booking was Complete 🎉',
       });
-      router.push(`/confirm`)
+  
+      router.push({
+        pathname: '/confirm',
+        params: reservationDetails,
+      });
   
     } catch (err) {
       console.log(err);
