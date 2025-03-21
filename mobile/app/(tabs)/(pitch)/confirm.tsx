@@ -3,17 +3,18 @@ import { useLocalSearchParams, router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import useFieldStore from '~/store/fieldStore';
+import {DetailRow , InfoCard} from '~/components/ui/bookingDetails';
 
 export default function ConfirmationScreen() {
-
-  const { id } = useLocalSearchParams();
+  const { id  , reservationDetails} = useLocalSearchParams();
   const { field } = useFieldStore();
+  
   const bookingDetails = {
     date: 'Nov 15, 2023',
     time: '15:00 - 17:00',
     duration: '2 hours',
     price: '$90',
-    paymentMethod: 'Visa •••• 1234'
+    paymentMethod: 'Visa •••• 1234',
   };
 
   return (
@@ -29,10 +30,10 @@ export default function ConfirmationScreen() {
         </View>
 
 
-        <View className="bg-[#1F2937] rounded-2xl p-4 mb-6 border border-[#2DD4BF]/20">
+        <InfoCard>
           <View className="flex-row">
             <Image 
-              source={{ uri: field?.photo }} 
+              source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${field?.photo}` }} 
               className="w-20 h-20 rounded-xl" 
             />
             <View className="ml-4 flex-1">
@@ -43,20 +44,19 @@ export default function ConfirmationScreen() {
               </View>
             </View>
           </View>
-        </View>
+        </InfoCard>
 
 
-        <View className="bg-[#1F2937] rounded-2xl p-4 mb-6 border border-[#2DD4BF]/20">
+        <InfoCard>
           <Text className="text-[#2DD4BF] text-lg font-bold mb-4">Booking Summary</Text>
-          
           <DetailRow icon="calendar" title="Date" value={bookingDetails.date} />
           <DetailRow icon="time" title="Time" value={bookingDetails.time} />
           <DetailRow icon="hourglass" title="Duration" value={bookingDetails.duration} />
           <DetailRow icon="cash" title="Total Paid" value={bookingDetails.price} />
-        </View>
+        </InfoCard>
 
 
-        <View className="bg-[#1F2937] rounded-2xl p-4 border border-[#2DD4BF]/20">
+        <InfoCard>
           <Text className="text-[#2DD4BF] text-lg font-bold mb-4">Check-in QR Code</Text>
           <Image 
             source={{ uri: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=booking123' }}
@@ -66,7 +66,7 @@ export default function ConfirmationScreen() {
             <Ionicons name="download" size={20} color="#2DD4BF" />
             <Text className="text-[#2DD4BF] ml-2">Save QR Code</Text>
           </TouchableOpacity>
-        </View>
+        </InfoCard>
       </ScrollView>
 
 
@@ -82,13 +82,3 @@ export default function ConfirmationScreen() {
     </LinearGradient>
   );
 }
-
-const DetailRow = ({ icon, title, value }: { icon: string; title: string; value: string }) => (
-  <View className="flex-row items-center justify-between mb-4">
-    <View className="flex-row items-center">
-      <Ionicons name={icon} size={20} color="#2DD4BF" />
-      <Text className="text-[#A1A1AA] ml-2">{title}</Text>
-    </View>
-    <Text className="text-white">{value}</Text>
-  </View>
-);

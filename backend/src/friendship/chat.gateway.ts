@@ -7,8 +7,7 @@ export class ChatGateway {
 
   @WebSocketServer() server: Server;
 
-  constructor(private readonly chatService : FriendshipService) {}
-
+  constructor(private readonly chatService: FriendshipService) {}
 
   private activeUsers = new Map();
 
@@ -24,7 +23,6 @@ export class ChatGateway {
   handleJoinChat(@MessageBody() chatId: string, @ConnectedSocket() client: Socket) {
     client.join(chatId);
   }
-
 
   @SubscribeMessage('sendMessage')
   async handleSendMessage(@MessageBody() data: { chatId: string; sender: string; content: string }) {

@@ -52,7 +52,7 @@ const useChatStore = create<ChatState>((set)=>({
 
             const res = await getChat(id);
             set({isLoading:false , currentChat: res})
-            
+            getUserChats
         } catch (err) {
             set({error:(err as Error).message , isLoading:false})                        
         }

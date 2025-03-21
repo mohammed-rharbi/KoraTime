@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { TeamType } from "~/types/types";
-import { getAllTeams , createTeam , getTeam , getUserTeamRequests , getUserTeam , sendTeamInvition , acceptTeamInvition } from "~/api/team.api";
+import { TeamType , TeamRequestType } from "~/types/types";
+import { getAllTeams , createTeam , getTeam , getUserTeamRequests , getUserTeam , sendTeamInvition , acceptTeamInvition , declineInvitionRequest} from "~/api/team.api";
 
 
 interface TeamState {
@@ -8,7 +8,7 @@ interface TeamState {
     error: string | null;
     teams:TeamType[] | null ;
     team: TeamType | null ;
-    teamRequests: any;
+    teamRequests: TeamRequestType[] | null;
     UserTeam:TeamType | null;
     createTeam: (teamData:TeamType)=> Promise<void>;
     getAllTeams: ()=> Promise<void>;
@@ -16,6 +16,7 @@ interface TeamState {
     getUserTeam: (id: string)=> Promise<void>;
     send:(team: string , player: string)=> Promise<void>;
     accept:(req:string)=> Promise<void>;
+    decline:(req:string)=> Promise<void>;
     getUserRequests:(player: string)=> Promise<void>;
   }
   
@@ -26,7 +27,6 @@ const useTeamStore = create<TeamState>((set)=>({
     teams: null,
     team: null,
     UserTeam:null,
-
     teamRequests:null,
 
   
@@ -92,8 +92,19 @@ const useTeamStore = create<TeamState>((set)=>({
         } catch (err) {
             set({error:(err as Error).message , isLoading:false})                        
         }
+    },
 
+    decline: async (req)=>{
 
+        set({isLoading:true , error: null})
+        try {
+
+            await declineInvitionRequest(req);
+            set({isLoading:false})
+            
+        } catch (err) {
+            set({error:(err as Error).message , isLoading:false})                        
+        }
     },
 
     getUserRequests: async (player)=>{

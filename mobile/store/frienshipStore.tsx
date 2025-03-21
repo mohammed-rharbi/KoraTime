@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { acceptFriendRequest , sendFriendRequest , getUserFriendRequests , declineRequest , getUserFriends } from "~/api/friendship.api";
-import { UserType } from "~/types/types";
+import { UserType , FriendRequestType } from "~/types/types";
 
 
 interface FriendshipState {
     isLoading: boolean;
     error: string | null;
-    requests: any[] | null;
+    requests: FriendRequestType[] | null;
     friends: UserType[] | null;
     sendFriendRequest: (senderId:string , receiverId:string)=> Promise<void>;
     acceptFriendRequest: (requestId: string)=> Promise<void>;

@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TeamService } from './team.service';
+import { TeamRepository } from './team.repository';
 
 describe('TeamService', () => {
   let service: TeamService;

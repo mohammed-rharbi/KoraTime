@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import useAuthStore from '~/store/authStore';
 import { uploadImageToBackend } from '~/lib/minio';
 import { Stack } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 
 const GetStartedScreen = () => {
@@ -29,12 +30,18 @@ const GetStartedScreen = () => {
     }
     try {
       await getStarted({ id: user?._id as string, phoneNumber: phone, profilePic: image, location });
-      router.push('/home'); 
+      Toast.show({
+        type: 'success',
+        text1: 'Registration Complete successfully 🎉',
+        text2: 'Now GetLogin To Your Account',
+      });
+      router.push('/auth'); 
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Something went wrong. Please try again.');
     }
   };
+
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -42,18 +49,20 @@ const GetStartedScreen = () => {
       Alert.alert('Permission required', 'Please allow access to your media library.');
       return;
     }
-
+  
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
-
+  
     if (!result.canceled) {
       setUploading(true);
       try {
-        const imageUrl = await uploadImageToBackend(result.assets[0].uri);
+        const imageUri = result.assets[0].uri;
+        const imageUrl = await uploadImageToBackend(imageUri);
         setImage(imageUrl);
       } catch (error) {
         console.error('Image upload failed:', error);
@@ -63,6 +72,7 @@ const GetStartedScreen = () => {
       }
     }
   };
+
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -89,7 +99,7 @@ const GetStartedScreen = () => {
 
   return (
 
-    <LinearGradient colors={['#0A0F1E', '#1A1F2E']} className="flex-1 p-6">
+    <LinearGradient colors={['#0A0F1E', '#1A1F2E']} className="flex-1 p-6 pt-12">
     <Stack.Screen options={{headerShown: false}}/>  
       
       <View className="flex-row items-center mb-8">

@@ -5,7 +5,6 @@ import { AuthModule } from './auth/auth.module';
 import { TeamModule } from './team/team.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GatewayModule } from './gateway/gateway.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { FieldsModule } from './fields/fields.module';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -19,7 +18,6 @@ import "dotenv/config"
     ScheduleModule.forRoot(),
     AuthModule, 
     TeamModule,
-    GatewayModule,
     ReservationModule,
     FieldsModule,
     FriendshipModule,  

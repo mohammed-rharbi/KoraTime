@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../../../../store/authStore";
 
@@ -9,22 +9,28 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const { login, isLoading, error , role } = useAuthStore();
+  const { login, isLoading, error , role , isAuthenticated  } = useAuthStore();
 
+
+
+  useEffect(()=>{
+
+    if (isAuthenticated && role) {
+      if (role === 'admin') {
+        router.push("../dashboard");
+      } else {
+        router.push("/auth/login");
+      }
+    }
+
+  },[isAuthenticated , role , router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
 
     await login(email, password)
-    if (role === 'admin') {
-
-      router.push("../dashboard");
-    }else{
-      router.push("/auth/login");
-
-    }
-
+  
   };
 
   return (

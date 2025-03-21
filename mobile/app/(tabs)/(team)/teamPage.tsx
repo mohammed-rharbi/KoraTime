@@ -92,8 +92,8 @@ export default function TeamPageScreen() {
                 <TouchableOpacity onPress={()=> router.push(`/playerPage?id=${member._id}`)}>
                 <View key={member._id} className="items-center">
                   <Image
-                    source={{ uri: member.profilePic || "https://i.pinimg.com/474x/97/13/99/9713999fde04bcb909d4de882bdce7df.jpg" }}
-                    className="w-16 h-16 rounded-full"
+                  source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${member.profilePic}`}}
+                  className="w-16 h-16 rounded-full"
                   />
                   <Text className="text-white text-lg mt-2">{member.userName}</Text>
                   <Text className="text-[#A1A1AA] text-sm">{member.role}</Text>

@@ -101,7 +101,7 @@ class SlotDTO {
   }
 
 
-  class AvailabilityDTO {
+  export class AvailabilityDTO {
     @IsString()
     date: string;  
   
