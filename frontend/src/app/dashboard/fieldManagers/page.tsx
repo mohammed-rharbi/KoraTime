@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from "react";
+import React, { useEffect , useState } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { IdentificationIcon, ShieldCheckIcon, UserPlusIcon, PencilSquareIcon, LockClosedIcon, UserCircleIcon, EnvelopeIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PhoneIcon, } from "@heroicons/react/24/outline";
@@ -10,6 +10,19 @@ const FieldManagerAdminPage = () => {
 
 
   const { fieldManagers , getManagers , banAUser } = useManagerStore()
+
+    const [ searchQuery , setSearchQuery] = useState('')
+  
+  
+  
+    const filterdManagers = fieldManagers?.filter((manager)=>{
+  
+      const searchemanager = manager.userName.toLowerCase().includes(searchQuery.toLowerCase())
+       || manager.email.toLowerCase().includes(searchQuery.toLowerCase())
+  
+      return searchemanager
+    })
+  
 
   useEffect(()=>{
 
@@ -93,24 +106,13 @@ const FieldManagerAdminPage = () => {
             <div className="relative flex-1 max-w-xs">
               <input
                 type="text"
+                onChange={(e)=> setSearchQuery(e.target.value)}
                 placeholder="Search managers..."
                 className="w-full pl-10 pr-4 py-2 rounded-lg border bg-gray-50 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700"
               />
               <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             </div>
-            <div className="flex gap-3">
-              <select className="rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700">
-                <option>All Statuses</option>
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-              <select className="rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700">
-                <option>Sort by</option>
-                <option>Name</option>
-                <option>Last Login</option>
-                <option>Field</option>
-              </select>
-            </div>
+
           </div>
 
 
@@ -128,7 +130,7 @@ const FieldManagerAdminPage = () => {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 <AnimatePresence>
-                  {fieldManagers?.map((manager) => (
+                  {filterdManagers?.map((manager) => (
                     <motion.tr
                       key={manager._id}
                       initial={{ opacity: 0 }}
