@@ -46,6 +46,12 @@ export class TeamController {
     return await this.TeamService.acceptTeamInvitation(reqId);
   }
 
+  @Post('declineInvition/:reqId')
+  async declineInvition(@Param('reqId') reqId: string,) {
+    return await this.TeamService.declineRequest(reqId);
+  }
+
+
   @Get('getTeamRequests/:id')
   async getTeamRequests(@Param('id') player: string) {
     return await this.TeamService.getPlayerTeamReq(player);
