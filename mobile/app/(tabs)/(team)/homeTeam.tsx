@@ -9,6 +9,7 @@ import usePlayerStore from '~/store/playersStore';
 
 
 export default function TeamManagementScreen() {
+
   const { user } = useAuthStore();
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,6 +19,16 @@ export default function TeamManagementScreen() {
   
   const isCaptain = user?._id === UserTeam?.captain;
   const hasMembers = (UserTeam?.members?.length || 0) > 1;
+
+
+  const filteredPlayers = players?.filter((player)=>{
+
+    const searchedPlayers = player.userName?.toLowerCase().includes(searchQuery.toLowerCase());
+    const fPlayers = player._id !== user?._id
+
+    return searchedPlayers &&  fPlayers
+  })
+
 
   const fetchTeam = async () => {
     try {
@@ -142,7 +153,7 @@ export default function TeamManagementScreen() {
           </View>
         ) : (
           <FlatList
-            data={players}
+            data={filteredPlayers}
             keyExtractor={(item) => item._id!}
             renderItem={({ item }) => (
               <View className="flex-row items-center justify-between bg-[#1E293B] p-4 rounded-xl mb-3">
