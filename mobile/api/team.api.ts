@@ -106,7 +106,7 @@ export const acceptTeamInvition = async (req: string) => {
 export const getUserTeamRequests = async (player: string) => {
   try {
 
-    const response = await apiClient.post(`team/getTeamRequests/${player}`);
+    const response = await apiClient.get(`team/getTeamRequests/${player}`);
 
     return response.data
 
@@ -114,3 +114,19 @@ export const getUserTeamRequests = async (player: string) => {
     throw new Error('Error .faild to fetch user team requests ');
   }
 };
+
+export const declineInvitionRequest = async (player: string) => {
+  try {
+
+    const response = await apiClient.post(`team/declineInvition/${player}`);
+
+    return response.data
+
+  } catch (error) {
+    throw new Error('Error .faild to fetch user team requests ');
+  }
+};
+
+
+
+
