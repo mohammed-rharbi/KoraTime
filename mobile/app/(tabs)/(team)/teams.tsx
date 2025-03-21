@@ -9,9 +9,11 @@ import TeamCard from "~/components/team/teamCard";
 
 
 export default function TeamsScreen() {
-  const router = useRouter();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showRecruiting, setShowRecruiting] = useState(false);
+  
+  
 
   const {teams , getAllTeams} = useTeamStore()
   const { user } = useAuthStore()
@@ -22,6 +24,15 @@ export default function TeamsScreen() {
     getAllTeams()
 
   },[getAllTeams])
+
+
+  const filterdTeams = teams?.filter((team)=>{
+
+    const searchedTeams = team.name.toLowerCase().includes(searchQuery.toLowerCase())
+    || team.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return searchedTeams
+  }) 
 
 
   return (
@@ -74,7 +85,8 @@ export default function TeamsScreen() {
       </View>
 
       <FlatList
-        data={teams}
+        data={filterdTeams}
+        keyExtractor={(item) => item._id as string}
         renderItem={({ item }) => <TeamCard item={item} />}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
