@@ -9,12 +9,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 
 export default function FriendsScreen() {
+
+
   const { user } = useAuthStore();
   const { getUserFriends, friends, isLoading, error } = useFriendshipStore();
 
   useEffect(() => {
     getUserFriends(user?._id as string);
   }, [user?._id]);
+
 
   if (isLoading) {
     return (
