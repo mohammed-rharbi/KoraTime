@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarIcon, ClockIcon, UserCircleIcon, CheckCircleIcon, CurrencyDollarIcon, TableCellsIcon, ArrowPathIcon, PencilSquareIcon, TrashIcon, MagnifyingGlassIcon, FunnelIcon} from "@heroicons/react/24/outline";
@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 const ReservationsPage = () => {
 
   const { isLoading , reservations , getAllReservations , error , deleteReservation } = useReservationStore()
+
+  const [ searchQuery , setSearchQuery ] = useState('')
+  const [ statusFilter , setStatusFilter ] = useState('all')
 
 
   useEffect(()=>{
@@ -31,6 +34,15 @@ const ReservationsPage = () => {
     }
 
   }
+
+
+  const filterdReservations = reservations?.filter((reservation)=>{
+
+    const Searchedreservations = reservation.fieldId.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const statusResrvations = statusFilter === 'all' || reservation.status === statusFilter
+
+    return Searchedreservations && statusResrvations
+  })
 
   if(isLoading){
 
@@ -66,7 +78,7 @@ const ReservationsPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Total Bookings</p>
-                <p className="text-2xl font-bold dark:text-white">42</p>
+                <p className="text-2xl font-bold dark:text-white">{reservations?.length}</p>
               </div>
               <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center dark:bg-blue-900/30">
                 <TableCellsIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
@@ -78,7 +90,7 @@ const ReservationsPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Confirmed</p>
-                <p className="text-2xl font-bold dark:text-white">38</p>
+                <p className="text-2xl font-bold dark:text-white">12</p>
               </div>
               <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center dark:bg-green-900/30">
                 <CheckCircleIcon className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -118,21 +130,24 @@ const ReservationsPage = () => {
               <input
                 type="text"
                 placeholder="Search reservations..."
+                onChange={(e)=> setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 rounded-lg border bg-gray-50 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700"
               />
               <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             </div>
             <div className="flex gap-3 flex-wrap">
-              <select className="rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700">
-                <option>All Statuses</option>
-                <option>Confirmed</option>
-                <option>Pending</option>
-                <option>Cancelled</option>
-              </select>
-              <input 
-                type="date"
-                className="rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700"
-              />
+              <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-700"
+            >
+              <option value="all">All</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="canceled">Canceled</option>
+              <option value="completed">Completed</option>
+             </select>
+
               <button className="flex items-center gap-2 rounded-lg border bg-gray-50 px-4 py-2 hover:shadow-md dark:border-gray-700 dark:bg-gray-700">
                 <FunnelIcon className="h-5 w-5" />
                 Filters
@@ -146,7 +161,7 @@ const ReservationsPage = () => {
           <AnimatePresence>
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-            {reservations?.map((reservation) => (
+            {filterdReservations?.map((reservation) => (
               <motion.div
                 key={reservation._id}
                 initial={{ opacity: 0, y: 10 }}
