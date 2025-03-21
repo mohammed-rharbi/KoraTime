@@ -36,9 +36,9 @@ export default function IndividualBooking() {
   const handleBooking = async () => {
     try {
       const reservationDetails :ReservationType = {
-        userId: user?._id,
-        fieldId: id,
-        date: selectedDate.toISOString(),
+        userId: user?._id as string,
+        fieldId: id as string,
+        date: selectedDate,
         startTime: selectedTime,
       };
   
