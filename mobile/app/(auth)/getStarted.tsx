@@ -55,7 +55,7 @@ const GetStartedScreen = () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      base64: true, // Needed if your backend requires base64
+      base64: true,
     });
   
     if (!result.canceled) {
@@ -73,33 +73,6 @@ const GetStartedScreen = () => {
     }
   };
 
-  // const pickImage = async () => {
-  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     Alert.alert('Permission required', 'Please allow access to your media library.');
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [1, 1],
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     setUploading(true);
-  //     try {
-  //       const imageUrl = await uploadImageToBackend(result.assets[0].uri);
-  //       setImage(imageUrl);
-  //     } catch (error) {
-  //       console.error('Image upload failed:', error);
-  //       setImage('https://i.pinimg.com/736x/70/8c/08/708c08614099f90b849c6f7089f8effb.jpg');
-  //     } finally {
-  //       setUploading(false);
-  //     }
-  //   }
-  // };
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
