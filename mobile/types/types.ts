@@ -122,3 +122,20 @@ export interface UserType {
           content:string,
           createdAt:string,
         }
+
+        export interface TeamRequestType {
+          _id?:string,
+          team:TeamType,
+          player:UserType,
+          status:string,
+          createdAt:string,
+        }
+
+        
+        export interface FriendRequestType {
+          _id?:string,
+          sender:UserType,
+          receiver:UserType,
+          status:string,
+          createdAt:string,
+        }
