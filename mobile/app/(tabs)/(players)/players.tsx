@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TextInput , TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import usePlayerStore from '~/store/playersStore';
 import useAuthStore from '~/store/authStore';
@@ -13,10 +13,17 @@ export default function PlayersScreen() {
   const { players, getAllPlayers } = usePlayerStore();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchQuery , setSearchQuery] = useState('')
 
 
 
-  const filteredPlayers = players?.filter(player => player._id !== user?._id);
+  const filteredPlayers = players?.filter((player)=>{
+
+    const searchedPlayers = player.userName?.toLowerCase().includes(searchQuery.toLowerCase());
+    const fPlayers = player._id !== user?._id
+
+    return searchedPlayers &&  fPlayers
+  })
 
   useEffect(() => {
     loadPlayers();
@@ -86,13 +93,13 @@ export default function PlayersScreen() {
         onPress={() => console.log('Implement search')}
       >
         <Ionicons name="search" size={20} color="#64748B" />
-        <Text className="text-gray-500 ml-2">Search players...</Text>
+        <TextInput placeholder="Search fields..." onChangeText={setSearchQuery} placeholderTextColor="#A1A1AA" className="flex-1 ml-2 text-white" />
       </TouchableOpacity>
 
 
       <FlatList
         data={filteredPlayers}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item._id as string}
         renderItem={({ item }) => <PlayerCard player={item} />}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
