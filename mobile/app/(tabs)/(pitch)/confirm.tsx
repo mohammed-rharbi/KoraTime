@@ -3,9 +3,10 @@ import { useLocalSearchParams, router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import useFieldStore from '~/store/fieldStore';
+import {DetailRow , InfoCard} from '~/components/ui/bookingDetails';
 
 export default function ConfirmationScreen() {
-  const { id } = useLocalSearchParams();
+  const { id  , reservationDetails} = useLocalSearchParams();
   const { field } = useFieldStore();
   
   const bookingDetails = {
@@ -19,7 +20,7 @@ export default function ConfirmationScreen() {
   return (
     <LinearGradient colors={['#0A0F1E', '#1A1F2E']} className="flex-1">
       <ScrollView className="flex-1 p-6" contentContainerStyle={{ paddingBottom: 120 }}>
-        {/* Confirmation Header */}
+
         <View className="items-center mb-8">
           <View className="bg-[#2DD4BF] w-24 h-24 rounded-full items-center justify-center mb-4">
             <Ionicons name="checkmark" size={40} color="black" />
@@ -28,7 +29,7 @@ export default function ConfirmationScreen() {
           <Text className="text-[#A1A1AA] text-lg">Your reservation is secured</Text>
         </View>
 
-        {/* Field Information */}
+
         <InfoCard>
           <View className="flex-row">
             <Image 
@@ -45,7 +46,7 @@ export default function ConfirmationScreen() {
           </View>
         </InfoCard>
 
-        {/* Booking Summary */}
+
         <InfoCard>
           <Text className="text-[#2DD4BF] text-lg font-bold mb-4">Booking Summary</Text>
           <DetailRow icon="calendar" title="Date" value={bookingDetails.date} />
@@ -54,7 +55,7 @@ export default function ConfirmationScreen() {
           <DetailRow icon="cash" title="Total Paid" value={bookingDetails.price} />
         </InfoCard>
 
-        {/* QR Code Section */}
+
         <InfoCard>
           <Text className="text-[#2DD4BF] text-lg font-bold mb-4">Check-in QR Code</Text>
           <Image 
@@ -68,7 +69,7 @@ export default function ConfirmationScreen() {
         </InfoCard>
       </ScrollView>
 
-      {/* Bottom Navigation */}
+
       <LinearGradient colors={['transparent', '#0A0F1E']} className="absolute bottom-0 left-0 right-0 h-32 pt-6 px-6">
         <TouchableOpacity 
           className="bg-[#2DD4BF] p-5 rounded-2xl flex-row justify-center items-center"
@@ -81,25 +82,3 @@ export default function ConfirmationScreen() {
     </LinearGradient>
   );
 }
-
-/** 
- * Reusable Component for Booking Details Row
- */
-const DetailRow = ({ icon, title, value }: { icon: string; title: string; value: string }) => (
-  <View className="flex-row items-center justify-between mb-4">
-    <View className="flex-row items-center">
-      <Ionicons name={icon} size={20} color="#2DD4BF" />
-      <Text className="text-[#A1A1AA] ml-2">{title}</Text>
-    </View>
-    <Text className="text-white">{value}</Text>
-  </View>
-);
-
-/** 
- * Reusable Component for Card Containers
- */
-const InfoCard = ({ children }: { children: React.ReactNode }) => (
-  <View className="bg-[#1F2937] rounded-2xl p-4 mb-6 border border-[#2DD4BF]/20">
-    {children}
-  </View>
-);
