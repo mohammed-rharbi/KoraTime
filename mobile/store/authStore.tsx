@@ -11,6 +11,7 @@ interface AuthState {
     isLoading: boolean;
     error: string | null;
     role: string | null;
+    isAuthenticated: boolean;
     loginUser: (loginData: LoginType) => Promise<void>;
     registerUser: (registerData: RegisterType) => Promise<void>
     getStarted: (startData: StartType) => Promise<void>
@@ -26,6 +27,8 @@ const useAuthStore = create<AuthState>((set)=>({
     isLoading: false,
     error: null,
     role: null,
+    isAuthenticated: false,
+
 
 
     loginUser: async (loginData) => {
@@ -38,6 +41,7 @@ const useAuthStore = create<AuthState>((set)=>({
             token: res.token,
             isLoading: false,
             role: res.user.role,
+            isAuthenticated: true
           });
           await AsyncStorage.setItem('AdminToken', res.token);
           await AsyncStorage.setItem('AdminRole', res.user.role);
