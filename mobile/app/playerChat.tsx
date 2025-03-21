@@ -9,14 +9,12 @@ import { useChat } from '~/lib/chat';
 import { MessageType } from '~/types/types';
 import { Stack } from 'expo-router';
 
-
 export default function TeamChatScreen() {
-
   const { userId, chatId } = useLocalSearchParams();
   const { user } = useAuthStore();
   const { player, getPlayer } = usePlayerStore();
   const { sendMessages, getChat, currentChat } = useChatStore();
-  const { messages: realTimeMessages } = useChat(chatId as string, user?._id || '');
+  const { messages: realTimeMessages, sendMessage } = useChat(chatId as string, user?._id || '');
   const router = useRouter();
   const [newMessage, setNewMessage] = useState('');
   const flatListRef = useRef<FlatList>(null);
@@ -66,7 +64,7 @@ export default function TeamChatScreen() {
   const handleSend = async () => {
     if (newMessage.trim() && user?._id && chatId) {
       try {
-        await sendMessages(chatId as string, user._id, newMessage.trim());
+        await sendMessage(newMessage.trim());
         setNewMessage('');
       } catch (error) {
         console.error('Send message failed:', error);
@@ -79,7 +77,6 @@ export default function TeamChatScreen() {
     isCurrentUser: boolean;
   }) => (
     <View className={`flex-row items-end mb-4 ${isCurrentUser ? 'justify-end' : 'justify-start'}`}>
-
       {!isCurrentUser && (
         <Image 
           source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${player?.profilePic}` }}
@@ -87,7 +84,6 @@ export default function TeamChatScreen() {
         />
       )}
       
-
       <View className="max-w-[80%]">
         {!isCurrentUser && (
           <Text className="text-[#A1A1AA] text-sm font-medium mb-1">
@@ -109,7 +105,6 @@ export default function TeamChatScreen() {
         </View>
       </View>
 
-
       {isCurrentUser && (
         <Image 
           source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${user?.profilePic}` }}
@@ -124,11 +119,11 @@ export default function TeamChatScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       className="flex-1 bg-[#0A0F1E]"
     >
-         <Stack.Screen
-              options={{
-                headerShown: false ,        
-              }}
-            />    
+      <Stack.Screen
+        options={{
+          headerShown: false ,        
+        }}
+      />    
 
       <View className="px-4 pt-12 pb-4 bg-[#0A0F1E] border-b border-[#1A1F2E]">
         <View className="flex-row items-center">
@@ -150,7 +145,6 @@ export default function TeamChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
-
 
       <FlatList
         ref={flatListRef}
@@ -197,7 +191,6 @@ export default function TeamChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
-
     </KeyboardAvoidingView>
   );
 }
