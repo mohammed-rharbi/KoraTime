@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "@/components/mainLayout";
 import { motion } from "framer-motion";
 import { UserIcon, UserGroupIcon , TrophyIcon,  ChartBarIcon, PlusIcon, PencilIcon, TrashIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
@@ -10,6 +10,17 @@ const PlayerManagement = () => {
 
 
   const {Players , getPlayers} = usePlayersStore()
+  const [ searchQuery , setSearchQuery] = useState('')
+
+
+
+  const filterdPlayers = Players?.filter((player)=>{
+
+    const searchedPlayer = player.userName.toLowerCase().includes(searchQuery.toLowerCase())
+     || player.email.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return searchedPlayer
+  })
 
   useEffect(()=>{
 
@@ -49,6 +60,7 @@ const PlayerManagement = () => {
             <div className="relative flex-1 max-w-md">
               <input
                 type="text"
+                onChange={(e)=> setSearchQuery(e.target.value)}
                 placeholder="Search champions..."
                 className="w-full pl-12 pr-4 py-3 bg-slate-800 rounded-lg shadow-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-500 text-slate-200"
               />
@@ -118,7 +130,7 @@ const PlayerManagement = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
-                {Players?.map((player) => (
+                {filterdPlayers?.map((player) => (
                   <motion.tr
                     key={player._id}
                     whileHover={{ scale: 1.005 }}
