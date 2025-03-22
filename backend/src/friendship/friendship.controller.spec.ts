@@ -2,7 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FriendshipController } from './friendship.controller';
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
+import { CanActivate } from '@nestjs/common';
 
+// Mock JwtAuthGuard
+const mockJwtAuthGuard: CanActivate = { canActivate: jest.fn(() => true) };
 
 describe('FriendshipController', () => {
   let controller: FriendshipController;
@@ -28,7 +32,10 @@ describe('FriendshipController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(JwtAuthGuard) // Override the JwtAuthGuard
+      .useValue(mockJwtAuthGuard)
+      .compile();
 
     controller = module.get<FriendshipController>(FriendshipController);
     service = module.get<FriendshipService>(FriendshipService);
