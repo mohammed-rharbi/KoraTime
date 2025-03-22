@@ -1,9 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/common/jwt-auth.guard';
 
 
 @Controller('friendship')
+@UseGuards(JwtAuthGuard)
 export class FriendshipController {
   constructor(private readonly friendshipService: FriendshipService) {}
 
