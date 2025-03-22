@@ -3,6 +3,12 @@ import { FieldsController } from './fields.controller';
 import { FieldsService } from './fields.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
+import { FieldRepository } from './fields.repository';
+import { CanActivate } from '@nestjs/common';
+
+
+const mockJwtAuthGuard: CanActivate = { canActivate: jest.fn(() => true) };
 
 describe('FieldsController', () => {
   let controller: FieldsController;
@@ -22,8 +28,15 @@ describe('FieldsController', () => {
             deleteField: jest.fn(),
           },
         },
+        {
+          provide: FieldRepository,
+          useValue: {}, // Mock repository if needed
+        },
       ],
-    }).compile();
+    })
+      .overrideGuard(JwtAuthGuard) // Override the JwtAuthGuard
+      .useValue(mockJwtAuthGuard)
+      .compile();
 
     controller = module.get<FieldsController>(FieldsController);
     service = module.get<FieldsService>(FieldsService);
@@ -35,14 +48,14 @@ describe('FieldsController', () => {
 
   describe('create', () => {
     it('should call FieldsService.create with correct parameters', async () => {
-      const createFieldDto: CreateFieldDto = { 
+      const createFieldDto: CreateFieldDto = {
         name: 'Test Field',
         location: 'Test Location',
         description: 'Test Description',
         price: '100',
         size: '5v5',
         availability: [],
-        status: 'available'
+        status: 'available',
       };
       await controller.create(createFieldDto);
       expect(service.create).toHaveBeenCalledWith(createFieldDto);
@@ -67,7 +80,7 @@ describe('FieldsController', () => {
   describe('update', () => {
     it('should call FieldsService.updateField with correct parameters', async () => {
       const id = 'someId';
-      const updateFieldDto: UpdateFieldDto = { /* add properties here */ };
+      const updateFieldDto: UpdateFieldDto = { name: 'Updated Field' };
       await controller.update(id, updateFieldDto);
       expect(service.updateField).toHaveBeenCalledWith(id, updateFieldDto);
     });
