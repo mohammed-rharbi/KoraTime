@@ -29,8 +29,9 @@ export default function HomePage() {
   useEffect(()=>{
 
     getAllPlayers()
+    getFields()
 
-  },[getAllPlayers])
+  },[getAllPlayers , getFields])
 
   const handleLogout = async () => {
 
@@ -46,6 +47,8 @@ export default function HomePage() {
   }
 
   return (
+    
+    
     
     <View className="flex-1 bg-[#0F172A] pt-6">
 
