@@ -10,6 +10,7 @@ interface FieldState {
     isLoading: boolean;
     error: string | null;
     getFields: ()=> Promise<void>;
+    refresh: ()=> Promise<void>;
     getOneField: (id: string)=> Promise<void>;
   }
   
@@ -31,6 +32,21 @@ const useFieldStore = create<FieldState>((set)=>({
         } catch (err){
             set({error:(err as Error).message , isLoading:false})            
         }
+    },
+
+    refresh: async ()=>{
+
+        set({isLoading:true , error:null}); 
+
+         try {
+            const res = (await getAllFields()).sort(() => Math.random() - 0.5);
+            
+            set({fields: res , isLoading: false})
+            
+        } catch (err){
+            set({error:(err as Error).message , isLoading:false})            
+        }
+
     },
 
   
