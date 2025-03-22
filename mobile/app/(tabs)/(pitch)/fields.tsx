@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, RefreshControl } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import useFieldStore from "~/store/fieldStore";
@@ -7,10 +7,9 @@ import FieldCard from "~/components/pitch/fieldCard";
 
 
 export default function FieldsScreen() {
-  const { fields, getFields } = useFieldStore();
+  const { fields, getFields, refresh, isLoading } = useFieldStore();
   const [selected, setSelected] = useState<string | null>(null);
   const [searchQuery , setSearchQuery] = useState('')
-
 
 
   const filterdFields = fields?.filter((field)=>{
@@ -52,6 +51,12 @@ export default function FieldsScreen() {
         contentContainerStyle={{ paddingHorizontal: 16 }}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={() => refresh()}
+          />
+        }
         renderItem={({ item }) => (
           <FieldCard item={item} />
         )}
