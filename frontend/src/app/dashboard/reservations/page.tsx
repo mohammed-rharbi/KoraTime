@@ -35,6 +35,10 @@ const ReservationsPage = () => {
 
   }
 
+  // if(!reservations){
+  //   return <p></>
+  // }
+
 
   const filterdReservations = reservations?.filter((reservation)=>{
 
