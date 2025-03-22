@@ -22,6 +22,13 @@ const PlayerManagement = () => {
     return searchedPlayer
   })
 
+  
+  const mapetd = Players?.forEach((player)=>{
+
+    
+    
+  })
+
   useEffect(()=>{
 
     getPlayers()
@@ -130,6 +137,7 @@ const PlayerManagement = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
+
                 {filterdPlayers?.map((player) => (
                   <motion.tr
                     key={player._id}
