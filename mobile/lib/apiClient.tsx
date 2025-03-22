@@ -6,11 +6,14 @@ const apiClient = axios.create({
     baseURL: process.env.EXPO_PUBLIC_API,
 });
 
+
 apiClient.interceptors.request.use(
     
     async (config)=> {
 
         const token = await AsyncStorage.getItem('token');    
+        console.log(token);
+        
    
         config.headers['Content-Type'] = 'application/json'
         config.headers.Authorization = `Bearer ${token}`;
