@@ -1,97 +1,103 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { ReservationController } from './reservation.controller';
-// import { ReservationService } from './reservation.service';
-// import { CreateReservationDto } from './dto/create-reservation.dto';
-// import { UpdateReservationDto } from './dto/update-reservation.dto';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ReservationController } from './reservation.controller';
+import { ReservationService } from './reservation.service';
+import { CreateReservationDto } from './dto/create-reservation.dto';
+import { UpdateReservationDto } from './dto/update-reservation.dto';
 
-// describe('ReservationController', () => {
-//   let reservationController: ReservationController;
-//   let reservationService: ReservationService;
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [ReservationController],
-//       providers: [
-//         {
-//           provide: ReservationService,
-//           useValue: {
-//             createReservation: jest.fn(),
-//             getAllReservations: jest.fn(),
-//             findReservation: jest.fn(),
-//             getUserReservations: jest.fn(),
-//             update: jest.fn(),
-//             removeReservation: jest.fn(),
-//           },
-//         },
-//       ],
-//     }).compile();
+describe('ReservationController', () => {
+    let reservationController: ReservationController;
+    let reservationService: ReservationService;
 
-//     reservationController = module.get<ReservationController>(ReservationController);
-//     reservationService = module.get<ReservationService>(ReservationService);
-//   });
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            controllers: [ReservationController],
+            providers: [
+                {
+                    provide: ReservationService,
+                    useValue: {
+                        createReservation: jest.fn(),
+                    },
+                },
+            ],
+        }).compile();
 
-//   it('should be defined', () => {
-//     expect(reservationController).toBeDefined();
-//   });
+        reservationController = module.get<ReservationController>(ReservationController);
+        reservationService = module.get<ReservationService>(ReservationService);
+    });
 
-//   describe('createReservation', () => {
-//     it('should create a reservation', async () => {
-//       const createReservationDto: CreateReservationDto = {
-//         userId: 'user1',
-//         fieldId: 'field1',
-//         date: new Date(),
-//         startTime: '10:00',
-//       };
-//       const result = { /* fill with expected result */ };
-//       jest.spyOn(reservationService, 'createReservation').mockResolvedValue(result);
+    it('should be defined', () => {
+        expect(reservationController).toBeDefined();
+    });
+    describe('ReservationController', () => {
+      let reservationController: ReservationController;
+      let reservationService: ReservationService;
 
-//       expect(await reservationController.createReservation(createReservationDto)).toBe(result);
-//     });
-//   });
+      beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+          controllers: [ReservationController],
+          providers: [
+            {
+              provide: ReservationService,
+              useValue: {
+                createReservation: jest.fn(),
+                getAllReservations: jest.fn(),
+                findReservation: jest.fn(),
+                getUserReservations: jest.fn(),
+                update: jest.fn(),
+                removeReservation: jest.fn(),
+              },
+            },
+          ],
+        }).compile();
 
-//   describe('findAllReservations', () => {
-//     it('should return an array of reservations', async () => {
-//       const result = [/* fill with expected result */];
-//       jest.spyOn(reservationService, 'getAllReservations').mockResolvedValue(result);
+        reservationController = module.get<ReservationController>(ReservationController);
+        reservationService = module.get<ReservationService>(ReservationService);
+      });
 
-//       expect(await reservationController.findAllReservations()).toBe(result);
-//     });
-//   });
+      it('should be defined', () => {
+        expect(reservationController).toBeDefined();
+      });
 
-//   describe('findOneReservation', () => {
-//     it('should return a single reservation', async () => {
-//       const result = { /* fill with expected result */ };
-//       jest.spyOn(reservationService, 'findReservation').mockResolvedValue(result);
+      it('should create a reservation', async () => {
+        const createReservationDto: CreateReservationDto = {
+            userId: '1',
+            date: new Date(),
+            fieldId: '2',
+            startTime:'20:00',
+        };
+        await reservationController.createReservation(createReservationDto);
+        expect(reservationService.createReservation).toHaveBeenCalledWith(createReservationDto);
+      });
 
-//       expect(await reservationController.findOneReservation('1')).toBe(result);
-//     });
-//   });
+      it('should get all reservations', async () => {
+        await reservationController.findAllReservations();
+        expect(reservationService.getAllReservations).toHaveBeenCalled();
+      });
 
-//   describe('findUsersReservations', () => {
-//     it('should return an array of user reservations', async () => {
-//       const result = [/* fill with expected result */];
-//       jest.spyOn(reservationService, 'getUserReservations').mockResolvedValue(result);
+      it('should get one reservation by id', async () => {
+        const id = '1';
+        await reservationController.findOneReservation(id);
+        expect(reservationService.findReservation).toHaveBeenCalledWith(id);
+      });
 
-//       expect(await reservationController.findUsersReservations('1')).toBe(result);
-//     });
-//   });
+      it('should get user reservations by user id', async () => {
+        const id = '1';
+        await reservationController.findUsersReservations(id);
+        expect(reservationService.getUserReservations).toHaveBeenCalledWith(id);
+      });
 
-//   describe('updateReservation', () => {
-//     it('should update a reservation', async () => {
-//       const updateReservationDto: UpdateReservationDto = { /* fill with appropriate data */ };
-//       const result = { /* fill with expected result */ };
-//       jest.spyOn(reservationService, 'update').mockResolvedValue(result);
+      it('should update a reservation', async () => {
+        const id = '1';
+        const updateReservationDto: UpdateReservationDto = { /* fill with appropriate properties */ };
+        await reservationController.updateReservation(id, updateReservationDto);
+        expect(reservationService.update).toHaveBeenCalledWith(id, updateReservationDto);
+      });
 
-//       expect(await reservationController.updateReservation('1', updateReservationDto)).toBe(result);
-//     });
-//   });
-
-//   describe('deleteReservation', () => {
-//     it('should delete a reservation', async () => {
-//       const result = { /* fill with expected result */ };
-//       jest.spyOn(reservationService, 'removeReservation').mockResolvedValue(result);
-
-//       expect(await reservationController.deleteReservation('1')).toBe(result);
-//     });
-//   });
-// });
+      it('should delete a reservation', async () => {
+        const id = '1';
+        await reservationController.deleteReservation(id);
+        expect(reservationService.removeReservation).toHaveBeenCalledWith(id);
+      });
+    });
+});

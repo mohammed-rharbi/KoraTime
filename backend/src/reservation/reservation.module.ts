@@ -4,7 +4,7 @@ import { ReservationController } from './reservation.controller';
 import { ReservationRepository } from './reservation.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Reservation , ReservationSchema } from './entities/reservation.entity';
-import { FieldsModule } from 'src/fields/fields.module';
+import { FieldsModule } from '../fields/fields.module';
 
 @Module({
 

@@ -3,7 +3,7 @@ import { ReservationService } from './reservation.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/common/jwt-auth.guard';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
 
 @Controller('reservation')
 @UseGuards(JwtAuthGuard)

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { ReservationRepository } from './reservation.repository';
-import { FieldRepository } from 'src/fields/fields.repository';
+import { FieldRepository } from '../fields/fields.repository';
 
 @Injectable()
 export class ReservationService {
