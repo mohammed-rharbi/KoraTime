@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dto/update-auth.dto';
 import { LoginUserDto } from './dto/login-auth.dto';
 import { CreateManagerDto } from './dto/manager-auth.dto';
 import { StartingUserDto } from './dto/starting-auth.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
 
 
 @Controller('auth')
@@ -34,6 +34,7 @@ export class AuthController {
   }
 
   @Get('getAll')
+  @UseGuards(JwtAuthGuard)
   async getAllUsers(){
 
      
@@ -42,20 +43,21 @@ export class AuthController {
   }
 
   @Post('createManger')
+  @UseGuards(JwtAuthGuard)
   async createManger(@Body() createAuthDto: CreateManagerDto) {
-      
-    console.log(createAuthDto);
-    
+          
     return await this.authService.createFieldManager(createAuthDto);
   }
 
   @Get('getAllManagers')
+  @UseGuards(JwtAuthGuard)
   async getAllManagers() {
 
     return await this.authService.getAllManagers();
   }
 
   @Get('getAllPlayers')
+  @UseGuards(JwtAuthGuard)
   async getAllPlayers() {
 
     return await this.authService.getAllPlayers();
@@ -64,6 +66,7 @@ export class AuthController {
 
   
   @Get('getPlayer/:id')
+  @UseGuards(JwtAuthGuard)
   async getPlayer(@Param('id') id: string) {
 
     return await this.authService.getUserPlayer(id);
@@ -71,6 +74,7 @@ export class AuthController {
 
 
   @Patch('ban/:action/:id')
+  @UseGuards(JwtAuthGuard)
   async banUser(@Param('id') id: string, @Param('action') action: string) {
 
     return await this.authService.banUser(id , action);

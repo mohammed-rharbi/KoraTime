@@ -2,15 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FieldsService } from './fields.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
 
 @Controller('fields')
+@UseGuards(JwtAuthGuard)
 export class FieldsController {
   constructor(private readonly fieldsService: FieldsService) {}
 
-
   @Post('create')
-  async create( @Body() createFieldDto: CreateFieldDto) {
-
+  async create(@Body() createFieldDto: CreateFieldDto) {
     return this.fieldsService.create(createFieldDto);
   }
 

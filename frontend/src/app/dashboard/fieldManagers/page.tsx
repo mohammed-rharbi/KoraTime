@@ -12,18 +12,24 @@ const FieldManagerAdminPage = () => {
   const { fieldManagers , getManagers , banAUser } = useManagerStore()
 
     const [ searchQuery , setSearchQuery] = useState('')
+    const [sorting  , setSorting] = useState('all')
   
   
   
-    const filterdManagers = fieldManagers?.filter((manager)=>{
-  
-      const searchemanager = manager.userName.toLowerCase().includes(searchQuery.toLowerCase())
-       || manager.email.toLowerCase().includes(searchQuery.toLowerCase())
-  
-      return searchemanager
-    })
+    const filteredManagers = fieldManagers
+    ?.filter((manager) =>
+      manager.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      manager.email.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    ?.sort((a, b) => {
+      if (sorting  === "name") {
+        return a.userName.localeCompare(b.userName);
+      }
+      return 0;
+    });
   
 
+  
   useEffect(()=>{
 
     getManagers()
@@ -113,6 +119,18 @@ const FieldManagerAdminPage = () => {
               <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             </div>
 
+            
+            <div>
+              <select
+              onChange={(e) => setSorting(e.target.value)}
+              className="px-4 py-3 bg-white/70 backdrop-blur-lg rounded-xl shadow-sm border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800/70 dark:ring-gray-700"
+            >
+              <option value="all">All</option>
+              <option value="name">by name</option>
+              <option value="closed">Closed</option>
+            </select>
+            </div>
+
           </div>
 
 
@@ -130,7 +148,7 @@ const FieldManagerAdminPage = () => {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 <AnimatePresence>
-                  {filterdManagers?.map((manager) => (
+                  {filteredManagers?.map((manager) => (
                     <motion.tr
                       key={manager._id}
                       initial={{ opacity: 0 }}

@@ -1,9 +1,12 @@
 import { Tabs } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, Ionicons, Feather } from "@expo/vector-icons";
+import AuthProtectedRoute from "~/components/AuthProtection";
 
 export default function TabLayout() {
   return (
+
+    <AuthProtectedRoute>
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
@@ -102,12 +105,7 @@ export default function TabLayout() {
 
       <Tabs.Screen name="(players)/userFriends" options={{ href: null }} />
 
-
-
-
     </Tabs>
-
-
-    
+    </AuthProtectedRoute>
   );
 }

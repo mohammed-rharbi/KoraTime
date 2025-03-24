@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { TeamRepository } from './team.repository';
-import { AuthRepository } from 'src/auth/auth.repository';
+import { AuthRepository } from '../auth/auth.repository';
 
 @Injectable()
 export class TeamService {

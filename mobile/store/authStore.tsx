@@ -43,8 +43,8 @@ const useAuthStore = create<AuthState>((set)=>({
             role: res.user.role,
             isAuthenticated: true
           });
-          await AsyncStorage.setItem('AdminToken', res.token);
-          await AsyncStorage.setItem('AdminRole', res.user.role);
+          await AsyncStorage.setItem('token', res.token);
+          await AsyncStorage.setItem('Role', res.user.role);
           await AsyncStorage.setItem('user', JSON.stringify(res.user));
 
         } catch (err) {
@@ -90,8 +90,8 @@ const useAuthStore = create<AuthState>((set)=>({
 
     logout: async () => {
         set({ user: null, token: null, role: null });
-        await AsyncStorage.removeItem('AdminToken');
-        await AsyncStorage.removeItem('AdminRole');
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('Role');
         await AsyncStorage.removeItem('user');
     },
 

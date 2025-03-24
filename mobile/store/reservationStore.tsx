@@ -22,7 +22,7 @@ const ReservationStore = create<ReservationState>((set)=>({
 
         set({isLoading:true , error:null}); 
         try {
-            const res = await BookField(data);
+            await BookField(data);
             set({isLoading:false})
             
         } catch (err){

@@ -2,8 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } 
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
+
+
 
 @Controller('team')
+@UseGuards(JwtAuthGuard)
+
 export class TeamController {
 
   constructor(private readonly TeamService: TeamService) {}
