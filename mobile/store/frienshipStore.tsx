@@ -45,6 +45,7 @@ const useFriendshipStore = create<FriendshipState>((set)=>({
 
             await acceptFriendRequest(id);
             set({isLoading:false})
+            getUserFriends
             
         } catch (err) {
             set({error:(err as Error).message , isLoading:false})                        

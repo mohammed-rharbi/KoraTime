@@ -40,6 +40,7 @@ const useChatStore = create<ChatState>((set)=>({
         try {
         await sendMessage(chatId, sender, message);
         set({isLoading:false})
+        getChat
         } catch (err) {
             set({error:(err as Error).message , isLoading:false})                        
         }
