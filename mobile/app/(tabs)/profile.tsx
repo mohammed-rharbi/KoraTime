@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialIcons, FontAwesome5, AntDesign, Feather , Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5,  Feather , Ionicons } from '@expo/vector-icons';
 import useAuthStore from '~/store/authStore';
 import ReservationStore from '~/store/reservationStore';
 import { useEffect } from 'react';
