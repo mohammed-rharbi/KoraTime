@@ -35,9 +35,9 @@ const ReservationsPage = () => {
 
   }
 
-  // if(!reservations){
-  //   return <p></>
-  // }
+  if(!reservations){
+    return  <p>no reservation found</p>
+  }
 
 
   const filterdReservations = reservations?.filter((reservation)=>{
@@ -167,7 +167,7 @@ const ReservationsPage = () => {
 
             {filterdReservations?.map((reservation) => (
               <motion.div
-                key={reservation._id}
+                key={reservation?._id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -175,9 +175,9 @@ const ReservationsPage = () => {
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold dark:text-white">{reservation.fieldId.name}</h3>
+                    <h3 className="text-lg font-semibold dark:text-white">{reservation?.fieldId?.name}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {new Date(reservation.createdAt).toLocaleString('en-US', {
+                      {new Date(reservation?.createdAt).toLocaleString('en-US', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
@@ -193,7 +193,7 @@ const ReservationsPage = () => {
                       ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-500'
                       : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500'
                   }`}>
-                    {reservation.status}
+                    {reservation?.status}
                   </span>
                 </div>
 
@@ -202,7 +202,7 @@ const ReservationsPage = () => {
                   <div className="flex items-center gap-3">
                     <UserCircleIcon className="h-10 w-10 text-gray-400" />
                     <div>
-                      <p className="font-medium dark:text-white">{reservation.userId.userName}</p>
+                      <p className="font-medium dark:text-white">{reservation?.userId?.userName}</p>
                     </div>
                   </div>
 
@@ -210,11 +210,11 @@ const ReservationsPage = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                      <p className="font-medium dark:text-white">{reservation.fieldId.location}</p>
+                      <p className="font-medium dark:text-white">{reservation?.fieldId?.location}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Price</p>
-                      <p className="font-medium dark:text-white">{reservation.fieldId.price}</p>
+                      <p className="font-medium dark:text-white">{reservation?.fieldId?.price}</p>
                     </div>
                   </div>
 
@@ -223,7 +223,7 @@ const ReservationsPage = () => {
                       <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                         <PencilSquareIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       </button>
-                      <button onClick={()=> handleDelete(reservation._id as string)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                      <button onClick={()=> handleDelete(reservation?._id as string)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                         <TrashIcon className="h-5 w-5 text-red-600 dark:text-red-400" />
                       </button>
                     </div>
