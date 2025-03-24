@@ -6,7 +6,7 @@ import { FriendshipSchema , Friendship } from './entities/friendship.entity';
 import { Chat , ChatSchema } from './entities/chat.entity';
 import { Message , MessageSchema } from './entities/message.entity';
 import { FriendshipRepository } from './friendship.repository';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { FriendGateway } from './friend.gateway';
 import { ChatGateway } from './chat.gateway';
 

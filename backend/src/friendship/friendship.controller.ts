@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { FriendshipService } from './friendship.service';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/common/jwt-auth.guard';
-
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
 
 @Controller('friendship')
 @UseGuards(JwtAuthGuard)

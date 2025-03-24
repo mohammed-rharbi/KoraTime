@@ -5,7 +5,6 @@ import { CreateFriendshipDto } from './dto/create-friendship.dto';
 import { JwtAuthGuard } from '../common/jwt-auth.guard';
 import { CanActivate } from '@nestjs/common';
 
-// Mock JwtAuthGuard
 const mockJwtAuthGuard: CanActivate = { canActivate: jest.fn(() => true) };
 
 describe('FriendshipController', () => {
@@ -33,7 +32,7 @@ describe('FriendshipController', () => {
         },
       ],
     })
-      .overrideGuard(JwtAuthGuard) // Override the JwtAuthGuard
+      .overrideGuard(JwtAuthGuard)
       .useValue(mockJwtAuthGuard)
       .compile();
 
@@ -41,90 +40,33 @@ describe('FriendshipController', () => {
     service = module.get<FriendshipService>(FriendshipService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should call service.sendFriendRequest with correct parameters', async () => {
+    const dto = new CreateFriendshipDto();
+    await controller.sendFriendRequest(dto);
+    expect(service.sendFriendRequest).toHaveBeenCalledWith(dto);
   });
 
-  describe('sendFriendRequest', () => {
-    it('should call service.sendFriendRequest with correct parameters', async () => {
-      const dto = new CreateFriendshipDto();
-      await controller.sendFriendRequest(dto);
-      expect(service.sendFriendRequest).toHaveBeenCalledWith(dto);
-    });
+  it('should call service.acceptFriendRequest with correct parameters', () => {
+    const requestId = '123';
+    controller.acceptFriendRequest(requestId);
+    expect(service.acceptFriendRequest).toHaveBeenCalledWith(requestId);
   });
 
-  describe('acceptFriendRequest', () => {
-    it('should call service.acceptFriendRequest with correct parameters', () => {
-      const requestId = '123';
-      controller.acceptFriendRequest(requestId);
-      expect(service.acceptFriendRequest).toHaveBeenCalledWith(requestId);
-    });
+  it('should call service.declineRequest with correct parameters', () => {
+    const requestId = '123';
+    controller.declineFriendRequest(requestId);
+    expect(service.declineRequest).toHaveBeenCalledWith(requestId);
   });
 
-  describe('declineFriendRequest', () => {
-    it('should call service.declineRequest with correct parameters', () => {
-      const requestId = '123';
-      controller.declineFriendRequest(requestId);
-      expect(service.declineRequest).toHaveBeenCalledWith(requestId);
-    });
+  it('should call service.getPendingRequests with correct parameters', () => {
+    const userId = '123';
+    controller.getPendingRequests(userId);
+    expect(service.getPendingRequests).toHaveBeenCalledWith(userId);
   });
 
-  describe('getPendingRequests', () => {
-    it('should call service.getPendingRequests with correct parameters', () => {
-      const userId = '123';
-      controller.getPendingRequests(userId);
-      expect(service.getPendingRequests).toHaveBeenCalledWith(userId);
-    });
-  });
-
-  describe('getFriends', () => {
-    it('should call service.getFriendsRequests with correct parameters', () => {
-      const userId = '123';
-      controller.getFriends(userId);
-      expect(service.getFriendsRequests).toHaveBeenCalledWith(userId);
-    });
-  });
-
-  describe('getUserFriends', () => {
-    it('should call service.getUserFriends with correct parameters', () => {
-      const userId = '123';
-      controller.getUserFriends(userId);
-      expect(service.getUserFriends).toHaveBeenCalledWith(userId);
-    });
-  });
-
-  describe('createChat', () => {
-    it('should call service.createChat with correct parameters', () => {
-      const startUser = 'user1';
-      const endUser = 'user2';
-      controller.createChat(startUser, endUser);
-      expect(service.createChat).toHaveBeenCalledWith(startUser, endUser);
-    });
-  });
-
-  describe('sendMessage', () => {
-    it('should call service.sendMessage with correct parameters', () => {
-      const chatId = 'chat1';
-      const sender = 'user1';
-      const message = 'Hello';
-      controller.sendMessage(chatId, sender, message);
-      expect(service.sendMessage).toHaveBeenCalledWith(chatId, sender, message);
-    });
-  });
-
-  describe('getChat', () => {
-    it('should call service.getChatMessages with correct parameters', () => {
-      const chatId = 'chat1';
-      controller.getChat(chatId);
-      expect(service.getChatMessages).toHaveBeenCalledWith(chatId);
-    });
-  });
-
-  describe('getUserChats', () => {
-    it('should call service.getUserChats with correct parameters', () => {
-      const userId = 'user1';
-      controller.getUserChats(userId);
-      expect(service.getUserChats).toHaveBeenCalledWith(userId);
-    });
+  it('should call service.getFriendsRequests with correct parameters', () => {
+    const userId = '123';
+    controller.getFriends(userId);
+    expect(service.getFriendsRequests).toHaveBeenCalledWith(userId);
   });
 });

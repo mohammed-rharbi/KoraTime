@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { FriendshipRepository } from './friendship.repository';
 import { CreateFriendshipDto } from './dto/create-friendship.dto';
-import { AuthRepository } from 'src/auth/auth.repository';
+import { AuthRepository } from '../auth/auth.repository';
 import { FriendGateway } from './friend.gateway';
 
 @Injectable()
