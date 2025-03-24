@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dto/update-auth.dto';
 import { LoginUserDto } from './dto/login-auth.dto';
 import { CreateManagerDto } from './dto/manager-auth.dto';
 import { StartingUserDto } from './dto/starting-auth.dto';
-import { JwtAuthGuard } from 'src/common/jwt-auth.guard';
+import { JwtAuthGuard } from '../common/jwt-auth.guard';
 
 
 @Controller('auth')
@@ -45,9 +45,7 @@ export class AuthController {
   @Post('createManger')
   @UseGuards(JwtAuthGuard)
   async createManger(@Body() createAuthDto: CreateManagerDto) {
-      
-    console.log(createAuthDto);
-    
+          
     return await this.authService.createFieldManager(createAuthDto);
   }
 
