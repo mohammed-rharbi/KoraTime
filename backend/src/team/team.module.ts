@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Team, TeamSchema } from './entities/team.entity';
 import { TeamInvition, TeamInvitionSchema } from './entities/teamInvitaion.entity';
 import { TeamRepository } from './team.repository';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports:[
