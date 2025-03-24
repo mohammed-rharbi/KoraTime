@@ -83,10 +83,10 @@ export class FieldsService {
     return availability;
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
-  async handleExpiredSlots() {
-      console.log('Checking and updating expired slots...');
-      await this.FieldRepository.checkAndUpdateExpiredSlots()
-  }
+  // @Cron(CronExpression.EVERY_HOUR)
+  // async handleExpiredSlots() {
+  //     console.log('Checking and updating expired slots...');
+  //     await this.FieldRepository.checkAndUpdateExpiredSlots()
+  // }
   
 }
