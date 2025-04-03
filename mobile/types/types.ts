@@ -89,8 +89,8 @@ export interface UserType {
 
       export interface ReservationType {
         _id?:string;
-        userId: string;
-        fieldId: string;
+        userId: UserType;
+        fieldId: FieldType;
         date: Date;
         startTime: string;
       }
