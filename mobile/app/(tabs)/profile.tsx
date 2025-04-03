@@ -3,13 +3,18 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons, FontAwesome5,  Feather , Ionicons } from '@expo/vector-icons';
 import useAuthStore from '~/store/authStore';
 import ReservationStore from '~/store/reservationStore';
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import { uploadImageToBackend } from '~/lib/minio';
+
+
 
 export default function PlayerProfile() {
 
 
-  const {user} = useAuthStore()
+  const {user , getStarted} = useAuthStore()
   const {getUserReservations , userReservations} = ReservationStore()
+  const [profilePic, setProfilePic] = useState(user?.profilePic);
 
 
   useEffect(()=>{
@@ -25,6 +30,24 @@ export default function PlayerProfile() {
     trophies: 3,
   };
 
+
+  const handleImagePick = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const newImageUrl = await uploadImageToBackend(result.assets[0].uri);
+      setProfilePic(newImageUrl);
+      getStarted({ id: user?._id as string , profilePic:newImageUrl});
+    }
+  };
+
+
+ 
   return (
     <LinearGradient
       colors={['#0F172A', '#1E293B']}
@@ -34,10 +57,14 @@ export default function PlayerProfile() {
 
         <View className="items-center pt-16 pb-8">
          
+
+        <TouchableOpacity onPress={handleImagePick}>
             <Image
-            source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${user?.profilePic}` || "https://via.placeholder.com/150" }}
+            source={{ uri: `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${profilePic}` || "https://via.placeholder.com/150" }}
             className="w-36 h-36 rounded-full "
             />
+        </TouchableOpacity>
+        
           <Text className="text-3xl font-bold text-white mb-1">{user?.userName}</Text>
           <Text className="text-[#94A3B8] text-lg">{user?.email}</Text>
           <View className="flex-row items-center mt-2">
@@ -93,20 +120,21 @@ export default function PlayerProfile() {
           </View>
           
           {userReservations?.length > 0 ? (
+
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="space-x-4">
               {userReservations?.map((Reservations) => (
-                <View className="bg-[#1E293B] rounded-2xl p-4 border border-[#334155]">
+                <View className="bg-[#1E293B] rounded-2xl ml-5 mb-5 p-4 border border-[#334155]">
                 <View className="flex-row items-center justify-between mb-3">
                   <View className="flex-row items-center">
                     <MaterialIcons name="sports-soccer" size={20} color="#2DD4BF" />
-                    <Text className="text-white ml-2 font-semibold">Tomorrow's Booking</Text>
+                    <Text className="text-white ml-2 font-semibold">{Reservations?.fieldId?.name}</Text>
                   </View>
-                  <Text className="text-[#94A3B8] text-xs">2:00 PM - 4:00 PM</Text>
+                  <Text className="text-[#94A3B8] text-xs">{new Date(Reservations?.date).toLocaleDateString()}</Text>
                 </View>
                 <View className="flex-row items-center justify-between">
                   <View>
-                    <Text className="text-white font-bold mb-1">City Arena - Pitch 3</Text>
-                    <Text className="text-[#94A3B8] text-xs">5v5 Artificial Turf</Text>
+                    <Text className="text-white font-bold mb-1">By: {Reservations.userId.userName}</Text>
+                    <Text className="text-[#94A3B8] text-xs">{Reservations.fieldId.size}</Text>
                   </View>
                   <TouchableOpacity className="bg-[#2DD4BF] px-4 py-2 rounded-lg">
                     <Text className="text-[#0F172A] font-bold">Manage</Text>

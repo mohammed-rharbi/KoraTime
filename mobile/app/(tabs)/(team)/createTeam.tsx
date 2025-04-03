@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import useTeamStore from '~/store/teamStore';
 import { uploadImageToBackend } from '~/lib/minio';
 import useAuthStore from '~/store/authStore';
+import { router } from 'expo-router';
 
 const CreateTeamScreen = () => {
 
@@ -59,6 +60,7 @@ const CreateTeamScreen = () => {
     try {
       await createTeam(teamData);
       Alert.alert('Success', 'Team created successfully!');
+      router.push('/(tabs)/home')
     } catch (err) {
       console.error(err);
       Alert.alert('Error', 'Failed to create team.');
