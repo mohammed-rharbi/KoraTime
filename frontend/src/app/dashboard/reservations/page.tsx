@@ -45,8 +45,18 @@ const ReservationsPage = () => {
     const Searchedreservations = reservation.fieldId.name.toLowerCase().includes(searchQuery.toLowerCase());
     const statusResrvations = statusFilter === 'all' || reservation.status === statusFilter
 
-    return Searchedreservations && statusResrvations
+    if(statusFilter === 'date'){
+
+      return reservations.sort((reservation) => reservation.date.localeCompare(reservation.date))
+    }
+    
+    return Searchedreservations && statusResrvations 
   })
+
+
+
+  
+
 
   if(isLoading){
 
@@ -150,6 +160,7 @@ const ReservationsPage = () => {
               <option value="confirmed">Confirmed</option>
               <option value="canceled">Canceled</option>
               <option value="completed">Completed</option>
+              <option value="date">Date</option>
              </select>
 
               <button className="flex items-center gap-2 rounded-lg border bg-gray-50 px-4 py-2 hover:shadow-md dark:border-gray-700 dark:bg-gray-700">
@@ -211,6 +222,18 @@ const ReservationsPage = () => {
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
                       <p className="font-medium dark:text-white">{reservation?.fieldId?.location}</p>
+
+                      <p className="font-medium dark:text-white">{
+                        new Date(reservation?.date).toLocaleString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                        })
+                        }</p>
+
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Price</p>
