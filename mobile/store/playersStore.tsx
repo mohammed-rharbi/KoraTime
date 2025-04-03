@@ -24,7 +24,7 @@ const usePlayerStore = create<PlayerState>((set)=>({
         set({isLoading:true , error: null})
         try {
 
-            const res = await getAllPlayers();
+            const res = (await getAllPlayers()).sort(()=> Math.random() - 0.5);
             set({isLoading:false , players: res})
             
         } catch (err) {
