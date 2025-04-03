@@ -39,9 +39,9 @@ export class ReservationRepository {
 
     }
 
-    async findByUserId(id : string): Promise<Reservation>{
+    async findByUserId(id : string): Promise<Reservation[]>{
 
-        return await this.ReservationModel.findOne({userId: id}).populate('userId' , 'userName email phoneNumber').populate('fieldId','name price fieldManger location').exec();
+        return await this.ReservationModel.find({userId: id}).populate('userId' , 'userName email phoneNumber').populate('fieldId','name price fieldManger location').exec();
 
     }
 
